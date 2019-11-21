@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/luiz00martins/Dropbox/Programming/C/OOC/Object.c
+stdlib.h
+-
+string.h
+-
+assert.h
+-
+Object.h
+/home/luiz00martins/Dropbox/Programming/C/OOC/Object.h
+Object.r
+/home/luiz00martins/Dropbox/Programming/C/OOC/Object.r
+
+/home/luiz00martins/Dropbox/Programming/C/OOC/Object.h
+stdarg.h
+-
+bool.h
+/home/luiz00martins/Dropbox/Programming/C/OOC/bool.h
+
+/home/luiz00martins/Dropbox/Programming/C/OOC/Object.r
+stddef.h
+-
+stdarg.h
+-
+bool.h
+/home/luiz00martins/Dropbox/Programming/C/OOC/bool.h
+
+/home/luiz00martins/Dropbox/Programming/C/OOC/bool.h
+

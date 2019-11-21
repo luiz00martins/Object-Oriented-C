@@ -1,0 +1,4 @@
+/home/luiz00martins/Programs/clion-2019.1.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/clang-6.0 -DCMAKE_CXX_COMPILER=/usr/bin/clang-cpp-6.0 -G "CodeBlocks - Unix Makefiles" /home/luiz00martins/Dropbox/Programming/C/OOC
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/luiz00martins/Dropbox/Programming/C/OOC/cmake-build-debug

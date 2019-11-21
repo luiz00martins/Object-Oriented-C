@@ -1,0 +1,3 @@
+/home/luiz00martins/Dropbox/Programming/C/OOC/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/luiz00martins/Dropbox/Programming/C/OOC/cmake-build-debug/CMakeFiles/OOC.dir
+/home/luiz00martins/Dropbox/Programming/C/OOC/cmake-build-debug/CMakeFiles/edit_cache.dir
