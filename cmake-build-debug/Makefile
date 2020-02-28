@@ -48,10 +48,10 @@ RM = /home/luiz00martins/Programs/clion-2019.1.4/bin/cmake/linux/bin/cmake -E re
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/luiz00martins/Dropbox/Programming/C/OOC
+CMAKE_SOURCE_DIR = /home/luiz00martins/Dropbox/Programming/C/Test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/luiz00martins/Dropbox/Programming/C/OOC/cmake-build-debug
+CMAKE_BINARY_DIR = /home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/luiz00martins/Dropbox/Programming/C/OOC/cmake-build-debug/CMakeFiles /home/luiz00martins/Dropbox/Programming/C/OOC/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/CMakeFiles /home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/luiz00martins/Dropbox/Programming/C/OOC/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named OOC
+# Target rules for targets named Test
 
 # Build rule for target.
-OOC: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 OOC
-.PHONY : OOC
+Test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Test
+.PHONY : Test
 
 # fast build rule for target.
-OOC/fast:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/build
-.PHONY : OOC/fast
+Test/fast:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/build
+.PHONY : Test/fast
 
 Example.o: Example.c.o
 
@@ -129,7 +129,7 @@ Example.o: Example.c.o
 
 # target to build an object file
 Example.c.o:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/Example.c.o
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Example.c.o
 .PHONY : Example.c.o
 
 Example.i: Example.c.i
@@ -138,7 +138,7 @@ Example.i: Example.c.i
 
 # target to preprocess a source file
 Example.c.i:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/Example.c.i
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Example.c.i
 .PHONY : Example.c.i
 
 Example.s: Example.c.s
@@ -147,89 +147,413 @@ Example.s: Example.c.s
 
 # target to generate assembly for a file
 Example.c.s:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/Example.c.s
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Example.c.s
 .PHONY : Example.c.s
 
-Object.o: Object.c.o
+OOC_Library/Object.o: OOC_Library/Object.c.o
 
-.PHONY : Object.o
-
-# target to build an object file
-Object.c.o:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/Object.c.o
-.PHONY : Object.c.o
-
-Object.i: Object.c.i
-
-.PHONY : Object.i
-
-# target to preprocess a source file
-Object.c.i:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/Object.c.i
-.PHONY : Object.c.i
-
-Object.s: Object.c.s
-
-.PHONY : Object.s
-
-# target to generate assembly for a file
-Object.c.s:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/Object.c.s
-.PHONY : Object.c.s
-
-Point.o: Point.c.o
-
-.PHONY : Point.o
+.PHONY : OOC_Library/Object.o
 
 # target to build an object file
-Point.c.o:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/Point.c.o
-.PHONY : Point.c.o
+OOC_Library/Object.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Object.c.o
+.PHONY : OOC_Library/Object.c.o
 
-Point.i: Point.c.i
+OOC_Library/Object.i: OOC_Library/Object.c.i
 
-.PHONY : Point.i
+.PHONY : OOC_Library/Object.i
 
 # target to preprocess a source file
-Point.c.i:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/Point.c.i
-.PHONY : Point.c.i
+OOC_Library/Object.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Object.c.i
+.PHONY : OOC_Library/Object.c.i
 
-Point.s: Point.c.s
+OOC_Library/Object.s: OOC_Library/Object.c.s
 
-.PHONY : Point.s
+.PHONY : OOC_Library/Object.s
 
 # target to generate assembly for a file
-Point.c.s:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/Point.c.s
-.PHONY : Point.c.s
+OOC_Library/Object.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Object.c.s
+.PHONY : OOC_Library/Object.c.s
 
-main.o: main.c.o
+OOC_Library/Wrappers/Char.o: OOC_Library/Wrappers/Char.c.o
 
-.PHONY : main.o
+.PHONY : OOC_Library/Wrappers/Char.o
 
 # target to build an object file
-main.c.o:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/main.c.o
-.PHONY : main.c.o
+OOC_Library/Wrappers/Char.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Char.c.o
+.PHONY : OOC_Library/Wrappers/Char.c.o
 
-main.i: main.c.i
+OOC_Library/Wrappers/Char.i: OOC_Library/Wrappers/Char.c.i
 
-.PHONY : main.i
+.PHONY : OOC_Library/Wrappers/Char.i
 
 # target to preprocess a source file
-main.c.i:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/main.c.i
-.PHONY : main.c.i
+OOC_Library/Wrappers/Char.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Char.c.i
+.PHONY : OOC_Library/Wrappers/Char.c.i
 
-main.s: main.c.s
+OOC_Library/Wrappers/Char.s: OOC_Library/Wrappers/Char.c.s
 
-.PHONY : main.s
+.PHONY : OOC_Library/Wrappers/Char.s
 
 # target to generate assembly for a file
-main.c.s:
-	$(MAKE) -f CMakeFiles/OOC.dir/build.make CMakeFiles/OOC.dir/main.c.s
-.PHONY : main.c.s
+OOC_Library/Wrappers/Char.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Char.c.s
+.PHONY : OOC_Library/Wrappers/Char.c.s
+
+OOC_Library/Wrappers/Double.o: OOC_Library/Wrappers/Double.c.o
+
+.PHONY : OOC_Library/Wrappers/Double.o
+
+# target to build an object file
+OOC_Library/Wrappers/Double.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Double.c.o
+.PHONY : OOC_Library/Wrappers/Double.c.o
+
+OOC_Library/Wrappers/Double.i: OOC_Library/Wrappers/Double.c.i
+
+.PHONY : OOC_Library/Wrappers/Double.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/Double.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Double.c.i
+.PHONY : OOC_Library/Wrappers/Double.c.i
+
+OOC_Library/Wrappers/Double.s: OOC_Library/Wrappers/Double.c.s
+
+.PHONY : OOC_Library/Wrappers/Double.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/Double.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Double.c.s
+.PHONY : OOC_Library/Wrappers/Double.c.s
+
+OOC_Library/Wrappers/Float.o: OOC_Library/Wrappers/Float.c.o
+
+.PHONY : OOC_Library/Wrappers/Float.o
+
+# target to build an object file
+OOC_Library/Wrappers/Float.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Float.c.o
+.PHONY : OOC_Library/Wrappers/Float.c.o
+
+OOC_Library/Wrappers/Float.i: OOC_Library/Wrappers/Float.c.i
+
+.PHONY : OOC_Library/Wrappers/Float.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/Float.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Float.c.i
+.PHONY : OOC_Library/Wrappers/Float.c.i
+
+OOC_Library/Wrappers/Float.s: OOC_Library/Wrappers/Float.c.s
+
+.PHONY : OOC_Library/Wrappers/Float.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/Float.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Float.c.s
+.PHONY : OOC_Library/Wrappers/Float.c.s
+
+OOC_Library/Wrappers/Int.o: OOC_Library/Wrappers/Int.c.o
+
+.PHONY : OOC_Library/Wrappers/Int.o
+
+# target to build an object file
+OOC_Library/Wrappers/Int.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Int.c.o
+.PHONY : OOC_Library/Wrappers/Int.c.o
+
+OOC_Library/Wrappers/Int.i: OOC_Library/Wrappers/Int.c.i
+
+.PHONY : OOC_Library/Wrappers/Int.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/Int.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Int.c.i
+.PHONY : OOC_Library/Wrappers/Int.c.i
+
+OOC_Library/Wrappers/Int.s: OOC_Library/Wrappers/Int.c.s
+
+.PHONY : OOC_Library/Wrappers/Int.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/Int.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Int.c.s
+.PHONY : OOC_Library/Wrappers/Int.c.s
+
+OOC_Library/Wrappers/Long.o: OOC_Library/Wrappers/Long.c.o
+
+.PHONY : OOC_Library/Wrappers/Long.o
+
+# target to build an object file
+OOC_Library/Wrappers/Long.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Long.c.o
+.PHONY : OOC_Library/Wrappers/Long.c.o
+
+OOC_Library/Wrappers/Long.i: OOC_Library/Wrappers/Long.c.i
+
+.PHONY : OOC_Library/Wrappers/Long.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/Long.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Long.c.i
+.PHONY : OOC_Library/Wrappers/Long.c.i
+
+OOC_Library/Wrappers/Long.s: OOC_Library/Wrappers/Long.c.s
+
+.PHONY : OOC_Library/Wrappers/Long.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/Long.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Long.c.s
+.PHONY : OOC_Library/Wrappers/Long.c.s
+
+OOC_Library/Wrappers/LongDouble.o: OOC_Library/Wrappers/LongDouble.c.o
+
+.PHONY : OOC_Library/Wrappers/LongDouble.o
+
+# target to build an object file
+OOC_Library/Wrappers/LongDouble.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/LongDouble.c.o
+.PHONY : OOC_Library/Wrappers/LongDouble.c.o
+
+OOC_Library/Wrappers/LongDouble.i: OOC_Library/Wrappers/LongDouble.c.i
+
+.PHONY : OOC_Library/Wrappers/LongDouble.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/LongDouble.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/LongDouble.c.i
+.PHONY : OOC_Library/Wrappers/LongDouble.c.i
+
+OOC_Library/Wrappers/LongDouble.s: OOC_Library/Wrappers/LongDouble.c.s
+
+.PHONY : OOC_Library/Wrappers/LongDouble.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/LongDouble.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/LongDouble.c.s
+.PHONY : OOC_Library/Wrappers/LongDouble.c.s
+
+OOC_Library/Wrappers/LongLong.o: OOC_Library/Wrappers/LongLong.c.o
+
+.PHONY : OOC_Library/Wrappers/LongLong.o
+
+# target to build an object file
+OOC_Library/Wrappers/LongLong.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/LongLong.c.o
+.PHONY : OOC_Library/Wrappers/LongLong.c.o
+
+OOC_Library/Wrappers/LongLong.i: OOC_Library/Wrappers/LongLong.c.i
+
+.PHONY : OOC_Library/Wrappers/LongLong.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/LongLong.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/LongLong.c.i
+.PHONY : OOC_Library/Wrappers/LongLong.c.i
+
+OOC_Library/Wrappers/LongLong.s: OOC_Library/Wrappers/LongLong.c.s
+
+.PHONY : OOC_Library/Wrappers/LongLong.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/LongLong.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/LongLong.c.s
+.PHONY : OOC_Library/Wrappers/LongLong.c.s
+
+OOC_Library/Wrappers/PrimWrapper.o: OOC_Library/Wrappers/PrimWrapper.c.o
+
+.PHONY : OOC_Library/Wrappers/PrimWrapper.o
+
+# target to build an object file
+OOC_Library/Wrappers/PrimWrapper.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/PrimWrapper.c.o
+.PHONY : OOC_Library/Wrappers/PrimWrapper.c.o
+
+OOC_Library/Wrappers/PrimWrapper.i: OOC_Library/Wrappers/PrimWrapper.c.i
+
+.PHONY : OOC_Library/Wrappers/PrimWrapper.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/PrimWrapper.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/PrimWrapper.c.i
+.PHONY : OOC_Library/Wrappers/PrimWrapper.c.i
+
+OOC_Library/Wrappers/PrimWrapper.s: OOC_Library/Wrappers/PrimWrapper.c.s
+
+.PHONY : OOC_Library/Wrappers/PrimWrapper.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/PrimWrapper.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/PrimWrapper.c.s
+.PHONY : OOC_Library/Wrappers/PrimWrapper.c.s
+
+OOC_Library/Wrappers/Ptr.o: OOC_Library/Wrappers/Ptr.c.o
+
+.PHONY : OOC_Library/Wrappers/Ptr.o
+
+# target to build an object file
+OOC_Library/Wrappers/Ptr.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Ptr.c.o
+.PHONY : OOC_Library/Wrappers/Ptr.c.o
+
+OOC_Library/Wrappers/Ptr.i: OOC_Library/Wrappers/Ptr.c.i
+
+.PHONY : OOC_Library/Wrappers/Ptr.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/Ptr.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Ptr.c.i
+.PHONY : OOC_Library/Wrappers/Ptr.c.i
+
+OOC_Library/Wrappers/Ptr.s: OOC_Library/Wrappers/Ptr.c.s
+
+.PHONY : OOC_Library/Wrappers/Ptr.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/Ptr.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Ptr.c.s
+.PHONY : OOC_Library/Wrappers/Ptr.c.s
+
+OOC_Library/Wrappers/Short.o: OOC_Library/Wrappers/Short.c.o
+
+.PHONY : OOC_Library/Wrappers/Short.o
+
+# target to build an object file
+OOC_Library/Wrappers/Short.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Short.c.o
+.PHONY : OOC_Library/Wrappers/Short.c.o
+
+OOC_Library/Wrappers/Short.i: OOC_Library/Wrappers/Short.c.i
+
+.PHONY : OOC_Library/Wrappers/Short.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/Short.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Short.c.i
+.PHONY : OOC_Library/Wrappers/Short.c.i
+
+OOC_Library/Wrappers/Short.s: OOC_Library/Wrappers/Short.c.s
+
+.PHONY : OOC_Library/Wrappers/Short.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/Short.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Short.c.s
+.PHONY : OOC_Library/Wrappers/Short.c.s
+
+OOC_Library/Wrappers/Struct.o: OOC_Library/Wrappers/Struct.c.o
+
+.PHONY : OOC_Library/Wrappers/Struct.o
+
+# target to build an object file
+OOC_Library/Wrappers/Struct.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Struct.c.o
+.PHONY : OOC_Library/Wrappers/Struct.c.o
+
+OOC_Library/Wrappers/Struct.i: OOC_Library/Wrappers/Struct.c.i
+
+.PHONY : OOC_Library/Wrappers/Struct.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/Struct.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Struct.c.i
+.PHONY : OOC_Library/Wrappers/Struct.c.i
+
+OOC_Library/Wrappers/Struct.s: OOC_Library/Wrappers/Struct.c.s
+
+.PHONY : OOC_Library/Wrappers/Struct.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/Struct.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Struct.c.s
+.PHONY : OOC_Library/Wrappers/Struct.c.s
+
+OOC_Library/Wrappers/Wrapper.o: OOC_Library/Wrappers/Wrapper.c.o
+
+.PHONY : OOC_Library/Wrappers/Wrapper.o
+
+# target to build an object file
+OOC_Library/Wrappers/Wrapper.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.o
+.PHONY : OOC_Library/Wrappers/Wrapper.c.o
+
+OOC_Library/Wrappers/Wrapper.i: OOC_Library/Wrappers/Wrapper.c.i
+
+.PHONY : OOC_Library/Wrappers/Wrapper.i
+
+# target to preprocess a source file
+OOC_Library/Wrappers/Wrapper.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.i
+.PHONY : OOC_Library/Wrappers/Wrapper.c.i
+
+OOC_Library/Wrappers/Wrapper.s: OOC_Library/Wrappers/Wrapper.c.s
+
+.PHONY : OOC_Library/Wrappers/Wrapper.s
+
+# target to generate assembly for a file
+OOC_Library/Wrappers/Wrapper.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.s
+.PHONY : OOC_Library/Wrappers/Wrapper.c.s
+
+Test.o: Test.c.o
+
+.PHONY : Test.o
+
+# target to build an object file
+Test.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Test.c.o
+.PHONY : Test.c.o
+
+Test.i: Test.c.i
+
+.PHONY : Test.i
+
+# target to preprocess a source file
+Test.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Test.c.i
+.PHONY : Test.c.i
+
+Test.s: Test.c.s
+
+.PHONY : Test.s
+
+# target to generate assembly for a file
+Test.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Test.c.s
+.PHONY : Test.c.s
+
+TestObj.o: TestObj.c.o
+
+.PHONY : TestObj.o
+
+# target to build an object file
+TestObj.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/TestObj.c.o
+.PHONY : TestObj.c.o
+
+TestObj.i: TestObj.c.i
+
+.PHONY : TestObj.i
+
+# target to preprocess a source file
+TestObj.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/TestObj.c.i
+.PHONY : TestObj.c.i
+
+TestObj.s: TestObj.c.s
+
+.PHONY : TestObj.s
+
+# target to generate assembly for a file
+TestObj.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/TestObj.c.s
+.PHONY : TestObj.c.s
 
 # Help Target
 help:
@@ -238,20 +562,56 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... OOC"
+	@echo "... Test"
 	@echo "... edit_cache"
 	@echo "... Example.o"
 	@echo "... Example.i"
 	@echo "... Example.s"
-	@echo "... Object.o"
-	@echo "... Object.i"
-	@echo "... Object.s"
-	@echo "... Point.o"
-	@echo "... Point.i"
-	@echo "... Point.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... OOC_Library/Object.o"
+	@echo "... OOC_Library/Object.i"
+	@echo "... OOC_Library/Object.s"
+	@echo "... OOC_Library/Wrappers/Char.o"
+	@echo "... OOC_Library/Wrappers/Char.i"
+	@echo "... OOC_Library/Wrappers/Char.s"
+	@echo "... OOC_Library/Wrappers/Double.o"
+	@echo "... OOC_Library/Wrappers/Double.i"
+	@echo "... OOC_Library/Wrappers/Double.s"
+	@echo "... OOC_Library/Wrappers/Float.o"
+	@echo "... OOC_Library/Wrappers/Float.i"
+	@echo "... OOC_Library/Wrappers/Float.s"
+	@echo "... OOC_Library/Wrappers/Int.o"
+	@echo "... OOC_Library/Wrappers/Int.i"
+	@echo "... OOC_Library/Wrappers/Int.s"
+	@echo "... OOC_Library/Wrappers/Long.o"
+	@echo "... OOC_Library/Wrappers/Long.i"
+	@echo "... OOC_Library/Wrappers/Long.s"
+	@echo "... OOC_Library/Wrappers/LongDouble.o"
+	@echo "... OOC_Library/Wrappers/LongDouble.i"
+	@echo "... OOC_Library/Wrappers/LongDouble.s"
+	@echo "... OOC_Library/Wrappers/LongLong.o"
+	@echo "... OOC_Library/Wrappers/LongLong.i"
+	@echo "... OOC_Library/Wrappers/LongLong.s"
+	@echo "... OOC_Library/Wrappers/PrimWrapper.o"
+	@echo "... OOC_Library/Wrappers/PrimWrapper.i"
+	@echo "... OOC_Library/Wrappers/PrimWrapper.s"
+	@echo "... OOC_Library/Wrappers/Ptr.o"
+	@echo "... OOC_Library/Wrappers/Ptr.i"
+	@echo "... OOC_Library/Wrappers/Ptr.s"
+	@echo "... OOC_Library/Wrappers/Short.o"
+	@echo "... OOC_Library/Wrappers/Short.i"
+	@echo "... OOC_Library/Wrappers/Short.s"
+	@echo "... OOC_Library/Wrappers/Struct.o"
+	@echo "... OOC_Library/Wrappers/Struct.i"
+	@echo "... OOC_Library/Wrappers/Struct.s"
+	@echo "... OOC_Library/Wrappers/Wrapper.o"
+	@echo "... OOC_Library/Wrappers/Wrapper.i"
+	@echo "... OOC_Library/Wrappers/Wrapper.s"
+	@echo "... Test.o"
+	@echo "... Test.i"
+	@echo "... Test.s"
+	@echo "... TestObj.o"
+	@echo "... TestObj.i"
+	@echo "... TestObj.s"
 .PHONY : help
 
 

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Test"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Test">
+				<Option output="/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/llvm-6.0/lib/clang/6.0.0/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 Test"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Test/fast">
+				<Option output="/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/llvm-6.0/lib/clang/6.0.0/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 Test/fast"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/Example.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/Example.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Object.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Object.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Char.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Char.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Double.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Double.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Float.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Float.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Int.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Int.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Long.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Long.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/LongDouble.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/LongDouble.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/LongLong.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/LongLong.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/PrimWrapper.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/PrimWrapper.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Ptr.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Ptr.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Short.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Short.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Struct.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Struct.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Wrapper.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOC Library/Wrappers/Wrapper.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/OOCLib.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/Test.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/TestObj.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/TestObj.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

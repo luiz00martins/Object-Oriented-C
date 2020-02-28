@@ -1,1 +1,0 @@
-/usr/bin/clang-6.0 -g   CMakeFiles/OOC.dir/main.c.o CMakeFiles/OOC.dir/Object.c.o CMakeFiles/OOC.dir/Point.c.o CMakeFiles/OOC.dir/Example.c.o  -o OOC 
