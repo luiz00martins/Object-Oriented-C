@@ -66,7 +66,8 @@ void* PrimWrapper_ctor(void* self, va_list* args){
     // This is divided by two, cus there's two variables in struct Wrapper, then by the number of bytes
     void* dataPtr = (&primWrapper->_) + (((sizeOf(self)/2)/sizeof(void*)));
 
-    memcpy(dataPtr, target, _dataSize(primWrapper));
+    int size = dataSize(primWrapper);
+    memcpy(dataPtr, target, size);
 
     return self;
 }

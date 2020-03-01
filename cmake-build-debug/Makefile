@@ -48,10 +48,10 @@ RM = /home/luiz00martins/Programs/clion-2019.1.4/bin/cmake/linux/bin/cmake -E re
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/luiz00martins/Dropbox/Programming/C/Test
+CMAKE_SOURCE_DIR = "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug
+CMAKE_BINARY_DIR = "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/CMakeFiles /home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles" "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles/progress.marks"
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -176,6 +176,33 @@ OOC_Library/Object.s: OOC_Library/Object.c.s
 OOC_Library/Object.c.s:
 	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Object.c.s
 .PHONY : OOC_Library/Object.c.s
+
+OOC_Library/Utilities/String.o: OOC_Library/Utilities/String.c.o
+
+.PHONY : OOC_Library/Utilities/String.o
+
+# target to build an object file
+OOC_Library/Utilities/String.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o
+.PHONY : OOC_Library/Utilities/String.c.o
+
+OOC_Library/Utilities/String.i: OOC_Library/Utilities/String.c.i
+
+.PHONY : OOC_Library/Utilities/String.i
+
+# target to preprocess a source file
+OOC_Library/Utilities/String.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.i
+.PHONY : OOC_Library/Utilities/String.c.i
+
+OOC_Library/Utilities/String.s: OOC_Library/Utilities/String.c.s
+
+.PHONY : OOC_Library/Utilities/String.s
+
+# target to generate assembly for a file
+OOC_Library/Utilities/String.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.s
+.PHONY : OOC_Library/Utilities/String.c.s
 
 OOC_Library/Wrappers/Char.o: OOC_Library/Wrappers/Char.c.o
 
@@ -528,33 +555,6 @@ Test.c.s:
 	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Test.c.s
 .PHONY : Test.c.s
 
-TestObj.o: TestObj.c.o
-
-.PHONY : TestObj.o
-
-# target to build an object file
-TestObj.c.o:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/TestObj.c.o
-.PHONY : TestObj.c.o
-
-TestObj.i: TestObj.c.i
-
-.PHONY : TestObj.i
-
-# target to preprocess a source file
-TestObj.c.i:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/TestObj.c.i
-.PHONY : TestObj.c.i
-
-TestObj.s: TestObj.c.s
-
-.PHONY : TestObj.s
-
-# target to generate assembly for a file
-TestObj.c.s:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/TestObj.c.s
-.PHONY : TestObj.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -570,6 +570,9 @@ help:
 	@echo "... OOC_Library/Object.o"
 	@echo "... OOC_Library/Object.i"
 	@echo "... OOC_Library/Object.s"
+	@echo "... OOC_Library/Utilities/String.o"
+	@echo "... OOC_Library/Utilities/String.i"
+	@echo "... OOC_Library/Utilities/String.s"
 	@echo "... OOC_Library/Wrappers/Char.o"
 	@echo "... OOC_Library/Wrappers/Char.i"
 	@echo "... OOC_Library/Wrappers/Char.s"
@@ -609,9 +612,6 @@ help:
 	@echo "... Test.o"
 	@echo "... Test.i"
 	@echo "... Test.s"
-	@echo "... TestObj.o"
-	@echo "... TestObj.i"
-	@echo "... TestObj.s"
 .PHONY : help
 
 

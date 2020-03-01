@@ -374,6 +374,7 @@
                 || endLongDouble != FUNC_END_LONG_DOUBLE \
                 || endDouble != FUNC_END_DOUBLE){ \
             printf("\nERROR: Wrong types used in method\n"); \
+            fflush(stdout); \
             assert(0); \
         } \
         \
@@ -547,7 +548,7 @@ bool _hasFunc(void** ptr, void* func);
 
 #define build_class_ctor(CLASS, VARS, FUNCS) \
 void* CLASS##Class_ctor(void* self, va_list* args){ \
-    struct CLASS##Class* classPtr = super_ctor(ExampleClass(), self, args); \
+    struct CLASS##Class* classPtr = super_ctor(CLASS##Class(), self, args); \
     \
     struct Class* selfBaseClass = classPtr; \
     int argsSize = _arrayPtrSize(selfBaseClass->dataGet) - 1; \
@@ -584,6 +585,7 @@ void* CLASS##Class_ctor(void* self, va_list* args){ \
     return self; \
 }
 
+#define interpretAs(TYPE, FUNC) (*((TYPE*)FUNC))
 /** END User helper functions **/
 
 #endif // OOC_PREPROCESSOR_H

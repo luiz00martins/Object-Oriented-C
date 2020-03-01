@@ -13,6 +13,13 @@ CMakeFiles/Test.dir/OOC_Library/Object.c.o: ../OOC\ Library/Object.c
 CMakeFiles/Test.dir/OOC_Library/Object.c.o: ../OOC\ Library/Object.h
 CMakeFiles/Test.dir/OOC_Library/Object.c.o: ../OOC\ Library/Object.r
 
+CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o: ../OOC\ Library/OOC_Preprocessor.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o: ../OOC\ Library/Object.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o: ../OOC\ Library/Object.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o: ../OOC\ Library/Utilities/String.c
+CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o: ../OOC\ Library/Utilities/String.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o: ../OOC\ Library/Utilities/String.r
+
 CMakeFiles/Test.dir/OOC_Library/Wrappers/Char.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Wrappers/Char.c.o: ../OOC\ Library/Object.h
 CMakeFiles/Test.dir/OOC_Library/Wrappers/Char.c.o: ../OOC\ Library/Object.r
@@ -140,6 +147,7 @@ CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.o: ../OOC\ Library/Wrappers/W
 CMakeFiles/Test.dir/Test.c.o: ../Example.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Object.h
+CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/String.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Char.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Double.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Float.h
@@ -154,11 +162,4 @@ CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Struct.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Wrapper.h
 CMakeFiles/Test.dir/Test.c.o: ../OOCLib.h
 CMakeFiles/Test.dir/Test.c.o: ../Test.c
-
-CMakeFiles/Test.dir/TestObj.c.o: ../OOC\ Library/OOC_Preprocessor.h
-CMakeFiles/Test.dir/TestObj.c.o: ../OOC\ Library/Object.h
-CMakeFiles/Test.dir/TestObj.c.o: ../OOC\ Library/Object.r
-CMakeFiles/Test.dir/TestObj.c.o: ../TestObj.c
-CMakeFiles/Test.dir/TestObj.c.o: ../TestObj.h
-CMakeFiles/Test.dir/TestObj.c.o: ../TestObj.r
 

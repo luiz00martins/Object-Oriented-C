@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Test.dir/Test.c.o"
-  "CMakeFiles/Test.dir/TestObj.c.o"
   "CMakeFiles/Test.dir/Example.c.o"
+  "CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o"
   "CMakeFiles/Test.dir/OOC_Library/Object.c.o"
   "CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.o"
   "CMakeFiles/Test.dir/OOC_Library/Wrappers/Int.c.o"

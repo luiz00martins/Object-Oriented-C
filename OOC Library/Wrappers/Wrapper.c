@@ -13,7 +13,7 @@ single_build_caller_funcs(unwrap)
 
 /** START Caller functions **/
 /* Public callers */
-single_build_func(Wrapper, dataSize, (int*, target))
+single_build_func(Wrapper, dataSize, ())
 single_build_func(Wrapper, unwrap, (void*, target, int, targetSize))
 //object_builder_caller(const int, dataSize, (const void* self), (self))
 

@@ -6,7 +6,8 @@
 #include "Struct.r"
 
 /** START Getters and Setters **/
-object_build_getset(dataPtr, size)
+build_decl_get(size);
+object_build_getset(dataPtr)
 /** END Getters and Setters **/
 
 

@@ -11,7 +11,7 @@
 object_build_getset(i, f, c, ptrC, protI, protF, protC, privI, privF, privC)
 /** END Getters and Setters **/
 
-build_caller_funcs(print, funcNoVar, funcVar, protectedFuncNoVar, protectedFuncVar)
+build_caller_funcs(funcNoVar, funcVar, protectedFuncNoVar, protectedFuncVar)
 
 /** START Caller functions **/
 build_funcs(Example,
@@ -108,7 +108,7 @@ void* Example_protectedFuncVar(void* self, double x, double y){
 /* START Dynamic initializer */
 static const void* _ExampleClass;
 
-const void* ExampleClass(){
+const void* const ExampleClass(){
     return _ExampleClass ? _ExampleClass :
            (_ExampleClass = new(Class(), "ExampleClass", Class(), sizeof(struct ExampleClass),
                                 _ctor, ExampleClass_ctor,

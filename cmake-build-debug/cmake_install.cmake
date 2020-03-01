@@ -1,4 +1,4 @@
-# Install script for directory: /home/luiz00martins/Dropbox/Programming/C/Test
+# Install script for directory: /home/luiz00martins/Dropbox/Programming/C/Object Oriented C
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/luiz00martins/Dropbox/Programming/C/Test/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

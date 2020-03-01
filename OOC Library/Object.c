@@ -3,11 +3,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <signal.h>
+#include <setjmp.h>
 #include "Object.h"
 #include "Object.r"
 
-// TODO: Implement get and set as a keyword, to get super variables
+// TODO: Create a print function with specifier %o
 // TODO: Add copy function (and perhaps a deepcopy function) with error message "function not defined"
+// TODO: Implement get and set as a keyword, to get super variables
 
 /** START Helper functions **/
 int _arrayPtrSize(void** ptr){
@@ -67,7 +70,11 @@ struct Object* copy(const void* self){
     return newObj;
 }
 const struct Class* getClass(const void* self){
-    assert(self);
+    if (!self){
+        printf("\nERROR: NULL pointer passed\n");
+        fflush(stdout);
+        assert(0);
+    }
     return *((const struct Class**)self);
 }
 int sizeOf(const void* self){
@@ -83,9 +90,68 @@ int sizeOf(const void* self){
  * @param class Class
  * @return {@code true} if the object {@code self} is of the class {@code class}, {@code false}
  */
+bool isAClass(const void* ptr){
+    if(!ptr){
+        printf("\nERROR: NULL pointer passed\n");
+        fflush(stdout);
+        assert(0);
+    }
+
+    if(((struct Class*)ptr)->_ctor != _ctor){
+        return false;
+    }
+
+    return true;
+}
+
+sigjmp_buf jumpBuffer;
+struct sigaction defact;
+void dummyHandler(int sig){
+    siglongjmp(jumpBuffer, true);
+}
+struct sigaction sigact = {.sa_handler = dummyHandler};
+
+bool isAnObject(const void* ptr){
+    if(!ptr){
+        printf("\nERROR: NULL pointer passed\n");
+        fflush(stdout);
+        assert(0);
+    }
+
+    // TODO: If ptr is not a class, getClass can return a segmentation fault without and error message, solve this here or in getClass
+    const struct Class* selfClass = getClass(ptr);
+    sigaction(SIGSEGV, &sigact, &defact);
+
+    // In case can't even access seflClass->_ctor
+    if(sigsetjmp(jumpBuffer, 1)){
+        sigaction(SIGSEGV, &defact, NULL);
+        return false;
+    }
+
+    if(!selfClass || selfClass->_ctor != _ctor){
+        sigaction(SIGSEGV, &defact, NULL);
+        return false;
+    }
+
+    sigaction(SIGSEGV, &defact, NULL);
+    return true;
+}
 bool isClass(const void* self, const struct Class* class){
+    // TODO: Change all printfs for its own functions when Exceptions are added
+    // Verifying if the variable self is an object
+    if(!isAnObject(self)){
+        printf("\nERROR: Non-object pointer used where object was expected\n");
+        fflush(stdout);
+        assert(0);
+    }
+    // Verifying if the variable class is an class
+    if(!isAClass(class)){
+        printf("\nERROR: Non-class pointer used where class was expected\n");
+        fflush(stdout);
+        assert(0);
+    }
+
     const struct Class* selfClass = getClass(self);
-    assert(selfClass && class);
 
     if (selfClass == class)
         return true;
@@ -100,7 +166,7 @@ bool isClass(const void* self, const struct Class* class){
  * @return {@code true} if the object {@code self} is of the class {@code class}, {@code false}
  */
 bool ofClass(const void* self, const struct Class* class){
-    if (class == Class() || isClass(self, class)){
+    if (isClass(self, class) || class == Class()){
         return true;
     }
     else {
@@ -134,7 +200,8 @@ const void* super(const void* self){
 void* abstract(const void* self, va_list *args){
     cast(Class(), self);
 
-    printf("\nERROR: Abstract method called");
+    printf("\nERROR: Abstract method called\n");
+    fflush(stdout);
     assert(0 /* Cannot call abstract function */);
 
     return NULL;

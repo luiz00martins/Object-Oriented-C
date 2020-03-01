@@ -46,11 +46,11 @@ struct ExampleClass{
     /* Public: */
     void* (*_print)();
     void* (*caller_print)();
-    void* (*this_print)(const void* self);
+    void* (*this_print)(void* self);
 
     void* (*_funcNoVar)();
     void* (*caller_funcNoVar)();
-    void* (*this_funcNoVar)(const void* self);
+    void* (*this_funcNoVar)(void* self);
 
     void* (*_funcVar)();
     void* (*caller_funcVar)();
@@ -59,20 +59,24 @@ struct ExampleClass{
     /* Protected: */
     void* (*_protectedFuncNoVar)();
     void* (*caller_protectedFuncNoVar)();
-    void* (*this_protectedFuncNoVar)(const void* self);
+    void* (*this_protectedFuncNoVar)(void* self);
 
     void* (*_protectedFuncVar)();
     void* (*caller_protectedFuncVar)();
     void* (*this_protectedFuncVar)(void* self, double x, double y);
 };
 
-/* Public super callers */
+/* Super callers */
 void* _super_print(struct Class* class, void* self, ...);
 #define super_print(class, self, ...) _super_print(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_funcNoVar(struct Class* class, void* self, ...);
 #define super_funcNoVar(class, self, ...) _super_funcNoVar(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_funcVar(struct Class* class, void* self, ...);
 #define super_funcVar(class, self, ...) _super_funcVar(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_protectedFuncNoVar(struct Class* class, void* self, ...);
+#define super_protectedFuncNoVar(class, self, ...) _super_protectedFuncNoVar(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_protectedFuncVar(struct Class* class, void* self, ...);
+#define super_protectedFuncVar(class, self, ...) _super_protectedFuncVar(class, self, ##__VA_ARGS__, FUNC_END)
 
 /* Protected function callers */
 void* _protectedFuncNoVar(void* self, ...);
@@ -84,6 +88,6 @@ void* _protectedFuncVar(void* self, ...);
 
 
 /* Class builder */
-const void* ExampleClass();
+const void* const ExampleClass();
 
 #endif //OOC_EXAMPLE_R

@@ -51,26 +51,30 @@ void* abstract(const void* self, va_list *args);
 /** START Method management **/
 /* Protected function callers */
 void* _ctor(void* self, ...);
-void* _dtor(void* self, ...);
-void* _deepcopy(void* self, ...);
 #define ctor(self, ...) _ctor(self, ##__VA_ARGS__, FUNC_END)
+void* _dtor(void* self, ...);
 #define dtor(self, ...) _dtor(self, ##__VA_ARGS__, FUNC_END)
+void* _deepcopy(void* self, ...);
 #define deepcopy(self, ...) _deepcopy(self, ##__VA_ARGS__, FUNC_END)
 
 void* _super_ctor(struct Class* class, void* self, ...);
+#define super_ctor(class, self, ...) _super_ctor(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_dtor(struct Class* class, void* self, ...);
+#define super_dtor(class, self, ...) _super_dtor(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_deepcopy(struct Class* class, void* self, ...);
-#define super_ctor(class, self, ...) _super_ctor(class, self, ##__VA_ARGS__, FUNC_END);
-#define super_dtor(class, self, ...) _super_dtor(class, self, ##__VA_ARGS__, FUNC_END);
-#define super_deepcopy(class, self, ...) _super_deepcopy(class, self, ##__VA_ARGS__, FUNC_END);
+#define super_deepcopy(class, self, ...) _super_deepcopy(class, self, ##__VA_ARGS__, FUNC_END)
 /** END Method management **/
 
 /* Class builder */
 const void* const Class();
 
 /* Return buffer */
-void* _buffer;
+const void* _buffer;
 
-#define returning(VAR) _returning(&VAR, sizeof(VAR));
+void* _returning(void* ptr, int size);
+// TODO: add an automatic parameter definition for this
+#define returning(VAR) \
+    \
+    _returning(&VAR, sizeof(VAR))
 
 #endif //OOC_OBJECT_R

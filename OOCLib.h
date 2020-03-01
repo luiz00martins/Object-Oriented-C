@@ -12,5 +12,6 @@
 #include "OOC Library/Wrappers/LongDouble.h"
 #include "OOC Library/Wrappers/Ptr.h"
 #include "OOC Library/Wrappers/Struct.h"
+#include "OOC Library/Utilities/String.h"
 
 #endif //OOCLIB_H

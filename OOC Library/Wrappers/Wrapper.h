@@ -16,6 +16,7 @@
 /* Public method callers */
 //void* _unwrap(void* self, void* target, unsigned int targetSize);
 void* _unwrap(void* self, ...);
+#define unwrap(self, ...) _unwrap(self, ##__VA_ARGS__, FUNC_END)
 
 #define wrap(target) _Generic((target), \
 \

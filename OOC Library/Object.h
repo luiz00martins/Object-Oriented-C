@@ -19,6 +19,10 @@ const struct Class* getClass(const void* self);
 /* Returns the size of the object, when used in an object.
  * Returns the size of the subclass or object created when used in a class */
 int sizeOf(const void* self);
+/* Returns true if the pointer points to a class */
+bool isAClass(const void* ptr);
+/* Returns true if the pointer points to a class */
+bool isAnObject(const void* ptr);
 /* Returns true if the object is of that exact class */
 bool isClass(const void* self, const struct Class* class);
 /* Returns true if the object is any subclass of that class */

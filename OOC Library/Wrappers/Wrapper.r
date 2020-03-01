@@ -39,7 +39,7 @@ struct WrapperClass{
 
 /* Protected function callers */
 void* _dataSize(void* self, ...);
-#define dataSize(self, ...) user_call(int, dataSize, ##__VA_ARGS__)
+#define dataSize(self, ...) _dataSize(self, ##__VA_ARGS__, FUNC_END)
 
 /* Protected super callers */
 void* super_dataSize(struct Class* class, void* self, ...);
