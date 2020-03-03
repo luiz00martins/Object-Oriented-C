@@ -13,5 +13,7 @@
 #include "OOC Library/Wrappers/Ptr.h"
 #include "OOC Library/Wrappers/Struct.h"
 #include "OOC Library/Utilities/String.h"
+#include "OOC Library/Utilities/ArrayList.h"
+#include "OOC Library/Utilities/LinkedList.h"
 
 #endif //OOCLIB_H

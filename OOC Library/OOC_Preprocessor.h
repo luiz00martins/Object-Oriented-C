@@ -444,6 +444,10 @@
         funcPtr += 1; \
         void* (*thisFunc)() = *funcPtr; \
         \
+        if (thisFunc == abstract){ \
+            return NULL; \
+        } \
+        \
         va_start(args, self); \
         return callerFunc(thisFunc, self, &args); \
     }
@@ -521,7 +525,7 @@ bool _hasFunc(void** ptr, void* func);
 
 #define user_call(RET_TYPE, FUNC, ...) (*((RET_TYPE*)_##FUNC(self, ##__VA_ARGS__, FUNC_END)))
 
-#define _HELPER_buildFunc(args) FOREACH(single_build_func, args)
+#define _HELPER_buildFunc(args) FOREACH(single_build_func _EMPTY_REMOVER(args))
 #define build_funcs(CLASS, ...) _HELPER_buildFunc(FOREACH_ADD_ARG(CLASS, ##__VA_ARGS__))
 
 #define build_caller_funcs(...) FOREACH(single_build_caller_funcs, ##__VA_ARGS__)
@@ -529,14 +533,14 @@ bool _hasFunc(void** ptr, void* func);
 /**
  * Used to add variable tracking data to the class
  */
-#define _HELPER_addVars(args) FOREACH(single_addVar, args)
+#define _HELPER_addVars(args) FOREACH(single_addVar _EMPTY_REMOVER(args))
 #define _HELPER_2_addVars(CLASS, ...) _HELPER_addVars(FOREACH_ADD_ARG(CLASS, ##__VA_ARGS__))
 #define addVars(CLASS, ...) _HELPER_2_addVars(CLASS _EMPTY_REMOVER(__VA_ARGS__))
 
 /**
  * Used to add function tracking data to the functions
  */
-#define _HELPER_startFuncs(args) FOREACH(single_startFunc, args)
+#define _HELPER_startFuncs(args) FOREACH(single_startFunc _EMPTY_REMOVER(args))
 #define _HELPER_2_startFuncs(CLASS, ...) _HELPER_startFuncs(FOREACH_ADD_ARG(CLASS, ##__VA_ARGS__))
 #define startFuncs(CLASS, ...) _HELPER_2_startFuncs(CLASS _EMPTY_REMOVER(__VA_ARGS__))
 

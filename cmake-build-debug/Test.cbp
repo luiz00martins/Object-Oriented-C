@@ -88,6 +88,24 @@
 		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h">
 			<Option target="Test"/>
 		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedList.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedList.h">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h">
+			<Option target="Test"/>
+		</Unit>
 		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/String.c">
 			<Option target="Test"/>
 		</Unit>

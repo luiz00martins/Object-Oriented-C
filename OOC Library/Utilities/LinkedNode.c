@@ -15,27 +15,27 @@ build_caller_funcs(print, asArray, cat, resize, compare)
 
 /** START Caller functions **/
 build_funcs(String,
-        (ctor, (va_list*, nargs)),
-        (dtor, ()),
-        (print, ()),
-        (set, (void*, copied)),
-        (asArray, ()),
-        (cat, (void*, concatenated)),
-        (resize, (int, size)),
-        (compare, (void*, string)))
+            (ctor, (va_list*, nargs)),
+            (dtor, ()),
+            (print, ()),
+            (set, (void*, copied)),
+            (asArray, ()),
+            (cat, (void*, concatenated)),
+            (resize, (int, size)),
+            (compare, (void*, string)))
 
 
 /** END Caller functions **/
 
 /** START Class method definitions **/
 build_class_ctor(String,
-        ((char*, text), (int, len), (int, size)),
-        (       (print, ()),
-                (set, (void*, copied)),
-                (asArray, ()),
-                (cat, (void*, concatenated)),
-                (resize, (int, size)),
-                (compare, (void*, string))))
+                 ((char*, text), (int, len), (int, size)),
+                 (       (print, ()),
+                         (set, (void*, copied)),
+                 (asArray, ()),
+                 (cat, (void*, concatenated)),
+                 (resize, (int, size)),
+                 (compare, (void*, string))))
 
 /** END Class method definitions **/
 
@@ -185,8 +185,8 @@ static const void* _StringClass;
 const void* const StringClass(){
     return _StringClass ? _StringClass :
            (_StringClass = new(Class(), "StringClass", Class(), sizeof(struct StringClass),
-                                _ctor, StringClass_ctor,
-                                NULL));
+                               _ctor, StringClass_ctor,
+                               NULL));
 }
 
 static const void* _String;
@@ -194,14 +194,14 @@ static const void* _String;
 const void* const String(){
     return _String ? _String :
            (_String = new(StringClass(), "String", Object(), sizeof(struct String),
-                           _ctor, String_ctor,
-                           _dtor, String_dtor,
-                           _print, String_print,
-                           _set, String_set,
-                           _asArray, String_asArray,
-                           _cat, String_cat,
-                           _resize, String_resize,
-                           _compare, String_compare,
-                           NULL));
+                          _ctor, String_ctor,
+                          _dtor, String_dtor,
+                          _print, String_print,
+                          _set, String_set,
+                          _asArray, String_asArray,
+                          _cat, String_cat,
+                          _resize, String_resize,
+                          _compare, String_compare,
+                          NULL));
 }
 /* END Dynamic initializer */

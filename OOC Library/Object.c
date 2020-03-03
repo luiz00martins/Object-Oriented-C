@@ -52,7 +52,9 @@ void* new(const void* self, ...){
     va_end(args);
 
     if(ofClass(object, Object()) && class->abstract){
-        assert(0 /* Cannot instantiate abstract object */);
+        printf("\nERROR: Cannot instantiate abstract object\n");
+        fflush(stdout);
+        assert(0);
     }
 
     return object;
@@ -83,18 +85,24 @@ int sizeOf(const void* self){
 
     return selfClass->size;
 }
-/**
- * Returns a boolean for if the object {@code self} is of the class {@code class}
- *
- * @param self Object
- * @param class Class
- * @return {@code true} if the object {@code self} is of the class {@code class}, {@code false}
- */
+#if __unix__
+sigjmp_buf jumpBuffer;
+struct sigaction defact;
+void dummyHandler(int sig){
+    siglongjmp(jumpBuffer, true);
+}
+struct sigaction sigact = {.sa_handler = dummyHandler};
 bool isAClass(const void* ptr){
     if(!ptr){
         printf("\nERROR: NULL pointer passed\n");
         fflush(stdout);
         assert(0);
+    }
+    sigaction(SIGSEGV, &sigact, &defact);
+
+    if(sigsetjmp(jumpBuffer, 1)){
+        sigaction(SIGSEGV, &defact, NULL);
+        return false;
     }
 
     if(((struct Class*)ptr)->_ctor != _ctor){
@@ -103,14 +111,6 @@ bool isAClass(const void* ptr){
 
     return true;
 }
-
-sigjmp_buf jumpBuffer;
-struct sigaction defact;
-void dummyHandler(int sig){
-    siglongjmp(jumpBuffer, true);
-}
-struct sigaction sigact = {.sa_handler = dummyHandler};
-
 bool isAnObject(const void* ptr){
     if(!ptr){
         printf("\nERROR: NULL pointer passed\n");
@@ -118,15 +118,17 @@ bool isAnObject(const void* ptr){
         assert(0);
     }
 
-    // TODO: If ptr is not a class, getClass can return a segmentation fault without and error message, solve this here or in getClass
-    const struct Class* selfClass = getClass(ptr);
     sigaction(SIGSEGV, &sigact, &defact);
 
-    // In case can't even access seflClass->_ctor
     if(sigsetjmp(jumpBuffer, 1)){
         sigaction(SIGSEGV, &defact, NULL);
         return false;
     }
+
+    const struct Class* selfClass = getClass(ptr);
+
+    // In case can't even access seflClass->_ctor
+
 
     if(!selfClass || selfClass->_ctor != _ctor){
         sigaction(SIGSEGV, &defact, NULL);
@@ -136,6 +138,57 @@ bool isAnObject(const void* ptr){
     sigaction(SIGSEGV, &defact, NULL);
     return true;
 }
+#elif (_WIN32 || _WIN64)
+jmp_buf jumpBuffer;
+void dummyHandler(int sig){
+    longjmp(jumpBuffer, true);
+}
+bool isAClass(const void* ptr){
+    if(!ptr){
+        printf("\nERROR: NULL pointer passed\n");
+        fflush(stdout);
+        assert(0);
+    }
+    signal(SIGSEGV, dummyHandler);
+
+    if(setjmp(jumpBuffer, 1)){
+        signal(SIGSEGV, SIG_DFL);
+        return false;
+    }
+
+    if(((struct Class*)ptr)->_ctor != _ctor){
+        signal(SIGSEGV, SIG_DFL);
+        return false;
+    }
+
+    signal(SIGSEGV, SIG_DFL);
+    return true;
+}
+bool isAnObject(const void* ptr){
+    if(!ptr){
+        printf("\nERROR: NULL pointer passed\n");
+        fflush(stdout);
+        assert(0);
+    }
+    signal(SIGSEGV, dummyHandler);
+
+    // In case can't even access seflClass->_ctor
+    if(setjmp(jumpBuffer)){
+        signal(SIGSEGV, SIG_DFL);
+        return false;
+    }
+
+    const struct Class* selfClass = getClass(ptr);
+
+    if(!selfClass || selfClass->_ctor != _ctor){
+    signal(SIGSEGV, SIG_DFL);
+        return false;
+    }
+
+    signal(SIGSEGV, SIG_DFL);
+    return true;
+}
+#endif
 bool isClass(const void* self, const struct Class* class){
     // TODO: Change all printfs for its own functions when Exceptions are added
     // Verifying if the variable self is an object
@@ -232,7 +285,6 @@ single_build_caller_funcs(dtor)
 single_build_caller_funcs(deepcopy)
 
 /** START Caller functions **/
-// TODO [IMPORTANT]: THE ERROR IS HAPPENING HERE
 single_build_func(Object, ctor, (va_list*, nargs))
 
 single_build_func(Object, dtor, ())
@@ -248,6 +300,12 @@ single_build_func(Object, deepcopy, ())
 /* START Class function definitions */
 void* Class_ctor(void* self, va_list* args){
     struct Class* classPtr = cast(Class(), self);
+
+    // TODO: (After implementing object as abstract)
+    // if it's abstract, it has to be a sub of an abstract
+    //if(isClass(self, Class())){
+    //
+    //}
 
     classPtr->name = va_arg(*args, char*);
     classPtr->super = va_arg(*args, struct Class*);
@@ -362,6 +420,7 @@ const void* const Class(){
 /* END Class Description */
 
 /* START Object Description */
+// TODO: Make object abstract
 const struct Class object = {
         .object = &class,
         .name = "Object",

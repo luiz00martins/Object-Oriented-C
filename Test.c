@@ -13,8 +13,8 @@
 #include "Example.h"
 
 int main() {
-
-
+    void* shit = new(LinkedList());
+    set(shit, 0, (void*)NULL);
     void* ptr = new(String(), "this is short.");
     void* str = new(String(), "this is short");
 
