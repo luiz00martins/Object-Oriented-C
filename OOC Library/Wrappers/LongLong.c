@@ -56,16 +56,66 @@ void* LongLongClass_ctor(void* self, va_list* args){
 
 /** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-const int LongLong_dataSize(const void* self){
-    struct LongLong* _longLong = cast(LongLong(), self);;
+void* LongLong_dataSize(const void* self){
+    struct LongLong* _longLong = cast(LongLong(), self);
 
-    return sizeof(float);
+    int returned = sizeof(long long);
+    return returning(returned);
 }
 
-/* Public: */
+void* LongLong_print(void* self, int bound){
+    struct LongLong* _longLong = cast(LongLong(), self);
 
-/* Protected: */
+    if (bound < 5){
+        printf("\nERROR: Cannot print with bound less than %i\n", 5);
+        fflush(stdout);
+        assert(0);
+    }
 
+    printf("|");
+
+    int digits = 1;
+    long long temp = _longLong->data;
+
+    // Figuring out the number of digits
+    while(temp >= 10){
+        temp /= 10;
+        digits++;
+    }
+
+    // Separating the digits;
+    int* arrData = malloc(sizeof(int) * digits);
+    temp = _longLong->data;
+    for(int i = 0; i < digits; i++){
+        arrData[i] = temp % 10;
+        temp /= 10;
+    }
+
+    if(bound < digits){
+        // Print all digits you can, but three, and print an ellipsis
+        int notFit = 3 + digits - bound;
+        for(int i = digits-1; i >= notFit; i--){
+            printf("%i", arrData[i]);
+        }
+        printf("...");
+    }
+    else {
+        // Print leading blank spaces
+        for(int i = bound - digits; i > 0; i--){
+            printf(" ");
+        }
+        // Print number
+        for(int i = digits-1; i >= 0; i--){
+            printf("%i", arrData[i]);
+        }
+    }
+
+    printf("|\n");
+
+    free(arrData);
+
+    return NULL;
+}
 /** END Object method definitions **USER CODE** **/
 
 /* START Dynamic initializer */
@@ -84,6 +134,7 @@ const void* const LongLong(){
     return _LongLong ? _LongLong :
            (_LongLong = new(LongLongClass(), "LongLong", PrimWrapper(), sizeof(struct LongLong),
                          _dataSize, LongLong_dataSize,
+                         _print, LongLong_print,
                          NULL));
 }
 /* END Dynamic initializer */

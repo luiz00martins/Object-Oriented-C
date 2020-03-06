@@ -56,10 +56,11 @@ void* DoubleClass_ctor(void* self, va_list* args){
 
 /** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-const int Double_dataSize(const void* self){
+void* Double_dataSize(const void* self){
     struct Double* _double = cast(Double(), self);;
 
-    return sizeof(double);
+    int returned = sizeof(double);
+    return returning(returned);
 }
 
 /* Public: */

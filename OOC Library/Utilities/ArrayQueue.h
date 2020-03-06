@@ -13,6 +13,8 @@ build_decl_get(len);
 /** START Method manegement **/
 void* _resize(void* self, ...);
 #define resize(self, ...) _resize(self, ##__VA_ARGS__, FUNC_END)
+void* _print(void* self, ...);
+#define print(self, ...) _print(self, ##__VA_ARGS__, FUNC_END)
 /** END Method manegement **/
 
 /* Object builder */

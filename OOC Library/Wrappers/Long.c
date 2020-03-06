@@ -56,15 +56,66 @@ void* LongClass_ctor(void* self, va_list* args){
 
 /** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-const int Long_dataSize(const void* self){
-    struct Long* _long = cast(Long(), self);;
+void* Long_dataSize(const void* self){
+    struct Long* _long = cast(Long(), self);
 
-    return sizeof(long);
+    int returned = sizeof(long);
+    return returning(returned);
 }
 
-/* Public: */
+void* Long_print(void* self, int bound){
+    struct Long* _long = cast(Long(), self);
 
-/* Protected: */
+    if (bound < 5){
+        printf("\nERROR: Cannot print with bound less than %i\n", 5);
+        fflush(stdout);
+        assert(0);
+    }
+
+    printf("|");
+
+    int digits = 1;
+    long temp = _long->data;
+
+    // Figuring out the number of digits
+    while(temp >= 10){
+        temp /= 10;
+        digits++;
+    }
+
+    // Separating the digits;
+    int* arrData = malloc(sizeof(int) * digits);
+    temp = _long->data;
+    for(int i = 0; i < digits; i++){
+        arrData[i] = temp % 10;
+        temp /= 10;
+    }
+
+    if(bound < digits){
+        // Print all digits you can, but three, and print an ellipsis
+        int notFit = 3 + digits - bound;
+        for(int i = digits-1; i >= notFit; i--){
+            printf("%i", arrData[i]);
+        }
+        printf("...");
+    }
+    else {
+        // Print leading blank spaces
+        for(int i = bound - digits; i > 0; i--){
+            printf(" ");
+        }
+        // Print number
+        for(int i = digits-1; i >= 0; i--){
+            printf("%i", arrData[i]);
+        }
+    }
+
+    printf("|\n");
+
+    free(arrData);
+
+    return NULL;
+}
 
 /** END Object method definitions **USER CODE** **/
 
@@ -84,6 +135,7 @@ const void* const Long(){
     return _Long ? _Long :
            (_Long = new(LongClass(), "Long", PrimWrapper(), sizeof(struct Long),
                          _dataSize, Long_dataSize,
+                         _print, Long_print,
                          NULL));
 }
 /* END Dynamic initializer */

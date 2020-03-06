@@ -11,37 +11,16 @@
 
 
 /** START Caller functions **/
-/* Public callers */
+build_funcs(PrimWrapper,
+            (print, (int, bound)))
 
 /** END Caller functions **/
 
 
 /** START Class method definitions **/
-void* PrimWrapperClass_ctor(void* self, va_list* args){
-    struct PrimWrapperClass* classPtr = super_ctor(PrimWrapperClass(), self, args);
-    typedef void (*voidf)(); /* generic function pointer */
-    voidf selector;
-    va_list funcArgs;
-
-    va_copy(funcArgs, *args);
-    /* Overloadable function setup. All functions that go here can be overloaded*/
-    while((selector = va_arg(funcArgs, voidf))){
-        voidf function = va_arg(funcArgs, voidf);
-
-        //if (selector == func){
-        //    classPtr->func = function;
-        //}
-    }
-    va_end(funcArgs);
-
-    if (false /* classPtr->func == abstract */ ){
-
-        struct Class* class = classPtr;
-        class->abstract = true;
-    }
-
-    return self;
-}
+build_class_ctor(PrimWrapper,
+                 (),
+                 ((print, (int, bound))))
 /** END Class method definitions **/
 
 
@@ -59,7 +38,7 @@ void* PrimWrapper_ctor(void* self, va_list* args){
     // This is divided by two, cus there's two variables in struct Wrapper, then by the number of bytes
     void* dataPtr = (&primWrapper->_) + (((sizeOf(self)/2)/sizeof(void*)));
 
-    int size = dataSize(primWrapper);
+    int size = as(int, dataSize(primWrapper));
     memcpy(dataPtr, target, size);
 
     return self;
@@ -72,15 +51,15 @@ void* PrimWrapper_dtor(void* self){
 
     return primWrapper;
 }
-void PrimWrapper_unwrap(void* target, const void* self){
+void* PrimWrapper_unwrap(void* self, void* target){
     struct PrimWrapper* primWrapper = cast(PrimWrapper(), self);
 
     // This is divided by two, cus there's two variables in struct Wrapper, then by the number of bytes
     void* dataPtr = (&primWrapper->_) + (((sizeOf(self)/2)/sizeof(void*)));
 
-    memcpy(target, dataPtr, _dataSize(primWrapper));
+    memcpy(target, dataPtr, as(int, dataSize(primWrapper)));
 
-    return;
+    return NULL;
 }
 
 /* Public: */
@@ -107,6 +86,7 @@ const void* const PrimWrapper(){
                                _ctor, PrimWrapper_ctor,
                                _dtor, PrimWrapper_dtor,
                                _unwrap, PrimWrapper_unwrap,
+                               _print, abstract,
                                NULL));
 }
 /* END Dynamic initializer */

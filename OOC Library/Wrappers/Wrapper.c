@@ -14,7 +14,7 @@ single_build_caller_funcs(unwrap)
 /** START Caller functions **/
 /* Public callers */
 single_build_func(Wrapper, dataSize, ())
-single_build_func(Wrapper, unwrap, (void*, target, int, targetSize))
+single_build_func(Wrapper, unwrap, (void*, target))
 //object_builder_caller(const int, dataSize, (const void* self), (self))
 
 //single_object_build_super_caller(void, unwrap, (const struct Class* class, void* target, const void* self), (target, self))
@@ -30,42 +30,10 @@ int arrayPtrSize(void** ptr){
 }
 
 /** START Class method definitions **/
-void* WrapperClass_ctor(void* self, va_list* args){
-    struct WrapperClass* classPtr = super_ctor(WrapperClass(), self, args);
-    typedef void (*voidf)(); /* generic function pointer */
-    voidf selector;
-    va_list funcArgs;
-
-    classPtr->_dataSize = _dataSize;
-    classPtr->caller_dataSize = caller_Wrapper_dataSize;
-    classPtr->this_dataSize = NULL;
-    classPtr->_unwrap = _unwrap;
-    classPtr->caller_unwrap = caller_Wrapper_unwrap;
-    classPtr->this_unwrap = NULL;
-
-    va_copy(funcArgs, *args);
-    /* Overloadable function setup. All functions that go here can be overloaded*/
-    while((selector = va_arg(funcArgs, voidf))){
-        voidf function = va_arg(funcArgs, voidf);
-
-        if (selector == _dataSize){
-            classPtr->this_dataSize = function;
-        }
-        if (selector == _unwrap){
-            classPtr->this_unwrap = function;
-        }
-    }
-    va_end(funcArgs);
-
-    if (classPtr->this_dataSize == abstract ||
-        classPtr->this_unwrap == abstract){
-
-        struct Class* class = classPtr;
-        class->abstract = true;
-    }
-
-    return self;
-}
+build_class_ctor(Wrapper,
+                 (),
+                 ((dataSize, ()),
+                  (unwrap, (void*, target))))
 /** END Class method definitions **/
 
 #define object_build_abtract_method(TYPE, FUNC, TYPED_ARGS) \

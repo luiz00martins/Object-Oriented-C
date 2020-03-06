@@ -56,10 +56,11 @@ void* LongDoubleClass_ctor(void* self, va_list* args){
 
 /** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-const int LongDouble_dataSize(const void* self){
+void* LongDouble_dataSize(const void* self){
     struct LongDouble* _longDouble = cast(LongDouble(), self);;
 
-    return sizeof(long double);
+    int returned = sizeof(long double);
+    return returning(returned);
 }
 
 /* Public: */

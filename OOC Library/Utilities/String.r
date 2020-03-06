@@ -30,7 +30,7 @@ struct StringClass{
 
     void* (*_print)();
     void* (*caller_print)();
-    void* (*this_print)(void* self);
+    void* (*this_print)(void* self, int bound);
 
     void* (*_set)();
     void* (*caller_set)();

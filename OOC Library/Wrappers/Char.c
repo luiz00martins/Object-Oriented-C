@@ -56,10 +56,30 @@ void* CharClass_ctor(void* self, va_list* args){
 
 /** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-const int Char_dataSize(const void* self){
+void* Char_dataSize(const void* self){
     struct Char* _char = cast(Char(), self);;
 
-    return sizeof(char);
+    int returned = sizeof(char);
+    return returning(returned);
+}
+
+void* Char_print(void* self, int bound){
+    struct Char* _char = cast(Char(), self);
+
+
+    if (bound < 0){
+        printf("\nERROR: Object's class does not have this method\n");
+        fflush(stdout);
+        assert(0);
+    }
+
+    printf("|");
+    if(bound) {
+        printf("%*c", bound, _char->data);
+    }
+    printf("|\n");
+
+    return NULL;
 }
 
 /* Public: */
@@ -83,7 +103,8 @@ static const void* _Char;
 const void* const Char(){
     return _Char ? _Char :
            (_Char = new(CharClass(), "Char", PrimWrapper(), sizeof(struct Char),
-                           _dataSize, Char_dataSize,
-                           NULL));
+                        _dataSize, Char_dataSize,
+                        _print, Char_print,
+                        NULL));
 }
 /* END Dynamic initializer */

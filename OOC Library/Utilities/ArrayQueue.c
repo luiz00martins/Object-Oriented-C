@@ -25,13 +25,15 @@ build_funcs(ArrayQueue,
             (resize, (int, size)),
             (contains, (void*, obj)),
             (indexOf, (void*, obj)),
-            (ofType, (void*, class)))
+            (ofType, (void*, class)),
+            (print, (int, bound)))
 /** END Caller functions **/
 
 /** START Class method definitions **/
 build_class_ctor(ArrayQueue,
         ((void**, objs), (int, len), (int, size), (int, start), (int, end), (struct Class*, type)),
-        ((resize, (int, size))))
+        ((resize, (int, size)),
+         (print, (int, bound))))
 
 /** END Class method definitions **/
 
@@ -270,6 +272,58 @@ void* ArrayQueue_ofType(void* self, void* class){
         return returning(returned);
     }
 }
+void* ArrayQueue_print(void* self, int bound){
+    // Calling super constructor
+    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
+
+    // Figuring out which one should be printed
+    bool* printed = malloc(sizeof(bool) * arrayQueue->size);
+    for (int i = 0; i < arrayQueue->size; i++)
+        printed[i] = false;
+
+    if (arrayQueue->start < arrayQueue->end){
+        for(int i = 0; i < arrayQueue->size; i++){
+            if(i >= arrayQueue->start && i <= arrayQueue->end)
+                printed[i] = true;
+        }
+    }
+    else if (arrayQueue->end < arrayQueue->start){
+        for(int i = 0; i < arrayQueue->size; i++){
+            if(i >= arrayQueue->start || i <= arrayQueue->end)
+                printed[i] = true;
+        }
+    }
+    else if (arrayQueue->len == 1){
+        printed[arrayQueue->start] = true;
+    }
+
+
+    //Printing
+    for(int i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
+    for (int i = 0; i < arrayQueue->size; i++){
+        if(printed[i])
+            print(arrayQueue->objs[i], bound);
+        else {
+            printf("|%*s|\n", bound, "");
+        }
+        if(i < arrayQueue->size-1){
+            printf("|");
+            for(int j = 0; j < bound; j++)
+                printf("-");
+            printf("|\n");
+        }
+    }
+    for(int i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
+
+
+    free(printed);
+
+    return NULL;
+}
 /** END Object method definitions **USER CODE** **/
 
 /* START Dynamic initializer */
@@ -297,6 +351,7 @@ const void* const ArrayQueue(){
                           _contains, ArrayQueue_contains,
                           _indexOf, ArrayQueue_indexOf,
                           _ofType, ArrayQueue_ofType,
+                          _print, ArrayQueue_print,
                           NULL));
 }
 /* END Dynamic initializer */

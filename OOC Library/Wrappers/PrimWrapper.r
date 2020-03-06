@@ -24,10 +24,9 @@ struct PrimWrapperClass{
     /* Class that is being extended */
     const struct WrapperClass _;
 
-    /* Public: */
-
-    /* Protected: */
-
+    void* (*_print)();
+    void* (*caller_print)();
+    void* (*this_print)(void* self, int bound);
 };
 
 /* Public super callers */

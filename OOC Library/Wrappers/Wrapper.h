@@ -16,7 +16,7 @@
 /* Public method callers */
 //void* _unwrap(void* self, void* target, unsigned int targetSize);
 void* _unwrap(void* self, ...);
-#define unwrap(self, ...) _unwrap(self, ##__VA_ARGS__, FUNC_END)
+#define unwrap(SELF, TARGET) _unwrap(SELF, &TARGET, FUNC_END)
 
 #define wrap(target) _Generic((target), \
 \
@@ -30,7 +30,6 @@ void* _unwrap(void* self, ...);
     long double: new(LongDouble(), &target, sizeof(long double)), \
     void *: new(Ptr(), &target, sizeof(void*)))
 
-#define unwrap(self, target) _unwrap(self, &target, sizeof(target))
 /** END Method manegement **/
 
 /* Object builder */

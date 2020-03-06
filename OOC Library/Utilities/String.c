@@ -17,7 +17,7 @@ build_caller_funcs(print, asArray, cat, resize, compare)
 build_funcs(String,
         (ctor, (va_list*, nargs)),
         (dtor, ()),
-        (print, ()),
+        (print, (int, bound)),
         (set, (void*, copied)),
         (asArray, ()),
         (cat, (void*, concatenated)),
@@ -78,10 +78,20 @@ void* String_dtor(void* self){
 }
 
 /* Public: */
-void* String_print(void* self){
+void* String_print(void* self, int bound){
     struct String* string = cast(String(), self);
 
-    printf("%s", string->text);
+    printf("|");
+
+    if (bound < string->len) {
+        for (int i = 0; i < bound - 3; i++)
+            printf("%c", string->text[i]);
+        printf("...");
+    }
+    else
+        printf("%*s", bound, string->text);
+
+    printf("|\n");
     return NULL;
 }
 void* String_set(void* self, void* copied){

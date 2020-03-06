@@ -37,10 +37,16 @@ struct ArrayQueueClass{
     void* (*_resize)();
     void* (*caller_resize)();
     void* (*this_resize)(void* self, int size);
+
+    void* (*_print)();
+    void* (*caller_print)();
+    void* (*this_print)(void* self, int bound);
 };
 
 void* _super_resize(struct Class* class, void* self, ...);
 #define super_resize(class, self, ...) _super_resize(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_print(struct Class* class, void* self, ...);
+#define super_print(class, self, ...) _super_print(class, self, ##__VA_ARGS__, FUNC_END)
 /** END Method management **/
 
 

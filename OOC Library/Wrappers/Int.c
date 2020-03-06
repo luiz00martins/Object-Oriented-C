@@ -58,10 +58,65 @@ void* IntClass_ctor(void* self, va_list* args){
 
 /** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-const int Int_dataSize(const void* self){
-    struct Int* _int = cast(Int(), self);;
+void* Int_dataSize(const void* self){
+    struct Int* _int = cast(Int(), self);
 
-    return sizeof(int);
+    int returned = sizeof(long);
+    return returning(returned);
+}
+
+void* Int_print(void* self, int bound){
+    struct Int* _int = cast(Int(), self);
+
+    if (bound < 5){
+        printf("\nERROR: Cannot print with bound less than %i\n", 5);
+        fflush(stdout);
+        assert(0);
+    }
+
+    printf("|");
+
+    int digits = 1;
+    int temp = _int->data;
+
+    // Figuring out the number of digits
+    while(temp >= 10){
+        temp /= 10;
+        digits++;
+    }
+
+    // Separating the digits;
+    int* arrData = malloc(sizeof(int) * digits);
+    temp = _int->data;
+    for(int i = 0; i < digits; i++){
+        arrData[i] = temp % 10;
+        temp /= 10;
+    }
+
+    if(bound < digits){
+        // Print all digits you can, but three, and print an ellipsis
+        int notFit = 3 + digits - bound;
+        for(int i = digits-1; i >= notFit; i--){
+            printf("%i", arrData[i]);
+        }
+        printf("...");
+    }
+    else {
+        // Print leading blank spaces
+        for(int i = bound - digits; i > 0; i--){
+            printf(" ");
+        }
+        // Print number
+        for(int i = digits-1; i >= 0; i--){
+            printf("%i", arrData[i]);
+        }
+    }
+
+    printf("|\n");
+
+    free(arrData);
+
+    return NULL;
 }
 
 /* Public: */
@@ -86,6 +141,7 @@ const void* const Int(){
     return _Int ? _Int :
            (_Int = new(IntClass(), "Int", PrimWrapper(), sizeof(struct Int),
                            _dataSize, Int_dataSize,
+                           _print, Int_print,
                            NULL));
 }
 /* END Dynamic initializer */

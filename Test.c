@@ -7,26 +7,30 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-#include <assert.h>
-#include <signal.h>
 #include "OOCLib.h"
 #include "Example.h"
 
-int main() {
-    void* myArray = new(ArrayQueue(), Int());
+#define BOX_BOUND 20
+#define NUMBER_OJBS 15
 
-    for(int i = 0; i < 8; i++){
-        push(myArray, wrap(i));
+
+int main() {
+    struct ArrayQueue* arrayQueue = new(ArrayQueue(), Long);
+    long r;
+    for(int i = 0; i < NUMBER_OJBS; i++){
+        r = rand();
+        push(arrayQueue, wrap(r));
+    }
+    for(int i = 0; i < 10; i++){
+        pop(arrayQueue);
     }
     for(int i = 0; i < 5; i++){
-        delete(pop(myArray));
+        r = rand();
+        push(arrayQueue, wrap(r));
     }
-    for(int i = 8; i < 10; i++){
-        push(myArray, wrap(i));
-    }
-    resize(myArray, -1);
 
-    delete(myArray);
+    print(arrayQueue, BOX_BOUND);
+
 
     return 0;
 }

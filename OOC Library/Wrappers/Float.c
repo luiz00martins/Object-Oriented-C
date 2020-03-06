@@ -56,10 +56,11 @@ void* FloatClass_ctor(void* self, va_list* args){
 
 /** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-const int Float_dataSize(const void* self){
+void* Float_dataSize(const void* self){
     struct Float* _float = cast(Float(), self);;
 
-    return sizeof(float);
+    int returned = sizeof(float);
+    return returning(returned);
 }
 
 /* Public: */

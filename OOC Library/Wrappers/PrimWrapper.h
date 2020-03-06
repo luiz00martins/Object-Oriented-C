@@ -10,9 +10,11 @@
 
 /** END Variable manegement **/
 
-/* START Method manegement **/
-// new(Wrapper) = ERROR
-/* Public method callers */
+/** START Method manegement **/
+
+void* _print(void* self, ...);
+#define print(self, ...) _print(self, ##__VA_ARGS__, FUNC_END)
+
 /** END Method manegement **/
 
 /* Object builder */

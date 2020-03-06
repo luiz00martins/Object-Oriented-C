@@ -86,7 +86,7 @@ void* Struct_dtor(const void* self){
 
     return self;
 }
-void Struct__unwrap(void* target, const void* self){
+void* Struct_unwrap(void* self, void* target){
     struct Struct* _struct = cast(Struct(), self);
 
     // Abstract class above
@@ -94,15 +94,16 @@ void Struct__unwrap(void* target, const void* self){
 
     memcpy(target, _struct->dataPtr, _struct->size);
 
-    return;
+    return NULL;
 }
-const int Struct_dataSize(const void* self){
+void* Struct_dataSize(void* self){
     struct Struct* _struct = cast(Struct(), self);
 
     // Abstract class above
     //super_dataSize(StructClass(), self);
 
-    return _struct->size;
+
+    return returning(_struct->size);
 }
 
 /* Public: */
@@ -129,7 +130,7 @@ const void* const Struct(){
                           _ctor, Struct_ctor,
                           _dtor, Struct_dtor,
                           _dataSize, Struct_dataSize,
-                          _unwrap, Struct__unwrap,
+                          _unwrap, Struct_unwrap,
                           NULL));
 }
 /* END Dynamic initializer */
