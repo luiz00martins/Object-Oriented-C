@@ -491,7 +491,6 @@
 #define single_startFunc(CLASS, FUNC, ARGUMENTS) \
     classPtr->_##FUNC = _##FUNC; \
     classPtr->caller_##FUNC = caller_##CLASS##_##FUNC; \
-    classPtr->this_##FUNC = NULL;
 
 #define single_buildOverloader(FUNC, NOT_USED_ARGUMENTS) \
     else if (selector == _##FUNC){ \

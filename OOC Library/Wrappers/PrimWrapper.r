@@ -30,8 +30,6 @@ struct PrimWrapperClass{
 
 };
 
-int directDataSize(void* wrapper);
-
 /* Public super callers */
 
 /* Protected function callers */

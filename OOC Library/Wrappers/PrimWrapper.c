@@ -5,13 +5,6 @@
 #include "PrimWrapper.r"
 
 
-/** START Static functions **/
-int directDataSize(void* wrapper){
-    cast(Wrapper(), &wrapper);
-    return ((struct WrapperClass*)wrapper)->_dataSize(&wrapper);
-}
-/** END Static functions **/
-
 /** START Getters and Setters **/
 
 /** END Getters and Setters **/
@@ -79,7 +72,7 @@ void* PrimWrapper_dtor(void* self){
 
     return primWrapper;
 }
-void PrimWrapper__unwrap(void* target, const void* self){
+void PrimWrapper_unwrap(void* target, const void* self){
     struct PrimWrapper* primWrapper = cast(PrimWrapper(), self);
 
     // This is divided by two, cus there's two variables in struct Wrapper, then by the number of bytes
@@ -113,7 +106,7 @@ const void* const PrimWrapper(){
            (_PrimWrapper = new(PrimWrapperClass(), "PrimWrapper", Wrapper(), sizeof(struct PrimWrapper),
                                _ctor, PrimWrapper_ctor,
                                _dtor, PrimWrapper_dtor,
-                               _unwrap, PrimWrapper__unwrap,
+                               _unwrap, PrimWrapper_unwrap,
                                NULL));
 }
 /* END Dynamic initializer */

@@ -10,6 +10,24 @@
 stdio.h
 -
 
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.c
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+assert.h
+-
+signal.h
+-
+setjmp.h
+-
+Object.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
+Object.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
 stdarg.h
 -
@@ -30,31 +48,31 @@ stdarg.h
 stdbool.h
 -
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.c
-stdlib.h
--
-stdio.h
--
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.c
 assert.h
 -
-ArrayQueue.h
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.h
-ArrayQueue.r
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.r
+string.h
+-
+PrimWrapper.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.h
+PrimWrapper.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.r
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.h
-Queue.h
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.h
+Wrapper.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Wrapper.h
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.r
-Queue.r
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.r
+Wrapper.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Wrapper.r
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Wrapper.h
+assert.h
+-
 ../Object.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Wrapper.r
 ../Object.r
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
 

@@ -37,47 +37,6 @@ build_class_ctor(ArrayQueue,
 
 
 /** START Object method definitions **USER CODE** **/
-int internal_findIndex(void* self, int i){
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-
-    assert(i >= 0);
-    assert(i < arrayQueue->len);
-
-    int j;
-    int index;
-    for (index = arrayQueue->start, j = 0; j < i; j++, index++){
-        if(index == arrayQueue->size)
-            index = 0;
-    }
-
-    return index;
-}
-
-void internal_doubleSize(void* self){
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-
-    void** newObjs = malloc(sizeof(void*) * arrayQueue->size * 2);
-
-    // Note: If they are equal, you have nothing to copy
-    if(arrayQueue->start < arrayQueue->end){
-        // In case start is before end, just copy from start to end
-        memcpy(newObjs, arrayQueue->objs+arrayQueue->start, sizeof(void*) * arrayQueue->len);
-    }
-    else{
-        // In case end is before start
-        // Copy from start to the last object
-        memcpy(newObjs, arrayQueue->objs+arrayQueue->start, sizeof(void*) * (arrayQueue->size-arrayQueue->start));
-        // Then from the first object to the end to the now tail
-        memcpy(newObjs+(arrayQueue->size-arrayQueue->start), arrayQueue->objs, sizeof(void*) * (arrayQueue->end + 1));
-    }
-    free(arrayQueue->objs);
-
-    arrayQueue->objs = newObjs;
-    arrayQueue->start = 0;
-    arrayQueue->end = arrayQueue->len - 1;
-
-}
-
 /* Overloaded: */
 void* ArrayQueue_ctor(void* self, va_list* args){
     // Calling super constructor
