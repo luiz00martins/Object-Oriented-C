@@ -7,7 +7,7 @@
 
 
 /** START Getters and Setters **/
-object_build_getset(objs)
+object_build_getset(objs, type)
 build_decl_get(len);
 build_decl_get(size);
 /** END Getters and Setters **/
@@ -23,14 +23,15 @@ build_funcs(ArrayList,
             (clear, ()),
             (resize, (int, size)),
             (contains, (void*, obj)),
-            (indexOf, (void*, obj)))
+            (indexOf, (void*, obj)),
+            (ofType, (void*, class)))
 
 
 /** END Caller functions **/
 
 /** START Class method definitions **/
 build_class_ctor(ArrayList,
-        ((void**, objs), (int, len), (int, size)),
+        ((void**, objs), (int, len), (int, size), (struct Class*, type)),
         ())
 
 /** END Class method definitions **/
@@ -43,6 +44,12 @@ void* ArrayList_ctor(void* self, va_list* args){
     struct ArrayList* arrayList = cast(ArrayList(), self);
     super_ctor(ArrayList(), self, args);
 
+    // Gathering arguments
+    arrayList->type = va_arg(*args, void*);
+
+    arrayList->size = 1;
+    arrayList->len = 0;
+    arrayList->objs = malloc(sizeof(void*));
 
     return self;
 }
@@ -51,7 +58,7 @@ void* ArrayList_dtor(void* self){
     struct ArrayList* arrayList = cast(ArrayList(), self);
     super_dtor(ArrayList(), self);
 
-
+    free(arrayList->objs);
 
     return self;
 }
@@ -86,7 +93,6 @@ void* ArrayList_pop(void* self, int i){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
     super_pop(ArrayList(), self, i);
-
 
 
     return NULL;
@@ -127,6 +133,25 @@ void* ArrayList_indexOf(void* self, void* obj){
 
     return NULL;
 }
+// TODO: Push this to List, maybe to the not yet build "Collection"
+void* ArrayList_ofType(void* self, void* class){
+    // Calling super constructor
+    struct ArrayList* arrayList = cast(ArrayList(), self);
+    super_ofType(ArrayList(), self, class);
+
+    // Verifyting if it's really a class
+    cast(Class(), class);
+
+    bool returned;
+    if(arrayList->type == class){
+        returned = true;
+        return returning(returned);
+    }
+    else {
+        returned = false;
+        return returning(returned);
+    }
+}
 /** END Object method definitions **USER CODE** **/
 
 /* START Dynamic initializer */
@@ -154,6 +179,7 @@ const void* const ArrayList(){
                           _resize, ArrayList_resize,
                           _contains, ArrayList_contains,
                           _indexOf, ArrayList_indexOf,
+                          _ofType, ArrayList_ofType,
                           NULL));
 }
 /* END Dynamic initializer */

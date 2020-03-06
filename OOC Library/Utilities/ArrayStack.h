@@ -1,7 +1,7 @@
-#ifndef OOC_ArrayList_H
-#define OOC_ArrayList_H
+#ifndef OOC_ArrayStack_H
+#define OOC_ArrayStack_H
 
-#include "List.h"
+#include "Stack.h"
 
 /** START Variable manegement **/
 /* Public variable getters & setters */
@@ -13,11 +13,9 @@ build_decl_get(len);
 /** START Method manegement **/
 void* _resize(void* self, ...);
 #define resize(self, ...) _resize(self, ##__VA_ARGS__, FUNC_END)
-/* Public method callers */
-
 /** END Method manegement **/
 
 /* Object builder */
-const void* const ArrayList();
+const void* const ArrayStack();
 
-#endif //OOC_ArrayList_H
+#endif //OOC_ArrayStack_H

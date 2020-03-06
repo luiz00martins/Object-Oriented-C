@@ -14,6 +14,10 @@
 #include "OOC Library/Wrappers/Struct.h"
 #include "OOC Library/Utilities/String.h"
 #include "OOC Library/Utilities/ArrayList.h"
+#include "OOC Library/Utilities/ArrayQueue.h"
+#include "OOC Library/Utilities/ArrayStack.h"
 #include "OOC Library/Utilities/LinkedList.h"
+#include "OOC Library/Utilities/LinkedQueue.h"
+#include "OOC Library/Utilities/LinkedStack.h"
 
 #endif //OOCLIB_H

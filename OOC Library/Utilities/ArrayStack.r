@@ -1,13 +1,13 @@
-#ifndef OOC_ArrayList_R
-#define OOC_ArrayList_R
+#ifndef OOC_ArrayStack_R
+#define OOC_ArrayStack_R
 
-#include "List.r"
+#include "Queue.r"
 
 /** START Variable manegement **/
 /* Object constructor structure */
-struct ArrayList{
+struct ArrayStack{
     /* Object that is being extended */
-    const struct List _;
+    const struct Queue _;
 
     void** objs;
     int len;
@@ -16,19 +16,19 @@ struct ArrayList{
 };
 
 /* Public and Protected variable accessers */
-#define super_objs(obj) (((const struct ArrayList*)(obj))->objs)
-#define super_len(obj) (((const struct ArrayList*)(obj))->len)
-#define super_size(obj) (((const struct ArrayList*)(obj))->size)
-#define super_type(obj) (((const struct ArrayList*)(obj))->type)
+#define super_objs(obj) (((const struct ArrayStack*)(obj))->objs)
+#define super_len(obj) (((const struct ArrayStack*)(obj))->len)
+#define super_size(obj) (((const struct ArrayStack*)(obj))->size)
+#define super_type(obj) (((const struct ArrayStack*)(obj))->type)
 
 /* Protected and Private variable setters (optional) */
 /** END Variable manegement **/
 
 /** START Method management **/
 /* Class constructor structure */
-struct ArrayListClass{
+struct ArrayStackClass{
     /* Class that is being extended */
-    const struct ListClass _;
+    const struct QueueClass _;
 
     void* (*_resize)();
     void* (*caller_resize)();
@@ -41,6 +41,6 @@ void* _super_resize(struct Class* class, void* self, ...);
 
 
 /* Class builder */
-const void* const ArrayListClass();
+const void* const ArrayStackClass();
 
-#endif //OOC_ArrayList// _R
+#endif //OOC_ArrayStack// _R

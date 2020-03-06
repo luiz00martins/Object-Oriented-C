@@ -1,7 +1,7 @@
-#ifndef OOC_ArrayList_H
-#define OOC_ArrayList_H
+#ifndef OOC_ArrayQueue_H
+#define OOC_ArrayQueue_H
 
-#include "List.h"
+#include "Queue.h"
 
 /** START Variable manegement **/
 /* Public variable getters & setters */
@@ -13,11 +13,9 @@ build_decl_get(len);
 /** START Method manegement **/
 void* _resize(void* self, ...);
 #define resize(self, ...) _resize(self, ##__VA_ARGS__, FUNC_END)
-/* Public method callers */
-
 /** END Method manegement **/
 
 /* Object builder */
-const void* const ArrayList();
+const void* const ArrayQueue();
 
-#endif //OOC_ArrayList_H
+#endif //OOC_ArrayQueue_H

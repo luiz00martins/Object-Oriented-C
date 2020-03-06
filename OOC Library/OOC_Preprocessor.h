@@ -279,40 +279,35 @@
 #define _EMPTY_REMOVER(...) _HELPER_EMPTY_REMOVER(__VA_ARGS__)
 /** END Preprocessor inside functions **/
 
+// TODO: Set is not at all, analyze and fix it, for now it works as a get
 /** START Single helper functions **/
 #define single_object_build_getset(VAR) \
-    void _get_##VAR(void* self, void* target, unsigned int targetSize){ \
+    void* get_##VAR(void* self){ \
         const struct Class* baseClass = getClass(cast(Object(), self)); \
         \
         int i = 0; \
-        for(i = 0; baseClass->dataGet[i] != _get_##VAR; i++){ \
+        for(i = 0; baseClass->dataGet[i] != get_##VAR; i++){ \
             if (baseClass->dataGet[i] == NULL){ \
                 assert(0 /* This class does not have this variable */); \
             } \
         } \
         \
-        if (targetSize != baseClass->dataSizes[i]){ \
-            assert(0 /* Type mismatch */); \
-        } \
-        \
-        memcpy(target, self + baseClass->dataOffsets[i], baseClass->dataSizes[i]); \
+        return _returning(self + baseClass->dataOffsets[i], baseClass->dataSizes[i]); \
     } \
-    void _set_##VAR(void* self, void* target, unsigned int targetSize){ \
+    \
+    void* set_##VAR(void* self, void* target, unsigned int targetSize){ \
         const struct Class* baseClass = getClass(cast(Object(), self)); \
         \
         int i = 0; \
-        for(i = 0; baseClass->dataGet[i] != _get_##VAR; i++){ \
+        for(i = 0; baseClass->dataGet[i] != get_##VAR; i++){ \
             if (baseClass->dataGet[i] == NULL){ \
                 assert(0 /* This class does not have this variable */); \
             } \
         } \
         \
-        if (targetSize != baseClass->dataSizes[i]){ \
-            assert(0 /* Type mismatch */); \
-        } \
-        \
-        memcpy(self + baseClass->dataOffsets[i], target, baseClass->dataSizes[i]); \
+        return _returning(self + baseClass->dataOffsets[i], baseClass->dataSizes[i]); \
     }
+
 
 #define _HELPER_PAIR_UP(x, y) ,x y
 #define PAIR_UP(x, y) _HELPER_PAIR_UP(x, y)
@@ -401,7 +396,9 @@
             bytesSearched += 3; \
             \
             if (bytesSearched > totalSize){ \
-                assert(0 /* Object's class does not have this method */); \
+                printf("\nERROR: The object used does not have this function\n"); \
+                fflush(stdout); \
+                assert(0); \
             } \
         } \
         \
@@ -471,7 +468,7 @@
     long double*: Ptr)
 
 #define single_addVar(CLASS, TYPE, VAR) \
-    assert(!_hasFunc(selfBaseClass->dataGet, _get_##VAR) /* Already has variable */); \
+    assert(!_hasFunc(selfBaseClass->dataGet, get_##VAR) /* Already has variable */); \
     argsSize++; \
     tempDataGet = malloc((argsSize * sizeof(void*)) + sizeof(void*)); \
     tempDataOffsets = malloc((argsSize * sizeof(int)) + sizeof(int)); \
@@ -479,7 +476,7 @@
     memcpy(tempDataGet + 1, selfBaseClass->dataGet, argsSize * sizeof(void*)); \
     memcpy(tempDataOffsets + 1, selfBaseClass->dataOffsets, argsSize * sizeof(int)); \
     memcpy(tempDataSizes + 1, selfBaseClass->dataSizes, argsSize * sizeof(int)); \
-    tempDataGet[0] = _get_##VAR; \
+    tempDataGet[0] = get_##VAR; \
     tempDataOffsets[0] = offsetof(struct CLASS, VAR); \
     tempDataSizes[0] = sizeof(TYPE); \
     free(selfBaseClass->dataGet); \
@@ -503,8 +500,8 @@
 
 /** END Single helper functions **/
 
-#define build_decl_get(VAR) void _get_##VAR(void* self, void* target, unsigned int targetSize)
-#define build_decl_set(VAR) void _set_##VAR(void* self, void* target, unsigned int targetSize)
+#define build_decl_get(VAR) void* get_##VAR(void* self)
+#define build_decl_set(VAR) void* set_##VAR(void* self, void* target, unsigned int targetSize)
 
 /** START Internal helper functions **/
 int _arrayPtrSize(void** ptr);
@@ -589,7 +586,7 @@ void* CLASS##Class_ctor(void* self, va_list* args){ \
     return self; \
 }
 
-#define interpretAs(TYPE, FUNC) (*((TYPE*)FUNC))
+#define as(TYPE, FUNC) (*((TYPE*)FUNC))
 /** END User helper functions **/
 
 #endif // OOC_PREPROCESSOR_H

@@ -22,6 +22,24 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.r
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.c
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayStack.c
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayStack.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayStack.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
@@ -31,6 +49,24 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedList.r
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedQueue.c
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedQueue.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedQueue.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.c
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.r
 CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
@@ -38,6 +74,20 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.c
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.o
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.c
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.o
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.c
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.r
 CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
@@ -174,8 +224,14 @@ CMakeFiles/Test.dir/Test.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayStack.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedList.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedQueue.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/String.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Char.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Double.h

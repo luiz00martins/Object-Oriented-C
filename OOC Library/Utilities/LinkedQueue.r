@@ -1,7 +1,7 @@
-#ifndef OOC_LinkedList_R
-#define OOC_LinkedList_R
+#ifndef OOC_LinkedQueue_R
+#define OOC_LinkedQueue_R
 
-#include "List.r"
+#include "Queue.r"
 
 typedef struct LinkedNode {
     void* obj;
@@ -10,9 +10,9 @@ typedef struct LinkedNode {
 
 /** START Variable manegement **/
 /* Object constructor structure */
-struct LinkedList{
+struct LinkedQueue{
     /* Object that is being extended */
-    const struct List _;
+    const struct Queue _;
 
     LinkedNode* head;
     int len;
@@ -20,24 +20,24 @@ struct LinkedList{
 };
 
 /* Public and Protected variable accessers */
-#define super_head(obj) (((const struct LinkedList*)(obj))->head)
-#define super_len(obj) (((const struct LinkedList*)(obj))->len)
-#define super_type(obj) (((const struct ArrayList*)(obj))->type)
+#define super_head(obj) (((const struct LinkedQueue*)(obj))->head)
+#define super_len(obj) (((const struct LinkedQueue*)(obj))->len)
+#define super_type(obj) (((const struct ArrayQueue*)(obj))->type)
 
 /* Protected and Private variable setters (optional) */
 /** END Variable manegement **/
 
 /** START Method management **/
 /* Class constructor structure */
-struct LinkedListClass{
+struct LinkedQueueClass{
     /* Class that is being extended */
-    const struct ListClass _;
+    const struct QueueClass _;
 };
 
 /** END Method management **/
 
 
 /* Class builder */
-const void* const LinkedListClass();
+const void* const LinkedQueueClass();
 
-#endif //OOC_LinkedList// _R
+#endif //OOC_LinkedQueue// _R

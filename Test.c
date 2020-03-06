@@ -13,16 +13,13 @@
 #include "Example.h"
 
 int main() {
-    void* shit = new(LinkedList());
-    set(shit, 0, (void*)NULL);
-    void* ptr = new(String(), "this is short.");
-    void* str = new(String(), "this is short");
+    void* myArray = new(LinkedStack(), String());
 
-    bool derp = interpretAs(bool, compare(ptr, str));
-    printf(derp ? "True" : "False");
+    void* myString = new(String(), "derp");
 
-    delete(ptr);
-    delete(str);
+    push(myArray, myString);
+
+    delete(myString);
 
     return 0;
 }

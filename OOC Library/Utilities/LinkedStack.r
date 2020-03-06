@@ -1,7 +1,7 @@
-#ifndef OOC_LinkedList_R
-#define OOC_LinkedList_R
+#ifndef OOC_LinkedStack_R
+#define OOC_LinkedStack_R
 
-#include "List.r"
+#include "Stack.r"
 
 typedef struct LinkedNode {
     void* obj;
@@ -10,9 +10,9 @@ typedef struct LinkedNode {
 
 /** START Variable manegement **/
 /* Object constructor structure */
-struct LinkedList{
+struct LinkedStack{
     /* Object that is being extended */
-    const struct List _;
+    const struct Stack _;
 
     LinkedNode* head;
     int len;
@@ -20,24 +20,24 @@ struct LinkedList{
 };
 
 /* Public and Protected variable accessers */
-#define super_head(obj) (((const struct LinkedList*)(obj))->head)
-#define super_len(obj) (((const struct LinkedList*)(obj))->len)
-#define super_type(obj) (((const struct ArrayList*)(obj))->type)
+#define super_head(obj) (((const struct LinkedStack*)(obj))->head)
+#define super_len(obj) (((const struct LinkedStack*)(obj))->len)
+#define super_type(obj) (((const struct ArrayStack*)(obj))->type)
 
 /* Protected and Private variable setters (optional) */
 /** END Variable manegement **/
 
 /** START Method management **/
 /* Class constructor structure */
-struct LinkedListClass{
+struct LinkedStackClass{
     /* Class that is being extended */
-    const struct ListClass _;
+    const struct StackClass _;
 };
 
 /** END Method management **/
 
 
 /* Class builder */
-const void* const LinkedListClass();
+const void* const LinkedStackClass();
 
-#endif //OOC_LinkedList// _R
+#endif //OOC_LinkedStack// _R

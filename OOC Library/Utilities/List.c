@@ -11,7 +11,7 @@
 object_build_getset()
 /** END Getters and Setters **/
 
-build_caller_funcs(get, set, remove, pop, clear, contains, indexOf)
+build_caller_funcs(get, set, remove, pop, clear, contains, indexOf, ofType)
 
 /** START Caller functions **/
 build_funcs(List,
@@ -20,9 +20,9 @@ build_funcs(List,
             (remove, (int, i)),
             (pop, (int, i)),
             (clear, ()),
-            (resize, (int, size)),
             (contains, (void*, obj)),
-            (indexOf, (void*, obj)))
+            (indexOf, (void*, obj)),
+            (ofType, (void*, class)))
 
 
 /** END Caller functions **/
@@ -34,16 +34,16 @@ build_class_ctor(List, (),
                          (remove, (int, i)),
                          (pop, (int, i)),
                          (clear, ()),
-                         (resize, (int, size)),
                          (contains, (void*, obj)),
-                         (indexOf, (void*, obj))))
+                         (indexOf, (void*, obj)),
+                         (ofType, (void*, class))))
 
 
 /** END Class method definitions **/
 
 
 /** START Object method definitions **USER CODE** **/
-/* Overloaded: */
+
 /** END Object method definitions **USER CODE** **/
 
 /* START Dynamic initializer */
@@ -66,9 +66,9 @@ const void* const List(){
                           _remove, abstract,
                           _pop, abstract,
                           _clear, abstract,
-                          _resize, abstract,
                           _contains, abstract,
                           _indexOf, abstract,
+                          _ofType, abstract,
                           NULL));
 }
 /* END Dynamic initializer */

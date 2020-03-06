@@ -204,6 +204,60 @@ OOC_Library/Utilities/ArrayList.c.s:
 	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.s
 .PHONY : OOC_Library/Utilities/ArrayList.c.s
 
+OOC_Library/Utilities/ArrayQueue.o: OOC_Library/Utilities/ArrayQueue.c.o
+
+.PHONY : OOC_Library/Utilities/ArrayQueue.o
+
+# target to build an object file
+OOC_Library/Utilities/ArrayQueue.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o
+.PHONY : OOC_Library/Utilities/ArrayQueue.c.o
+
+OOC_Library/Utilities/ArrayQueue.i: OOC_Library/Utilities/ArrayQueue.c.i
+
+.PHONY : OOC_Library/Utilities/ArrayQueue.i
+
+# target to preprocess a source file
+OOC_Library/Utilities/ArrayQueue.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.i
+.PHONY : OOC_Library/Utilities/ArrayQueue.c.i
+
+OOC_Library/Utilities/ArrayQueue.s: OOC_Library/Utilities/ArrayQueue.c.s
+
+.PHONY : OOC_Library/Utilities/ArrayQueue.s
+
+# target to generate assembly for a file
+OOC_Library/Utilities/ArrayQueue.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.s
+.PHONY : OOC_Library/Utilities/ArrayQueue.c.s
+
+OOC_Library/Utilities/ArrayStack.o: OOC_Library/Utilities/ArrayStack.c.o
+
+.PHONY : OOC_Library/Utilities/ArrayStack.o
+
+# target to build an object file
+OOC_Library/Utilities/ArrayStack.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o
+.PHONY : OOC_Library/Utilities/ArrayStack.c.o
+
+OOC_Library/Utilities/ArrayStack.i: OOC_Library/Utilities/ArrayStack.c.i
+
+.PHONY : OOC_Library/Utilities/ArrayStack.i
+
+# target to preprocess a source file
+OOC_Library/Utilities/ArrayStack.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.i
+.PHONY : OOC_Library/Utilities/ArrayStack.c.i
+
+OOC_Library/Utilities/ArrayStack.s: OOC_Library/Utilities/ArrayStack.c.s
+
+.PHONY : OOC_Library/Utilities/ArrayStack.s
+
+# target to generate assembly for a file
+OOC_Library/Utilities/ArrayStack.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.s
+.PHONY : OOC_Library/Utilities/ArrayStack.c.s
+
 OOC_Library/Utilities/LinkedList.o: OOC_Library/Utilities/LinkedList.c.o
 
 .PHONY : OOC_Library/Utilities/LinkedList.o
@@ -231,6 +285,60 @@ OOC_Library/Utilities/LinkedList.c.s:
 	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.s
 .PHONY : OOC_Library/Utilities/LinkedList.c.s
 
+OOC_Library/Utilities/LinkedQueue.o: OOC_Library/Utilities/LinkedQueue.c.o
+
+.PHONY : OOC_Library/Utilities/LinkedQueue.o
+
+# target to build an object file
+OOC_Library/Utilities/LinkedQueue.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o
+.PHONY : OOC_Library/Utilities/LinkedQueue.c.o
+
+OOC_Library/Utilities/LinkedQueue.i: OOC_Library/Utilities/LinkedQueue.c.i
+
+.PHONY : OOC_Library/Utilities/LinkedQueue.i
+
+# target to preprocess a source file
+OOC_Library/Utilities/LinkedQueue.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.i
+.PHONY : OOC_Library/Utilities/LinkedQueue.c.i
+
+OOC_Library/Utilities/LinkedQueue.s: OOC_Library/Utilities/LinkedQueue.c.s
+
+.PHONY : OOC_Library/Utilities/LinkedQueue.s
+
+# target to generate assembly for a file
+OOC_Library/Utilities/LinkedQueue.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.s
+.PHONY : OOC_Library/Utilities/LinkedQueue.c.s
+
+OOC_Library/Utilities/LinkedStack.o: OOC_Library/Utilities/LinkedStack.c.o
+
+.PHONY : OOC_Library/Utilities/LinkedStack.o
+
+# target to build an object file
+OOC_Library/Utilities/LinkedStack.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o
+.PHONY : OOC_Library/Utilities/LinkedStack.c.o
+
+OOC_Library/Utilities/LinkedStack.i: OOC_Library/Utilities/LinkedStack.c.i
+
+.PHONY : OOC_Library/Utilities/LinkedStack.i
+
+# target to preprocess a source file
+OOC_Library/Utilities/LinkedStack.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.i
+.PHONY : OOC_Library/Utilities/LinkedStack.c.i
+
+OOC_Library/Utilities/LinkedStack.s: OOC_Library/Utilities/LinkedStack.c.s
+
+.PHONY : OOC_Library/Utilities/LinkedStack.s
+
+# target to generate assembly for a file
+OOC_Library/Utilities/LinkedStack.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.s
+.PHONY : OOC_Library/Utilities/LinkedStack.c.s
+
 OOC_Library/Utilities/List.o: OOC_Library/Utilities/List.c.o
 
 .PHONY : OOC_Library/Utilities/List.o
@@ -257,6 +365,60 @@ OOC_Library/Utilities/List.s: OOC_Library/Utilities/List.c.s
 OOC_Library/Utilities/List.c.s:
 	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.s
 .PHONY : OOC_Library/Utilities/List.c.s
+
+OOC_Library/Utilities/Queue.o: OOC_Library/Utilities/Queue.c.o
+
+.PHONY : OOC_Library/Utilities/Queue.o
+
+# target to build an object file
+OOC_Library/Utilities/Queue.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.o
+.PHONY : OOC_Library/Utilities/Queue.c.o
+
+OOC_Library/Utilities/Queue.i: OOC_Library/Utilities/Queue.c.i
+
+.PHONY : OOC_Library/Utilities/Queue.i
+
+# target to preprocess a source file
+OOC_Library/Utilities/Queue.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.i
+.PHONY : OOC_Library/Utilities/Queue.c.i
+
+OOC_Library/Utilities/Queue.s: OOC_Library/Utilities/Queue.c.s
+
+.PHONY : OOC_Library/Utilities/Queue.s
+
+# target to generate assembly for a file
+OOC_Library/Utilities/Queue.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.s
+.PHONY : OOC_Library/Utilities/Queue.c.s
+
+OOC_Library/Utilities/Stack.o: OOC_Library/Utilities/Stack.c.o
+
+.PHONY : OOC_Library/Utilities/Stack.o
+
+# target to build an object file
+OOC_Library/Utilities/Stack.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.o
+.PHONY : OOC_Library/Utilities/Stack.c.o
+
+OOC_Library/Utilities/Stack.i: OOC_Library/Utilities/Stack.c.i
+
+.PHONY : OOC_Library/Utilities/Stack.i
+
+# target to preprocess a source file
+OOC_Library/Utilities/Stack.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.i
+.PHONY : OOC_Library/Utilities/Stack.c.i
+
+OOC_Library/Utilities/Stack.s: OOC_Library/Utilities/Stack.c.s
+
+.PHONY : OOC_Library/Utilities/Stack.s
+
+# target to generate assembly for a file
+OOC_Library/Utilities/Stack.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.s
+.PHONY : OOC_Library/Utilities/Stack.c.s
 
 OOC_Library/Utilities/String.o: OOC_Library/Utilities/String.c.o
 
@@ -654,12 +816,30 @@ help:
 	@echo "... OOC_Library/Utilities/ArrayList.o"
 	@echo "... OOC_Library/Utilities/ArrayList.i"
 	@echo "... OOC_Library/Utilities/ArrayList.s"
+	@echo "... OOC_Library/Utilities/ArrayQueue.o"
+	@echo "... OOC_Library/Utilities/ArrayQueue.i"
+	@echo "... OOC_Library/Utilities/ArrayQueue.s"
+	@echo "... OOC_Library/Utilities/ArrayStack.o"
+	@echo "... OOC_Library/Utilities/ArrayStack.i"
+	@echo "... OOC_Library/Utilities/ArrayStack.s"
 	@echo "... OOC_Library/Utilities/LinkedList.o"
 	@echo "... OOC_Library/Utilities/LinkedList.i"
 	@echo "... OOC_Library/Utilities/LinkedList.s"
+	@echo "... OOC_Library/Utilities/LinkedQueue.o"
+	@echo "... OOC_Library/Utilities/LinkedQueue.i"
+	@echo "... OOC_Library/Utilities/LinkedQueue.s"
+	@echo "... OOC_Library/Utilities/LinkedStack.o"
+	@echo "... OOC_Library/Utilities/LinkedStack.i"
+	@echo "... OOC_Library/Utilities/LinkedStack.s"
 	@echo "... OOC_Library/Utilities/List.o"
 	@echo "... OOC_Library/Utilities/List.i"
 	@echo "... OOC_Library/Utilities/List.s"
+	@echo "... OOC_Library/Utilities/Queue.o"
+	@echo "... OOC_Library/Utilities/Queue.i"
+	@echo "... OOC_Library/Utilities/Queue.s"
+	@echo "... OOC_Library/Utilities/Stack.o"
+	@echo "... OOC_Library/Utilities/Stack.i"
+	@echo "... OOC_Library/Utilities/Stack.s"
 	@echo "... OOC_Library/Utilities/String.o"
 	@echo "... OOC_Library/Utilities/String.i"
 	@echo "... OOC_Library/Utilities/String.s"

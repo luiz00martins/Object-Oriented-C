@@ -151,7 +151,7 @@ bool isAClass(const void* ptr){
     }
     signal(SIGSEGV, dummyHandler);
 
-    if(setjmp(jumpBuffer, 1)){
+    if(setjmp(jumpBuffer)){
         signal(SIGSEGV, SIG_DFL);
         return false;
     }

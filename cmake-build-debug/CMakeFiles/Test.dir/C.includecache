@@ -30,31 +30,31 @@ stdarg.h
 stdbool.h
 -
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.c
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.c
 stdlib.h
 -
 stdio.h
 -
 assert.h
 -
-ArrayList.h
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.h
-ArrayList.r
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.r
+ArrayQueue.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.h
+ArrayQueue.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.r
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.h
-List.h
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.h
+Queue.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.r
-List.r
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.r
+Queue.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
 ../Object.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
 
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
 ../Object.r
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
 

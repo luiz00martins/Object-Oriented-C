@@ -22,6 +22,24 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o: ../OOC\ Library/Utiliti
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o: ../OOC\ Library/Utilities/List.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o: ../OOC\ Library/Utilities/List.r
 
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/OOC_Preprocessor.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Object.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Object.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Utilities/ArrayQueue.c
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Utilities/ArrayQueue.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Utilities/ArrayQueue.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Utilities/Queue.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Utilities/Queue.r
+
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/OOC_Preprocessor.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Object.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Object.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/ArrayStack.c
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/ArrayStack.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/ArrayStack.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/Queue.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/Stack.h
+
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Object.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Object.r
@@ -31,12 +49,44 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Utilit
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Utilities/List.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Utilities/List.r
 
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/OOC_Preprocessor.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Object.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Object.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Utilities/LinkedQueue.c
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Utilities/LinkedQueue.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Utilities/LinkedQueue.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Utilities/Queue.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Utilities/Queue.r
+
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/OOC_Preprocessor.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Object.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Object.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Utilities/LinkedStack.c
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Utilities/LinkedStack.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Utilities/LinkedStack.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Utilities/Stack.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Utilities/Stack.r
+
 CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o: ../OOC\ Library/Object.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o: ../OOC\ Library/Object.r
 CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o: ../OOC\ Library/Utilities/List.c
 CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o: ../OOC\ Library/Utilities/List.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o: ../OOC\ Library/Utilities/List.r
+
+CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.o: ../OOC\ Library/OOC_Preprocessor.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.o: ../OOC\ Library/Object.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.o: ../OOC\ Library/Object.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.o: ../OOC\ Library/Utilities/Queue.c
+CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.o: ../OOC\ Library/Utilities/Queue.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/Queue.c.o: ../OOC\ Library/Utilities/Queue.r
+
+CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.o: ../OOC\ Library/OOC_Preprocessor.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.o: ../OOC\ Library/Object.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.o: ../OOC\ Library/Object.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.o: ../OOC\ Library/Utilities/Stack.c
+CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.o: ../OOC\ Library/Utilities/Stack.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/Stack.c.o: ../OOC\ Library/Utilities/Stack.r
 
 CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/String.c.o: ../OOC\ Library/Object.h
@@ -173,8 +223,14 @@ CMakeFiles/Test.dir/Test.c.o: ../Example.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Object.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/ArrayList.h
+CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/ArrayQueue.h
+CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/ArrayStack.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/LinkedList.h
+CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/LinkedQueue.h
+CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/LinkedStack.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/List.h
+CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/Queue.h
+CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/Stack.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Utilities/String.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Char.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Double.h
