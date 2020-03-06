@@ -30,7 +30,7 @@ build_funcs(ArrayStack,
 /** START Class method definitions **/
 build_class_ctor(ArrayStack,
         ((void**, objs), (int, len), (int, size), (struct Class*, type)),
-        ())
+        ((resize, (int, size))))
 
 /** END Class method definitions **/
 
@@ -95,7 +95,6 @@ void* ArrayStack_clear(void* self){
 void* ArrayStack_resize(void* self, int size){
     // Calling super constructor
     struct ArrayStack* arrayStack = cast(ArrayStack(), self);
-    super_resize(ArrayStack(), self, size);
 
 
 
@@ -154,6 +153,8 @@ static const void* _ArrayStack;
 const void* const ArrayStack(){
     return _ArrayStack ? _ArrayStack :
            (_ArrayStack = new(ArrayStackClass(), "ArrayStack", Stack(), sizeof(struct ArrayStack),
+                          _ctor, ArrayStack_ctor,
+                          _dtor, ArrayStack_dtor,
                           _peek, ArrayStack_peek,
                           _push, ArrayStack_push,
                           _pop, ArrayStack_pop,

@@ -38,8 +38,10 @@ void* WrapperClass_ctor(void* self, va_list* args){
 
     classPtr->_dataSize = _dataSize;
     classPtr->caller_dataSize = caller_Wrapper_dataSize;
+    classPtr->this_dataSize = NULL;
     classPtr->_unwrap = _unwrap;
     classPtr->caller_unwrap = caller_Wrapper_unwrap;
+    classPtr->this_unwrap = NULL;
 
     va_copy(funcArgs, *args);
     /* Overloadable function setup. All functions that go here can be overloaded*/

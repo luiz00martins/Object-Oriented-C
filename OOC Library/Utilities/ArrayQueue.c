@@ -31,19 +31,50 @@ build_funcs(ArrayQueue,
 /** START Class method definitions **/
 build_class_ctor(ArrayQueue,
         ((void**, objs), (int, len), (int, size), (int, start), (int, end), (struct Class*, type)),
-        ())
+        ((resize, (int, size))))
 
 /** END Class method definitions **/
 
 
 /** START Object method definitions **USER CODE** **/
+int internal_findIndex(void* self, int i){
+    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
+
+    assert(i >= 0);
+    assert(i < arrayQueue->len);
+
+    int j;
+    int index;
+    for (index = arrayQueue->start, j = 0; j < i; j++, index++){
+        if(index == arrayQueue->size)
+            index = 0;
+    }
+
+    return index;
+}
+
 void internal_doubleSize(void* self){
     struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
 
-}
+    void** newObjs = malloc(sizeof(void*) * arrayQueue->size * 2);
 
-void internal_halveSize(void* self){
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
+    // Note: If they are equal, you have nothing to copy
+    if(arrayQueue->start < arrayQueue->end){
+        // In case start is before end, just copy from start to end
+        memcpy(newObjs, arrayQueue->objs+arrayQueue->start, sizeof(void*) * arrayQueue->len);
+    }
+    else{
+        // In case end is before start
+        // Copy from start to the last object
+        memcpy(newObjs, arrayQueue->objs+arrayQueue->start, sizeof(void*) * (arrayQueue->size-arrayQueue->start));
+        // Then from the first object to the end to the now tail
+        memcpy(newObjs+(arrayQueue->size-arrayQueue->start), arrayQueue->objs, sizeof(void*) * (arrayQueue->end + 1));
+    }
+    free(arrayQueue->objs);
+
+    arrayQueue->objs = newObjs;
+    arrayQueue->start = 0;
+    arrayQueue->end = arrayQueue->len - 1;
 
 }
 
@@ -88,7 +119,19 @@ void* ArrayQueue_push(void* self, void* obj){
     struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
     super_push(ArrayQueue(), self, obj);
 
+    if(arrayQueue->size == arrayQueue->len){
+        ArrayQueue_resize(arrayQueue, arrayQueue->size * 2);
+    }
 
+    // Finding the end
+    int index = arrayQueue->end + 1;
+    if(index == arrayQueue->size)
+        index = 0;
+
+    // Adding object, adjusting end and len
+    arrayQueue->objs[index] = obj;
+    arrayQueue->end = index;
+    arrayQueue->len++;
 
     return NULL;
 }
@@ -97,25 +140,83 @@ void* ArrayQueue_pop(void* self){
     struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
     super_pop(ArrayQueue(), self);
 
+    if(arrayQueue->len == 0){
+        printf("\nERROR: Cannot pop item from empty queue\n");
+        fflush(stdout);
+        assert(0);
+    }
+
+    // Storing item to be returned
+    void* returned = arrayQueue->objs[arrayQueue->start];
+
+    // Adjusting start and len
+    arrayQueue->len--;
+    // Start should only increase of it's not the last removal
+    if(arrayQueue->len > 0)
+        arrayQueue->start++;
+    if(arrayQueue->start == arrayQueue->size)
+        arrayQueue->start = 0;
 
 
-    return NULL;
+    return returned;
 }
 void* ArrayQueue_clear(void* self){
     // Calling super constructor
     struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
     super_clear(ArrayQueue(), self);
 
-
+    arrayQueue->len = 0;
+    arrayQueue->start = 0;
+    arrayQueue->end = 0;
 
     return NULL;
 }
 void* ArrayQueue_resize(void* self, int size){
     // Calling super constructor
     struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_resize(ArrayQueue(), self, size);
 
+    if(size < -1){
+        printf("\nERROR: Cannot resize to %i\n", size);
+        fflush(stdout);
+        assert(0);
+    }
 
+    if(size == -1){
+        size = arrayQueue->len;
+    }
+
+    void** newObjs = malloc(sizeof(void*) * size);
+
+    int smallestLen = size < arrayQueue->len ? size : arrayQueue->len;
+
+    // Note: If they are equal, you have nothing to copy
+    if(arrayQueue->start < arrayQueue->end){
+        // In case start is before end, just copy from start to end
+        memcpy(newObjs, arrayQueue->objs+arrayQueue->start, sizeof(void*) * smallestLen);
+    }
+    else{
+        // In case end is before start
+        int toBeCopied = smallestLen;
+
+        // Copy the least you need
+        int copiedStart = size < (arrayQueue->size-arrayQueue->start) ? size : (arrayQueue->size-arrayQueue->start);
+        // Copy from start to the last object (or until you've copied everything)
+        memcpy(newObjs, arrayQueue->objs+arrayQueue->start, sizeof(void*) * copiedStart);
+
+        toBeCopied -= copiedStart;
+
+        if(toBeCopied > 0){
+            // Then from the first object to the end to the now tail
+            memcpy(newObjs + copiedStart, arrayQueue->objs, sizeof(void*) *toBeCopied);
+        }
+    }
+    free(arrayQueue->objs);
+
+    arrayQueue->objs = newObjs;
+    arrayQueue->size = size;
+    arrayQueue->len = smallestLen;
+    arrayQueue->start = 0;
+    arrayQueue->end = smallestLen - 1;
 
     return NULL;
 }
@@ -124,18 +225,73 @@ void* ArrayQueue_contains(void* self, void* obj){
     struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
     super_contains(ArrayQueue(), self, obj);
 
+    bool returned = false;
 
 
-    return NULL;
+    if(arrayQueue->start < arrayQueue->end){
+        int i;
+        for (i = arrayQueue->start; i < arrayQueue->end+1; i++){
+            if (arrayQueue->objs[i] == obj){
+                returned = true;
+                return returning(returned);
+            }
+        }
+    }
+    else{
+        int i;
+        // Go from start to the last object
+        for (i = arrayQueue->start; i < arrayQueue->size; i++){
+            if (arrayQueue->objs[i] == obj){
+                returned = true;
+                return returning(returned);
+            }
+        }
+        // From the first object to end
+        for (i = 0; i < arrayQueue->end+1; i++){
+            if (arrayQueue->objs[i] == obj){
+                returned = true;
+                return returning(returned);
+            }
+        }
+    }
+
+
+    return returning(returned);
 }
 void* ArrayQueue_indexOf(void* self, void* obj){
     // Calling super constructor
     struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
     super_indexOf(ArrayQueue(), self, obj);
 
+    int index = 0;
 
 
-    return NULL;
+    if(arrayQueue->start < arrayQueue->end){
+        int i;
+        for (i = arrayQueue->start; i < arrayQueue->end+1; i++, index++){
+            if (arrayQueue->objs[i] == obj){
+                return returning(index);
+            }
+        }
+    }
+    else{
+        int i;
+        // Go from start to the last object
+        for (i = arrayQueue->start; i < arrayQueue->size; i++, index++){
+            if (arrayQueue->objs[i] == obj){
+                return returning(index);
+            }
+        }
+        // From the first object to end
+        for (i = 0; i < arrayQueue->end+1; i++){
+            if (arrayQueue->objs[i] == obj){
+                return returning(index);
+            }
+        }
+    }
+
+    index = -1;
+    return returning(index);
 }
 void* ArrayQueue_ofType(void* self, void* class){
     // Calling super constructor
@@ -172,6 +328,8 @@ static const void* _ArrayQueue;
 const void* const ArrayQueue(){
     return _ArrayQueue ? _ArrayQueue :
            (_ArrayQueue = new(ArrayQueueClass(), "ArrayQueue", Queue(), sizeof(struct ArrayQueue),
+                          _ctor, ArrayQueue_ctor,
+                          _dtor, ArrayQueue_dtor,
                           _peek, ArrayQueue_peek,
                           _push, ArrayQueue_push,
                           _pop, ArrayQueue_pop,

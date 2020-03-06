@@ -32,7 +32,7 @@ build_funcs(ArrayList,
 /** START Class method definitions **/
 build_class_ctor(ArrayList,
         ((void**, objs), (int, len), (int, size), (struct Class*, type)),
-        ())
+        ((resize, (int, size))))
 
 /** END Class method definitions **/
 
@@ -83,7 +83,6 @@ void* ArrayList_set(void* self, int i, void* obj){
 void* ArrayList_remove(void* self, int i){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
-    super_remove(ArrayList(), self, i);
 
 
 

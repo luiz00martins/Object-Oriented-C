@@ -431,7 +431,9 @@
             bytesSearched += 3; \
             \
             if (bytesSearched > totalSize){ \
-                assert(0 /* Object's class does not have this method */); \
+                printf("\nERROR: Object's class does not have this method\n"); \
+                fflush(stdout); \
+                assert(0); \
             } \
         } \
         \
@@ -488,7 +490,8 @@
 
 #define single_startFunc(CLASS, FUNC, ARGUMENTS) \
     classPtr->_##FUNC = _##FUNC; \
-    classPtr->caller_##FUNC = caller_##CLASS##_##FUNC;
+    classPtr->caller_##FUNC = caller_##CLASS##_##FUNC; \
+    classPtr->this_##FUNC = NULL;
 
 #define single_buildOverloader(FUNC, NOT_USED_ARGUMENTS) \
     else if (selector == _##FUNC){ \
@@ -586,7 +589,7 @@ void* CLASS##Class_ctor(void* self, va_list* args){ \
     return self; \
 }
 
-#define as(TYPE, FUNC) (*((TYPE*)FUNC))
+#define as(TYPE, FUNC) (*((TYPE*)(FUNC)))
 /** END User helper functions **/
 
 #endif // OOC_PREPROCESSOR_H

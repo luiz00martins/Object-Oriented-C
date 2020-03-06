@@ -13,13 +13,20 @@
 #include "Example.h"
 
 int main() {
-    void* myArray = new(LinkedStack(), String());
+    void* myArray = new(ArrayQueue(), Int());
 
-    void* myString = new(String(), "derp");
+    for(int i = 0; i < 8; i++){
+        push(myArray, wrap(i));
+    }
+    for(int i = 0; i < 5; i++){
+        delete(pop(myArray));
+    }
+    for(int i = 8; i < 10; i++){
+        push(myArray, wrap(i));
+    }
+    resize(myArray, -1);
 
-    push(myArray, myString);
-
-    delete(myString);
+    delete(myArray);
 
     return 0;
 }
