@@ -71,9 +71,10 @@ void* ArrayQueue_peek(void* self){
     struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
     super_peek(ArrayQueue(), self);
 
-
-
-    return arrayQueue->objs[arrayQueue->start];
+    if(arrayQueue->len > 0)
+        return arrayQueue->objs[arrayQueue->start];
+    else
+        return NULL;
 }
 void* ArrayQueue_push(void* self, void* obj){
     // Calling super constructor

@@ -22,7 +22,8 @@ build_funcs(LinkedQueue,
             (clear, ()),
             (contains, (void*, obj)),
             (indexOf, (void*, obj)),
-            (ofType, (void*, class)))
+            (ofType, (void*, class)),
+            (print, (int, bound)))
 
 
 /** END Caller functions **/
@@ -128,6 +129,60 @@ void* LinkedQueue_ofType(void* self, void* class){
         return returning(returned);
     }
 }
+void* LinkedQueue_print(void* self, int bound){
+    // Calling super constructor
+    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
+
+    /*
+    // Figuring out which one should be printed
+    bool* printed = malloc(sizeof(bool) * arrayQueue->size);
+    for (int i = 0; i < arrayQueue->size; i++)
+        printed[i] = false;
+
+    if (arrayQueue->start < arrayQueue->end){
+        for(int i = 0; i < arrayQueue->size; i++){
+            if(i >= arrayQueue->start && i <= arrayQueue->end)
+                printed[i] = true;
+        }
+    }
+    else if (arrayQueue->end < arrayQueue->start){
+        for(int i = 0; i < arrayQueue->size; i++){
+            if(i >= arrayQueue->start || i <= arrayQueue->end)
+                printed[i] = true;
+        }
+    }
+    else if (arrayQueue->len == 1){
+        printed[arrayQueue->start] = true;
+    }
+
+
+    //Printing
+    for(int i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
+    for (int i = 0; i < arrayQueue->size; i++){
+        if(printed[i])
+            print(arrayQueue->objs[i], bound);
+        else {
+            printf("|%*s|\n", bound, "");
+        }
+        if(i < arrayQueue->size-1){
+            printf("|");
+            for(int j = 0; j < bound; j++)
+                printf("-");
+            printf("|\n");
+        }
+    }
+    for(int i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
+
+
+    free(printed);
+    */
+
+    return NULL;
+}
 /** END Object method definitions **USER CODE** **/
 
 /* START Dynamic initializer */
@@ -154,6 +209,7 @@ const void* const LinkedQueue(){
                              _contains, LinkedQueue_contains,
                              _indexOf, LinkedQueue_indexOf,
                              _ofType, LinkedQueue_ofType,
+                             _print, LinkedQueue_print,
                              NULL));
 }
 /* END Dynamic initializer */

@@ -1,13 +1,13 @@
 #ifndef OOC_ArrayStack_R
 #define OOC_ArrayStack_R
 
-#include "Queue.r"
+#include "Stack.r"
 
 /** START Variable manegement **/
 /* Object constructor structure */
 struct ArrayStack{
     /* Object that is being extended */
-    const struct Queue _;
+    const struct Stack _;
 
     void** objs;
     int len;
@@ -28,11 +28,16 @@ struct ArrayStack{
 /* Class constructor structure */
 struct ArrayStackClass{
     /* Class that is being extended */
-    const struct QueueClass _;
+    const struct StackClass _;
 
     void* (*_resize)();
     void* (*caller_resize)();
     void* (*this_resize)(void* self, int size);
+
+
+    void* (*_print)();
+    void* (*caller_print)();
+    void* (*this_print)(void* self, int bound);
 };
 
 void* _super_resize(struct Class* class, void* self, ...);
