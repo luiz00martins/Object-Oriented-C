@@ -26,7 +26,15 @@ struct PrimWrapperClass{
 
     void* (*_print)();
     void* (*caller_print)();
-    void* (*this_print)(void* self, int bound);
+    void* (*this_print)(void* self);
+
+    void* (*_printBound)();
+    void* (*caller_printBound)();
+    void* (*this_printBound)(void* self, int bound);
+
+    void* (*_scan)();
+    void* (*caller_scan)();
+    void* (*this_scan)(void* self);
 };
 
 /* Public super callers */

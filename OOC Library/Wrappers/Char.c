@@ -63,9 +63,16 @@ void* Char_dataSize(const void* self){
     return returning(returned);
 }
 
-void* Char_print(void* self, int bound){
-    struct Char* _char = cast(Char(), self);
+void* Char_print(void* self) {
+    struct Char *_char = cast(Char(), self);
 
+    printf("%c", _char->data);
+
+    return NULL;
+}
+
+void* Char_printBound(void* self, int bound){
+    struct Char* _char = cast(Char(), self);
 
     if (bound < 0){
         printf("\nERROR: Object's class does not have this method\n");
@@ -73,13 +80,40 @@ void* Char_print(void* self, int bound){
         assert(0);
     }
 
-    printf("|");
     if(bound) {
-        printf("%*c", bound, _char->data);
+        printf("%c", _char->data);
+        for (int i = 0; i < bound-1; i++){
+            printf(" ");
+        }
     }
-    printf("|\n");
 
     return NULL;
+}
+
+void* Char_scan(void* self){
+    struct Char* _char = cast(Char(), self);
+
+    scanf("%c", &_char->data);
+
+    return NULL;
+}
+
+void* Char_equals(void* self, void* obj){
+    struct Char* _char = cast(Char(), self);
+
+    bool returned = true;
+
+    if(as(bool, super_equals(Char(), self, obj)))
+        return returning(returned);
+
+    struct Char* otherChar = cast(Char(), obj);
+
+    if(_char->data == otherChar->data)
+        return returning(returned);
+    else{
+        returned = false;
+        return returning(returned);
+    }
 }
 
 /* Public: */
@@ -104,7 +138,9 @@ const void* const Char(){
     return _Char ? _Char :
            (_Char = new(CharClass(), "Char", PrimWrapper(), sizeof(struct Char),
                         _dataSize, Char_dataSize,
-                        _print, Char_print,
+                        _printBound, Char_printBound,
+                        _scan, Char_scan,
+                        _equals, Char_equals,
                         NULL));
 }
 /* END Dynamic initializer */

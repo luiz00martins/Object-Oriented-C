@@ -4,6 +4,7 @@
 #include <assert.h>
 #include "ArrayQueue.h"
 #include "ArrayQueue.r"
+#include "../Wrappers/PrimWrapper.h"
 
 
 /** START Getters and Setters **/
@@ -137,19 +138,24 @@ void* ArrayQueue_resize(void* self, int size){
     // Calling super constructor
     struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
 
-    if(size < -1){
+    if(size < 0){
         printf("\nERROR: Cannot resize to %i\n", size);
         fflush(stdout);
         assert(0);
     }
 
-    if(size == -1){
-        size = arrayQueue->len;
+    int smallestLen;
+
+    if(size == 0){
+        if(arrayQueue->len)
+            size = arrayQueue->len;
+        else
+            size = 1;
     }
 
     void** newObjs = malloc(sizeof(void*) * size);
 
-    int smallestLen = size < arrayQueue->len ? size : arrayQueue->len;
+    smallestLen = size < arrayQueue->len ? size : arrayQueue->len;
 
     // Note: If they are equal, you have nothing to copy
     if(arrayQueue->start < arrayQueue->end){
@@ -178,7 +184,7 @@ void* ArrayQueue_resize(void* self, int size){
     arrayQueue->size = size;
     arrayQueue->len = smallestLen;
     arrayQueue->start = 0;
-    arrayQueue->end = smallestLen - 1;
+    arrayQueue->end = smallestLen ? smallestLen - 1 : smallestLen;
 
     return NULL;
 }
@@ -193,7 +199,7 @@ void* ArrayQueue_contains(void* self, void* obj){
     if(arrayQueue->start < arrayQueue->end){
         int i;
         for (i = arrayQueue->start; i < arrayQueue->end+1; i++){
-            if (arrayQueue->objs[i] == obj){
+            if (equals(arrayQueue->objs[i], obj)){
                 returned = true;
                 return returning(returned);
             }
@@ -203,14 +209,14 @@ void* ArrayQueue_contains(void* self, void* obj){
         int i;
         // Go from start to the last object
         for (i = arrayQueue->start; i < arrayQueue->size; i++){
-            if (arrayQueue->objs[i] == obj){
+            if (equals(arrayQueue->objs[i], obj)){
                 returned = true;
                 return returning(returned);
             }
         }
         // From the first object to end
         for (i = 0; i < arrayQueue->end+1; i++){
-            if (arrayQueue->objs[i] == obj){
+            if (equals(arrayQueue->objs[i], obj)){
                 returned = true;
                 return returning(returned);
             }
@@ -231,7 +237,7 @@ void* ArrayQueue_indexOf(void* self, void* obj){
     if(arrayQueue->start < arrayQueue->end){
         int i;
         for (i = arrayQueue->start; i < arrayQueue->end+1; i++, index++){
-            if (arrayQueue->objs[i] == obj){
+            if (equals(arrayQueue->objs[i], obj)){
                 return returning(index);
             }
         }
@@ -240,13 +246,13 @@ void* ArrayQueue_indexOf(void* self, void* obj){
         int i;
         // Go from start to the last object
         for (i = arrayQueue->start; i < arrayQueue->size; i++, index++){
-            if (arrayQueue->objs[i] == obj){
+            if (equals(arrayQueue->objs[i], obj)){
                 return returning(index);
             }
         }
         // From the first object to end
         for (i = 0; i < arrayQueue->end+1; i++){
-            if (arrayQueue->objs[i] == obj){
+            if (equals(arrayQueue->objs[i], obj)){
                 return returning(index);
             }
         }
@@ -304,11 +310,13 @@ void* ArrayQueue_print(void* self, int bound){
         printf("=");
     printf("\n");
     for (int i = 0; i < arrayQueue->size; i++){
+        printf("|");
         if(printed[i])
-            print(arrayQueue->objs[i], bound);
+            printBound(arrayQueue->objs[i], bound);
         else {
-            printf("|%*s|\n", bound, "");
+            printf("%*s", bound, "");
         }
+        printf("|\n");
         if(i < arrayQueue->size-1){
             printf("|");
             for(int j = 0; j < bound; j++)

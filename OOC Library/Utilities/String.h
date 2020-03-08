@@ -14,6 +14,10 @@ build_decl_get(len);
 /* Public method callers */
 void* _print(void* self, ...);
 #define print(self, ...) _print(self, ##__VA_ARGS__, FUNC_END)
+void* _printBound(void* self, ...);
+#define printBound(self, ...) _printBound(self, ##__VA_ARGS__, FUNC_END)
+void* _scan(void* self, ...);
+#define scan(self, ...) _scan(self, ##__VA_ARGS__, FUNC_END)
 void* _set(void* self, ...);
 #define set(self, ...) _set(self, ##__VA_ARGS__, FUNC_END)
 void* _asArray(void* self, ...);
@@ -22,8 +26,6 @@ void* _cat(void* self, ...);
 #define cat(self, ...) _cat(self, ##__VA_ARGS__, FUNC_END)
 void* _resize(void* self, ...);
 #define resize(self, ...) _resize(self, ##__VA_ARGS__, FUNC_END)
-void* _compare(void* self, ...);
-#define compare(self, ...) _compare(self, ##__VA_ARGS__, FUNC_END)
 
 /** END Method manegement **/
 

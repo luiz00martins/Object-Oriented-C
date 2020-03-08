@@ -63,7 +63,15 @@ void* LongLong_dataSize(const void* self){
     return returning(returned);
 }
 
-void* LongLong_print(void* self, int bound){
+void* LongLong_print(void* self) {
+    struct LongLong *_longLong = cast(LongLong(), self);
+
+    printf("%lli", _longLong->data);
+
+    return NULL;
+}
+
+void* LongLong_printBound(void* self, int bound){
     struct LongLong* _longLong = cast(LongLong(), self);
 
     if (bound < 5){
@@ -71,8 +79,6 @@ void* LongLong_print(void* self, int bound){
         fflush(stdout);
         assert(0);
     }
-
-    printf("|");
 
     int digits = 1;
     long long temp = _longLong->data;
@@ -100,22 +106,50 @@ void* LongLong_print(void* self, int bound){
         printf("...");
     }
     else {
-        // Print leading blank spaces
-        for(int i = bound - digits; i > 0; i--){
-            printf(" ");
-        }
         // Print number
         for(int i = digits-1; i >= 0; i--){
             printf("%i", arrData[i]);
         }
+        // Print leading blank spaces
+        for(int i = bound - digits; i > 0; i--){
+            printf(" ");
+        }
     }
-
-    printf("|\n");
 
     free(arrData);
 
     return NULL;
 }
+
+void* LongLong_scan(void* self){
+    struct LongLong* _longLong = cast(LongLong(), self);
+
+    char arr[100];
+    char c;
+    scanf("%100s%c", arr, &c);
+    _longLong->data = strtoll(arr, NULL, 10);
+
+    return NULL;
+}
+
+void* LongLong_equals(void* self, void* obj){
+    struct LongLong* _longLong = cast(LongLong(), self);
+
+    bool returned = true;
+
+    if(as(bool, super_equals(LongLong(), self, obj)))
+        return returning(returned);
+
+    struct LongLong* otherLongLong = cast(LongLong(), obj);
+
+    if(_longLong->data == otherLongLong->data)
+        return returning(returned);
+    else{
+        returned = false;
+        return returning(returned);
+    }
+}
+
 /** END Object method definitions **USER CODE** **/
 
 /* START Dynamic initializer */
@@ -135,6 +169,9 @@ const void* const LongLong(){
            (_LongLong = new(LongLongClass(), "LongLong", PrimWrapper(), sizeof(struct LongLong),
                          _dataSize, LongLong_dataSize,
                          _print, LongLong_print,
+                         _printBound, LongLong_printBound,
+                         _scan, LongLong_scan,
+                         _equals, LongLong_equals,
                          NULL));
 }
 /* END Dynamic initializer */

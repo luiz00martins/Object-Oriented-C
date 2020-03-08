@@ -11,18 +11,20 @@
 object_build_getset(text, len, size)
 /** END Getters and Setters **/
 
-build_caller_funcs(print, asArray, cat, resize, compare)
+build_caller_funcs(print, asArray, cat, resize)
 
 /** START Caller functions **/
 build_funcs(String,
         (ctor, (va_list*, nargs)),
         (dtor, ()),
-        (print, (int, bound)),
+        (print, ()),
+        (printBound, (int, bound)),
+        (scan, ()),
         (set, (void*, copied)),
         (asArray, ()),
         (cat, (void*, concatenated)),
         (resize, (int, size)),
-        (compare, (void*, string)))
+        (equals, (void*, string)))
 
 
 /** END Caller functions **/
@@ -31,11 +33,12 @@ build_funcs(String,
 build_class_ctor(String,
         ((char*, text), (int, len), (int, size)),
         (       (print, ()),
+                (printBound, (int, bound)),
+                (scan, ()),
                 (set, (void*, copied)),
                 (asArray, ()),
                 (cat, (void*, concatenated)),
-                (resize, (int, size)),
-                (compare, (void*, string))))
+                (resize, (int, size))))
 
 /** END Class method definitions **/
 
@@ -78,20 +81,49 @@ void* String_dtor(void* self){
 }
 
 /* Public: */
-void* String_print(void* self, int bound){
+void* String_print(void* self){
     struct String* string = cast(String(), self);
 
-    printf("|");
+    printf("%s", string->text);
+
+    return NULL;
+}
+
+void* String_printBound(void* self, int bound){
+    struct String* string = cast(String(), self);
 
     if (bound < string->len) {
         for (int i = 0; i < bound - 3; i++)
             printf("%c", string->text[i]);
         printf("...");
     }
-    else
-        printf("%*s", bound, string->text);
+    else {
+        printf("%s", string->text);
+        for (int i = 0; i < bound - string->len; i++)
+            printf(" ");
+    }
 
-    printf("|\n");
+    return NULL;
+}
+
+void* String_scan(void* self){
+    struct String* string = cast(String(), self);
+
+    char arr[1000];
+    char c;
+    scanf("%1000[^\n]%c", arr, &c);
+
+    int copiedSize = strlen(arr) + 1;
+
+    if (string->size < copiedSize){
+        free(string->text);
+        string->size = copiedSize;
+        string->text = malloc(sizeof(char) * copiedSize);
+    }
+    string->len = copiedSize - 1;
+
+    strcpy(string->text, arr);
+
     return NULL;
 }
 void* String_set(void* self, void* copied){
@@ -174,17 +206,16 @@ void* String_resize(void* self, int newLen){
 
     return NULL;
 }
-void* String_compare(void* self, void* str){
+void* String_equals(void* self, void* str){
     struct String* string = cast(String(), self);
+    bool returned = true;
 
-    // Extracting array if it's an Object
-    char* arr;
-    if(isAnObject(str))
-        arr = ((struct String*)str)->text;
-    else
-        arr = str;
+    if(as(bool, super_equals(String(), self, str)))
+        return returning(returned);
 
-    bool returned = strcmp(string->text, arr) == 0;
+    struct String* otherString = cast(String(), str);
+
+    returned = strcmp(string->text, otherString->text) == 0;
     return returning(returned);
 }
 /** END Object method definitions **USER CODE** **/
@@ -207,11 +238,13 @@ const void* const String(){
                            _ctor, String_ctor,
                            _dtor, String_dtor,
                            _print, String_print,
+                           _printBound, String_printBound,
+                           _scan, String_scan,
                            _set, String_set,
                            _asArray, String_asArray,
                            _cat, String_cat,
                            _resize, String_resize,
-                           _compare, String_compare,
+                           _equals, String_equals,
                            NULL));
 }
 /* END Dynamic initializer */

@@ -27,6 +27,10 @@ struct Class {
     void* (*caller_dtor)();
     void* (*this_dtor)();
 
+    void* (*_equals)();
+    void* (*caller_equals)();
+    void* (*this_equals)();
+
     void* (*_deepcopy)();
     void* (*caller_deepcopy)(void* self);
     void* (*this_deepcopy)(void* self);
@@ -54,13 +58,14 @@ void* _ctor(void* self, ...);
 #define ctor(self, ...) _ctor(self, ##__VA_ARGS__, FUNC_END)
 void* _dtor(void* self, ...);
 #define dtor(self, ...) _dtor(self, ##__VA_ARGS__, FUNC_END)
-void* _deepcopy(void* self, ...);
-#define deepcopy(self, ...) _deepcopy(self, ##__VA_ARGS__, FUNC_END)
+
 
 void* _super_ctor(struct Class* class, void* self, ...);
 #define super_ctor(class, self, ...) _super_ctor(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_dtor(struct Class* class, void* self, ...);
 #define super_dtor(class, self, ...) _super_dtor(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_equals(struct Class* class, void* self, ...);
+#define super_equals(class, self, ...) _super_equals(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_deepcopy(struct Class* class, void* self, ...);
 #define super_deepcopy(class, self, ...) _super_deepcopy(class, self, ##__VA_ARGS__, FUNC_END)
 /** END Method management **/

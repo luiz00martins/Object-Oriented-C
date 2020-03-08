@@ -63,7 +63,15 @@ void* Short_dataSize(void* self){
     return returning(returned);
 }
 
-void* Short_print(void* self, int bound){
+void* Short_print(void* self) {
+    struct Short *_short = cast(Short(), self);
+
+    printf("%hi", _short->data);
+
+    return NULL;
+}
+
+void* Short_printBound(void* self, int bound){
     struct Short* _short = cast(Short(), self);
 
     if (bound < 5){
@@ -100,13 +108,13 @@ void* Short_print(void* self, int bound){
         printf("...");
     }
     else {
-        // Print leading blank spaces
-        for(int i = bound - digits; i > 0; i--){
-            printf(" ");
-        }
         // Print number
         for(int i = digits-1; i >= 0; i--){
             printf("%i", arrData[i]);
+        }
+        // Print blank spaces
+        for(int i = bound - digits; i > 0; i--){
+            printf(" ");
         }
     }
 
@@ -115,6 +123,35 @@ void* Short_print(void* self, int bound){
     free(arrData);
 
     return NULL;
+}
+
+void* Short_scan(void* self){
+    struct Short* _short = cast(Short(), self);
+
+    char arr[100];
+    char c;
+    scanf("%100s%c", arr, &c);
+    _short->data = strtol(arr, NULL, 10);
+
+    return NULL;
+}
+
+void* Short_equals(void* self, void* obj){
+    struct Short* _short = cast(Short(), self);
+
+    bool returned = true;
+
+    if(as(bool, super_equals(Short(), self, obj)))
+        return returning(returned);
+
+    struct Short* otherShort = cast(Short(), obj);
+
+    if(_short->data == otherShort->data)
+        return returning(returned);
+    else{
+        returned = false;
+        return returning(returned);
+    }
 }
 
 /** END Object method definitions **USER CODE** **/
@@ -136,6 +173,9 @@ const void* const Short(){
            (_Short = new(ShortClass(), "Short", PrimWrapper(), sizeof(struct Short),
                          _dataSize, Short_dataSize,
                          _print, Short_print,
+                         _printBound, Short_printBound,
+                         _scan, Short_scan,
+                         _equals, Short_equals,
                          NULL));
 }
 /* END Dynamic initializer */

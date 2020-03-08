@@ -14,6 +14,10 @@
 
 void* _print(void* self, ...);
 #define print(self, ...) _print(self, ##__VA_ARGS__, FUNC_END)
+void* _printBound(void* self, ...);
+#define printBound(self, ...) _printBound(self, ##__VA_ARGS__, FUNC_END)
+void* _scan(void* self, ...);
+#define scan(self, ...) _scan(self, ##__VA_ARGS__, FUNC_END)
 
 /** END Method manegement **/
 

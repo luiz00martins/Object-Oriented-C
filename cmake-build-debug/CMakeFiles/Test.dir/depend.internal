@@ -31,6 +31,8 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayQueue.r
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Wrapper.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
@@ -38,8 +40,10 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayStack.c
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayStack.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayStack.r
- /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.r
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.h
+ /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Wrapper.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
  /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h

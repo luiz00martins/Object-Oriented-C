@@ -63,7 +63,15 @@ void* Long_dataSize(const void* self){
     return returning(returned);
 }
 
-void* Long_print(void* self, int bound){
+void* Long_print(void* self) {
+    struct Long *_long = cast(Long(), self);
+
+    printf("%li", _long->data);
+
+    return NULL;
+}
+
+void* Long_printBound(void* self, int bound){
     struct Long* _long = cast(Long(), self);
 
     if (bound < 5){
@@ -100,13 +108,13 @@ void* Long_print(void* self, int bound){
         printf("...");
     }
     else {
-        // Print leading blank spaces
-        for(int i = bound - digits; i > 0; i--){
-            printf(" ");
-        }
         // Print number
         for(int i = digits-1; i >= 0; i--){
             printf("%i", arrData[i]);
+        }
+        // Print blank spaces
+        for(int i = bound - digits; i > 0; i--){
+            printf(" ");
         }
     }
 
@@ -115,6 +123,35 @@ void* Long_print(void* self, int bound){
     free(arrData);
 
     return NULL;
+}
+
+void* Long_scan(void* self){
+    struct Long* _long = cast(Long(), self);
+
+    char arr[100];
+    char c;
+    scanf("%100s%c", arr, &c);
+    _long->data = strtol(arr, NULL, 10);
+
+    return NULL;
+}
+
+void* Long_equals(void* self, void* obj){
+    struct Long* _long = cast(Long(), self);
+
+    bool returned = true;
+
+    if(as(bool, super_equals(Long(), self, obj)))
+        return returning(returned);
+
+    struct Long* otherLong = cast(Long(), obj);
+
+    if(_long->data == otherLong->data)
+        return returning(returned);
+    else{
+        returned = false;
+        return returning(returned);
+    }
 }
 
 /** END Object method definitions **USER CODE** **/
@@ -136,6 +173,9 @@ const void* const Long(){
            (_Long = new(LongClass(), "Long", PrimWrapper(), sizeof(struct Long),
                          _dataSize, Long_dataSize,
                          _print, Long_print,
+                         _printBound, Long_printBound,
+                         _scan, Long_scan,
+                         _equals, Long_equals,
                          NULL));
 }
 /* END Dynamic initializer */

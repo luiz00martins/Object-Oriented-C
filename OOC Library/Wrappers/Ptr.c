@@ -63,7 +63,15 @@ void* Ptr_dataSize(const void* self){
     return returning(returned);
 }
 
-void* Ptr_print(void* self, int bound){
+void* Ptr_print(void* self) {
+    struct Ptr *_ptr = cast(Ptr(), self);
+
+    printf("%p", _ptr->data);
+
+    return NULL;
+}
+
+void* Ptr_printBound(void* self, int bound){
     struct Ptr* _ptr = cast(Ptr(), self);
 
     if (bound < 5){
@@ -71,8 +79,6 @@ void* Ptr_print(void* self, int bound){
         fflush(stdout);
         assert(0);
     }
-
-    printf("|");
 
     int digits = 1;
     long long temp = (long long)_ptr->data;
@@ -104,10 +110,6 @@ void* Ptr_print(void* self, int bound){
         printf("...");
     }
     else {
-        // Print leading blank spaces
-        for(int i = bound - digits - 2; i > 0; i--){
-            printf(" ");
-        }
         // Print number
         printf("0x");
         for(int i = digits-1; i >= 0; i--){
@@ -116,13 +118,44 @@ void* Ptr_print(void* self, int bound){
             else
                 printf("%c", arrData[i]-10 + 'a');
         }
+        // Print blank spaces
+        for(int i = bound - digits - 2; i > 0; i--){
+            printf(" ");
+        }
     }
-
-    printf("|\n");
 
     free(arrData);
 
     return NULL;
+}
+
+void* Ptr_scan(void* self){
+    struct Ptr* _ptr = cast(Ptr(), self);
+
+    char arr[100];
+    char c;
+    scanf("%100s%c", arr, &c);
+    _ptr->data = strtol(arr, NULL, 16);
+
+    return NULL;
+}
+
+void* Ptr_equals(void* self, void* obj){
+    struct Ptr* _ptr = cast(Ptr(), self);
+
+    bool returned = true;
+
+    if(as(bool, super_equals(Ptr(), self, obj)))
+        return returning(returned);
+
+    struct Ptr* otherPtr = cast(Ptr(), obj);
+
+    if(_ptr->data == otherPtr->data)
+        return returning(returned);
+    else{
+        returned = false;
+        return returning(returned);
+    }
 }
 
 /** END Object method definitions **USER CODE** **/
@@ -144,6 +177,9 @@ const void* const Ptr(){
            (_Ptr = new(PtrClass(), "Ptr", PrimWrapper(), sizeof(struct Ptr),
                          _dataSize, Ptr_dataSize,
                          _print, Ptr_print,
+                         _printBound, Ptr_printBound,
+                         _scan, Ptr_scan,
+                         _equals, Ptr_equals,
                          NULL));
 }
 /* END Dynamic initializer */

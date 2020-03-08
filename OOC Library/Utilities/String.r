@@ -30,7 +30,15 @@ struct StringClass{
 
     void* (*_print)();
     void* (*caller_print)();
-    void* (*this_print)(void* self, int bound);
+    void* (*this_print)(void* self);
+
+    void* (*_printBound)();
+    void* (*caller_printBound)();
+    void* (*this_printBound)(void* self, int bound);
+
+    void* (*_scan)();
+    void* (*caller_scan)();
+    void* (*this_scan)(void* self);
 
     void* (*_set)();
     void* (*caller_set)();
@@ -47,15 +55,15 @@ struct StringClass{
     void* (*_resize)();
     void* (*caller_resize)();
     void* (*this_resize)(void* self, int size);
-
-    void* (*_compare)();
-    void* (*caller_compare)();
-    void* (*this_compare)(void* self, void* string);
 };
 
 /* super callers */
 void* _super_print(struct Class* class, void* self, ...);
 #define super_print(class, self, ...) _super_print(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_printBound(struct Class* class, void* self, ...);
+#define super_printBound(class, self, ...) _super_printBound(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_scan(struct Class* class, void* self, ...);
+#define super_scan(class, self, ...) _super_scan(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_set(struct Class* class, void* self, ...);
 #define super_set(class, self, ...) _super_set(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_asArray(struct Class* class, void* self, ...);
@@ -64,8 +72,6 @@ void* _super_cat(struct Class* class, void* self, ...);
 #define super_cat(class, self, ...) _super_cat(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_resize(struct Class* class, void* self, ...);
 #define super_resize(class, self, ...) _super_resize(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_compare(struct Class* class, void* self, ...);
-#define super_compare(class, self, ...) _super_compare(class, self, ##__VA_ARGS__, FUNC_END)
 
 /** END Method management **/
 

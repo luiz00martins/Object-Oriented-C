@@ -9,10 +9,13 @@
 
 /** END Getters and Setters **/
 
-
 /** START Caller functions **/
+build_caller_funcs(scan, printBound)
+
 build_funcs(PrimWrapper,
-            (print, (int, bound)))
+            (print, ()),
+            (printBound, (int, bound)),
+            (scan, ()))
 
 /** END Caller functions **/
 
@@ -20,7 +23,9 @@ build_funcs(PrimWrapper,
 /** START Class method definitions **/
 build_class_ctor(PrimWrapper,
                  (),
-                 ((print, (int, bound))))
+                 ((print, ()),
+                  (printBound, (int, bound)),
+                  (scan, ())))
 /** END Class method definitions **/
 
 
@@ -36,10 +41,11 @@ void* PrimWrapper_ctor(void* self, va_list* args){
     void* target = va_arg(*args, void*);
 
     // This is divided by two, cus there's two variables in struct Wrapper, then by the number of bytes
-    void* dataPtr = (&primWrapper->_) + (((sizeOf(self)/2)/sizeof(void*)));
-
-    int size = as(int, dataSize(primWrapper));
-    memcpy(dataPtr, target, size);
+    if(target) {
+        void *dataPtr = (&primWrapper->_) + (((sizeOf(self) / 2) / sizeof(void *)));
+        int size = as(int, dataSize(primWrapper));
+        memcpy(dataPtr, target, size);
+    }
 
     return self;
 }
@@ -87,6 +93,8 @@ const void* const PrimWrapper(){
                                _dtor, PrimWrapper_dtor,
                                _unwrap, PrimWrapper_unwrap,
                                _print, abstract,
+                               _printBound, abstract,
+                               _scan, abstract,
                                NULL));
 }
 /* END Dynamic initializer */

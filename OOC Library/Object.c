@@ -8,6 +8,7 @@
 #include "Object.h"
 #include "Object.r"
 
+// TODO: Create a static_new with a starting and end function that destroys statically created items bewteen the start and end function
 // TODO: Create a print function with specifier %o
 // TODO: Add copy function (and perhaps a deepcopy function) with error message "function not defined"
 // TODO: Implement get and set as a keyword, to get super variables
@@ -280,9 +281,7 @@ void* _returning(void* ptr, int size){
 }
 /** END Static functions **/
 
-single_build_caller_funcs(ctor)
-single_build_caller_funcs(dtor)
-single_build_caller_funcs(deepcopy)
+build_caller_funcs(ctor, dtor, equals, deepcopy)
 
 /** START Caller functions **/
 single_build_func(Object, ctor, (va_list*, nargs))
@@ -290,6 +289,8 @@ single_build_func(Object, ctor, (va_list*, nargs))
 single_build_func(Object, dtor, ())
 
 single_build_func(Object, deepcopy, ())
+
+single_build_func(Object, equals, (void*, obj))
 
 
 /* START Caller functions */
@@ -337,6 +338,8 @@ void* Class_ctor(void* self, va_list* args){
     classPtr->caller_ctor = caller_Object_ctor;
     classPtr->_dtor = _dtor;
     classPtr->caller_dtor = caller_Object_dtor;
+    classPtr->_equals = _equals;
+    classPtr->caller_equals = caller_Object_equals;
     classPtr->_deepcopy = _deepcopy;
     classPtr->caller_deepcopy = caller_Object_deepcopy;
 
@@ -356,6 +359,12 @@ void* Class_ctor(void* self, va_list* args){
             }
             classPtr->this_dtor = function;
         }
+        else if (selector == _equals) {
+            if(!ofClass(&self, Object())){
+                assert(0 /* Class generetors shouldn't implement equals, as classes are unique */);
+            }
+            classPtr->this_equals = function;
+        }
         else if (selector == _deepcopy) {
             if(!ofClass(&self, Object())){
                 assert(0 /* Class generetors shouldn't implement deepcopy, as classes are unique */);
@@ -368,6 +377,7 @@ void* Class_ctor(void* self, va_list* args){
     // Verifying if the class is abstract (has an abstract method declared)
     if (classPtr->this_ctor == abstract ||
             classPtr->this_dtor == abstract ||
+            classPtr->this_equals == abstract ||
             classPtr->this_deepcopy == abstract){
 
         classPtr->abstract = true;
@@ -376,10 +386,6 @@ void* Class_ctor(void* self, va_list* args){
     return self;
 }
 
-void* Class_dtor(void* self){
-    assert(0 /* Classes are permanent, they should never call a destructor */);
-    abstract(self, NULL);
-}
 /* END Class function definitions */
 
 /* START Object function definitions */
@@ -389,6 +395,18 @@ void* Object_ctor(void* self, va_list* args){
 
 void* Object_dtor(void* self){
     return cast(Object(), self);
+}
+
+void* Object_equals(void* self, void* obj){
+    cast(Object(), self);
+    cast(Object(), obj);
+
+    bool returned = true;
+    if(self == obj)
+        return returning(returned);
+
+    returned = false;
+    return returning(returned);
 }
 
 void* Object_deepcopy(void* self){
@@ -402,13 +420,20 @@ const struct Class class = {
         .name = "Class",
         .super = &class,
         .size = sizeof(struct Class),
+        .dataGet = NULL,
+        .dataOffsets = NULL,
+        .dataSizes = NULL,
+        .abstract = false,
 
         ._ctor = _ctor,
         .caller_ctor = caller_Object_ctor,
         .this_ctor = Class_ctor,
         ._dtor = _dtor,
         .caller_dtor = caller_Object_dtor,
-        .this_dtor = Class_dtor,
+        .this_dtor = abstract,
+        ._equals = _equals,
+        .caller_equals = caller_Object_equals,
+        .this_equals = abstract,
         ._deepcopy = _deepcopy,
         .caller_deepcopy = caller_Object_dtor,
         .this_deepcopy = abstract,
@@ -426,6 +451,10 @@ const struct Class object = {
         .name = "Object",
         .super = &class,
         .size = sizeof(struct Object),
+        .dataGet = NULL,
+        .dataOffsets = NULL,
+        .dataSizes = NULL,
+        .abstract = false,
 
         ._ctor = _ctor,
         .caller_ctor = caller_Object_ctor,
@@ -433,6 +462,9 @@ const struct Class object = {
         ._dtor = _dtor,
         .caller_dtor = caller_Object_dtor,
         .this_dtor = Object_dtor,
+        ._equals = _equals,
+        .caller_equals = caller_Object_equals,
+        .this_equals = Object_equals,
         ._deepcopy = _deepcopy,
         .caller_deepcopy = caller_Object_deepcopy,
         .this_deepcopy = Object_deepcopy,

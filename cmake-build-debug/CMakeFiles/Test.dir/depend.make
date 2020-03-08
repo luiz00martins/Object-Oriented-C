@@ -30,6 +30,8 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Utilit
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Utilities/ArrayQueue.r
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Utilities/Queue.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Utilities/Queue.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Wrappers/PrimWrapper.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Wrappers/Wrapper.h
 
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Object.h
@@ -37,8 +39,10 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Object
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/ArrayStack.c
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/ArrayStack.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/ArrayStack.r
-CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/Queue.r
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/Stack.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Utilities/Stack.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Wrappers/PrimWrapper.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayStack.c.o: ../OOC\ Library/Wrappers/Wrapper.h
 
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Object.h

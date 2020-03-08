@@ -4,6 +4,7 @@
 #include <assert.h>
 #include "ArrayStack.h"
 #include "ArrayStack.r"
+#include "../Wrappers/PrimWrapper.h"
 
 
 /** START Getters and Setters **/
@@ -114,13 +115,16 @@ void* ArrayStack_resize(void* self, int size){
     // Calling super constructor
     struct ArrayStack* arrayStack = cast(ArrayStack(), self);
 
-    if(size < -1){
+    if(size < 0){
         printf("\nERROR: Cannot resize to %i\n", size);
         fflush(stdout);
         assert(0);
     }
-    if(size == -1){
-        size = arrayStack->len;
+    if(size == 0){
+        if(arrayStack->len)
+            size = arrayStack->len;
+        else
+            size = 1;
     }
 
     void** newObjs = malloc(sizeof(void*) * size);
@@ -145,7 +149,7 @@ void* ArrayStack_contains(void* self, void* obj){
     bool returned = true;
 
     for(int i = 0; i < arrayStack->len; i++){
-        if(arrayStack->objs[i] == obj)
+        if(equals(arrayStack->objs[i], obj))
             return returning(returned);
     }
 
@@ -158,7 +162,7 @@ void* ArrayStack_indexOf(void* self, void* obj){
     super_indexOf(ArrayStack(), self, obj);
 
     for(int i = 0; i < arrayStack->len; i++){
-        if(arrayStack->objs[i] == obj)
+        if(as(bool, equals(arrayStack->objs[i], obj)))
             return returning(i);
     }
 
@@ -192,7 +196,9 @@ void* ArrayStack_print(void* self, int bound){
     printf("\n");
     // Printing valid values
     for (int i = 0; i < arrayStack->len; i++){
-        print(arrayStack->objs[i], bound);
+        printf("|");
+        printBound(arrayStack->objs[i], bound);
+        printf("|\n");
         if(i < arrayStack->size-1){
             printf("|");
             for(int j = 0; j < bound; j++)

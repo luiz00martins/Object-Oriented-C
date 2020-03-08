@@ -15,6 +15,8 @@ void* structureType;
 char structureStyle[1000];
 void* storedType;
 void* dataStructure;
+
+void* dummyValue;
 #define NUMBER_OJBS 15
 
 void clearScreen(){
@@ -39,7 +41,14 @@ void pressEnter(){
     printf("Press enter to continue");
     char c;
     scanf("%c", &c);
-    scanf("%c", &c);
+}
+
+int getSel(){
+    int selection;
+    char arr[100];
+    char c;
+    scanf("%100s%c", arr, &c);
+    return strtol(arr, NULL, 10);
 }
 
 char format_Short[] = "%i";
@@ -50,8 +59,27 @@ char format_Float[] = "%f";
 char format_Double[] = "%lf";
 char format_LongDouble[] = "%Lf";
 char format_Char[] = "%c";
-char format_String[] = "%s";
+char format_String[] = "%[^\n]";
 char* getCorrectFormat(){
+    if (storedType == Short()) {
+        return format_Short;
+    } else if (storedType == Int()) {
+        return format_Int;
+    } else if (storedType == Long()) {
+        return format_Long;
+    } else if (storedType == LongLong()) {
+        return format_LongLong;
+    } else if (storedType == Float()) {
+        return format_Float;
+    } else if (storedType == Double()) {
+        return format_Double;
+    } else if (storedType == LongDouble()) {
+        return format_LongDouble;
+    } else if (storedType == Char()) {
+        return format_Char;
+    } else if (storedType == String()) {
+        return format_String;
+    }
 
 }
 
@@ -60,15 +88,13 @@ void options_boxSize(){
     clearScreen();
     printTitle();
 
-    int selection;
-
     printf("Type your preferred box size: ");
-    scanf("%i", &selection);
+    int boxSize = getSel();
 
-    if(selection < 5){
+    if(boxSize < 5){
         goto backMenu;
     }
-    if(selection > 40){
+    if(boxSize > 40){
         backSelection:
         clearScreen();
         printTitle();
@@ -76,11 +102,10 @@ void options_boxSize(){
                "1 - Yes\n"
                "2 - No\n"
                "Selection: ");
-        scanf("%i", &selection);
 
-        switch(selection){
+        switch(getSel()){
             case 1:
-                boxBound = selection;
+                boxBound = boxSize;
                 return;
             case 2:
                 goto backMenu;
@@ -88,8 +113,7 @@ void options_boxSize(){
                 goto backSelection;
         }
     }
-    boxBound = selection;
-    return;
+    boxBound = boxSize;
 }
 
 void options(){
@@ -97,14 +121,11 @@ void options(){
     clearScreen();
     printTitle();
 
-    int selection;
-
     printf("1 - Change box display size\n"
            "2 - Back\n"
            "Selection: ");
-    scanf("%i", &selection);
 
-    switch(selection){
+    switch(getSel()){
         case 1:
             options_boxSize();
             break;
@@ -127,65 +148,18 @@ void pushing(){
     clearScreen();
     printTitle();
 
-    printf("Type in your ");
+    void* added;
+    // TODO: ADD THIS TO MORE PLACES
+    if(ofClass(&storedType, PrimWrapper()))
+        added = new(storedType, NULL, NULL);
+    else if(storedType == String())
+        added = new(String(), "");
 
-    if(storedType == Short()){
-        printf("short: ");
-        short input;
-        scanf("%i", &input);
-        push(dataStructure, wrap(input));
-    }
-    else if(storedType == Int()){
-        printf("int: ");
-        int input;
-        scanf("%i", &input);
-        push(dataStructure, wrap(input));
-    }
-    else if(storedType == Long()){
-        printf("long: ");
-        long input;
-        scanf("%li", &input);
-        push(dataStructure, wrap(input));
-    }
-    else if(storedType == LongLong()){
-        printf("long long: ");
-        long long input;
-        scanf("%lli", &input);
-        push(dataStructure, wrap(input));
-    }
-    else if(storedType == Float()){
-        printf("float: ");
-        float input;
-        scanf("%f", &input);
-        push(dataStructure, wrap(input));
-    }
-    else if(storedType == Double()){
-        printf("double: ");
-        double input;
-        scanf("%lf", &input);
-        push(dataStructure, wrap(input));
-    }
-    else if(storedType == LongDouble()){
-        printf("long double: ");
-        long double input;
-        scanf("%Lf", &input);
-        push(dataStructure, wrap(input));
-    }
-    else if(storedType == Char()){
-        printf("char: ");
-        char input;
-        scanf("%c ", &input);
-        push(dataStructure, wrap(input));
-    }
-    else if(storedType == String()){
-        printf("string: ");
-        char input[10000];
-        char c;
-        scanf("%c",&c); // temp statement to clear buffer
-        scanf("%[^\n]", input);
-        void* str = new(String(), input);
-        push(dataStructure, str);
-    }
+    printf("Type in your value: ");
+    scan(added);
+
+    push(dataStructure, added);
+
     printf("Data added!\n");
     pressEnter();
 }
@@ -199,50 +173,12 @@ void peeking(){
         return;
     }
 
-    printf("Peeking at: ");
-    if(storedType == Short()){
-        short peeked;
-        unwrap(peek(dataStructure), peeked);
-        printf("%i", peeked);
-    }
-    else if(storedType == Int()){
-        int peeked;
-        unwrap(peek(dataStructure), peeked);
-        printf("%i", peeked);
-    }
-    else if(storedType == Long()){
-        long peeked;
-        unwrap(peek(dataStructure), peeked);
-        printf("%li", peeked);
-    }
-    else if(storedType == LongLong()){
-        long long peeked;
-        unwrap(peek(dataStructure), peeked);
-        printf("%lli", peeked);
-    }
-    else if(storedType == Float()){
-        float peeked;
-        unwrap(peek(dataStructure), peeked);
-        printf("%f", peeked);
-    }
-    else if(storedType == Double()){
-        double peeked;
-        unwrap(peek(dataStructure), peeked);
-        printf("%lf", peeked);
-    }
-    else if(storedType == LongDouble()){
-        long double peeked;
-        unwrap(peek(dataStructure), peeked);
-        printf("%Lf", peeked);
-    }
-    else if(storedType == Char()){
-        char peeked;
-        unwrap(peek(dataStructure), peeked);
-        printf("%c", peeked);
-    }
-    else if(storedType == String()){
-        printf("%s", asArray(peek(dataStructure)));
-    }
+    if(as(int, get_len(dataStructure)) != 0){
+        printf("Peeking at... C_C: ");
+        print(peek(dataStructure), boxBound);
+    } else printf("There are no items to peek at <_<");
+
+
     printf("\n");
     pressEnter();
 }
@@ -252,90 +188,24 @@ void popping(){
     printTitle();
 
     if (structureType == List()){
-        printf("Where in the List you want to pop the value: ");
+        printf("Where in the List you want to pop the data: ");
         int index;
         scanf("%i", &index);
 
         if(index < 0 || index >= as(int, get_len(dataStructure))) {
-            printf("Invalid value");
+            printf("Maybe a bit more... or less, idk.");
             pressEnter();
             goto backMenu;
         }
 
         printf("Popped: ");
-        if (storedType == Short()) {
-            short popped;
-            unwrap(pop(dataStructure, index), popped);
-            printf("%i", popped);
-        } else if (storedType == Int()) {
-            int popped;
-            unwrap(pop(dataStructure, index), popped);
-            printf("%i", popped);
-        } else if (storedType == Long()) {
-            long popped;
-            unwrap(pop(dataStructure, index), popped);
-            printf("%li", popped);
-        } else if (storedType == LongLong()) {
-            long long popped;
-            unwrap(pop(dataStructure, index), popped);
-            printf("%lli", popped);
-        } else if (storedType == Float()) {
-            float popped;
-            unwrap(pop(dataStructure, index), popped);
-            printf("%f", popped);
-        } else if (storedType == Double()) {
-            double popped;
-            unwrap(pop(dataStructure), popped);
-            printf("%lf", popped);
-        } else if (storedType == LongDouble()) {
-            long double popped;
-            unwrap(pop(dataStructure, index), popped);
-            printf("%Lf", popped);
-        } else if (storedType == Char()) {
-            char popped;
-            unwrap(pop(dataStructure, index), popped);
-            printf("%c", popped);
-        } else if (storedType == String()) {
-            printf("%s", asArray(pop(dataStructure, index)));
-        }
+        print(pop(dataStructure, index));
     }
     else {
-        printf("Popped: ");
-        if (storedType == Short()) {
-            short popped;
-            unwrap(pop(dataStructure), popped);
-            printf("%i", popped);
-        } else if (storedType == Int()) {
-            int popped;
-            unwrap(pop(dataStructure), popped);
-            printf("%i", popped);
-        } else if (storedType == Long()) {
-            long popped;
-            unwrap(pop(dataStructure), popped);
-            printf("%li", popped);
-        } else if (storedType == LongLong()) {
-            long long popped;
-            unwrap(pop(dataStructure), popped);
-            printf("%lli", popped);
-        } else if (storedType == Float()) {
-            float popped;
-            unwrap(pop(dataStructure), popped);
-            printf("%f", popped);
-        } else if (storedType == Double()) {
-            double popped;
-            unwrap(pop(dataStructure), popped);
-            printf("%lf", popped);
-        } else if (storedType == LongDouble()) {
-            long double popped;
-            unwrap(pop(dataStructure), popped);
-            printf("%Lf", popped);
-        } else if (storedType == Char()) {
-            char popped;
-            unwrap(pop(dataStructure), popped);
-            printf("%c", popped);
-        } else if (storedType == String()) {
-            printf("%s", asArray(pop(dataStructure)));
-        }
+        if(as(int, get_len(dataStructure)) != 0){
+            printf("Popped: ");
+            print(pop(dataStructure), boxBound);
+        } else printf("There are no items to be popped");
     }
     printf("\n");
     pressEnter();
@@ -345,12 +215,8 @@ void getting(){
     clearScreen();
     printTitle();
 
-    if (structureType != List()){
-        printf("Oh silly, this data structure does not use a get function\n");
-        pressEnter();
-    }
-    else {
-        printf("Where in the List you want to get the value: ");
+    if (structureType == List()){
+        printf("Type the index in the List you want to get the data from: ");
         int index;
         scanf("%i", &index);
 
@@ -361,41 +227,12 @@ void getting(){
         }
 
         printf("It got: ");
-        if (storedType == Short()) {
-            short popped;
-            unwrap(get(dataStructure, index), popped);
-            printf("%i", popped);
-        } else if (storedType == Int()) {
-            int popped;
-            unwrap(get(dataStructure, index), popped);
-            printf("%i", popped);
-        } else if (storedType == Long()) {
-            long popped;
-            unwrap(get(dataStructure, index), popped);
-            printf("%li", popped);
-        } else if (storedType == LongLong()) {
-            long long popped;
-            unwrap(get(dataStructure, index), popped);
-            printf("%lli", popped);
-        } else if (storedType == Float()) {
-            float popped;
-            unwrap(get(dataStructure, index), popped);
-            printf("%f", popped);
-        } else if (storedType == Double()) {
-            double popped;
-            unwrap(get(dataStructure, index), popped);
-            printf("%lf", popped);
-        } else if (storedType == LongDouble()) {
-            long double popped;
-            unwrap(get(dataStructure, index), popped);
-            printf("%Lf", popped);
-        } else if (storedType == Char()) {
-            char popped;
-            unwrap(get(dataStructure, index), popped);
-            printf("%c", popped);
-        } else if (storedType == String()) {
-            printf("%s", asArray(get(dataStructure, index)));
-        }
+        print(get(dataStructure, index));
+    }
+    else {
+        printf("Oh silly, this data structure does not use a get function\n");
+        pressEnter();
+        return;
     }
     pressEnter();
 }
@@ -404,70 +241,52 @@ void setting(){
     clearScreen();
     printTitle();
 
-    if (structureType != List()){
-        printf("This data structure does not use a set function ¯\\_( )_/¯\n");
-        pressEnter();
-    }
-    else {
+    if (structureType == List()){
         printf("Where in the List you want to set the value: ");
         int index;
         scanf("%i", &index);
 
-        if(index < 0 || index >= as(int, get_len(dataStructure))) {
-            printf("Invalid value");
+        if (index < 0 || index >= as(int, get_len(dataStructure))) {
+            printf("Not this value >:(");
             pressEnter();
             goto backMenu;
         }
 
-        printf("It got: ");
-        if (storedType == Short()) {
-            printf("Type the short you want to add: ");
-            short added;
-            scanf("%i", &added);
-            get(dataStructure, index, wrap(added));
-        } else if (storedType == Int()) {
-            printf("Type the int you want to add: ");
-            int added;
-            scanf("%i", &added);
-            get(dataStructure, index, wrap(added));
-        } else if (storedType == Long()) {
-            printf("Type the long you want to add: ");
-            long added;
-            scanf("%li", &added);
-            get(dataStructure, index, wrap(added));
-        } else if (storedType == LongLong()) {
-            printf("Type the long long you want to add: ");
-            long long added;
-            scanf("%lli", &added);
-            get(dataStructure, index, wrap(added));
-        } else if (storedType == Float()) {
-            printf("Type the float you want to add: ");
-            float added;
-            scanf("%f", &added);
-            get(dataStructure, index, wrap(added));
-        } else if (storedType == Double()) {
-            printf("Type the double you want to add: ");
-            double added;
-            scanf("%lf", &added);
-            get(dataStructure, index, wrap(added));
-        } else if (storedType == LongDouble()) {
-            printf("Type the long double you want to add: ");
-            long double added;
-            scanf("%Lf", &added);
-            get(dataStructure, index, wrap(added));
-        } else if (storedType == Char()) {
-            printf("Type the char you want to add: ");
-            char added;
-            scanf("%c", &added);
-            get(dataStructure, index, wrap(added));
-        } else if (storedType == String()) {
-            printf("Type the string you want to add: ");
-            char added[10000];
-            scanf("%s", &added);
-            get(dataStructure, index, new(String(), added));
-        }
+        void *added = new(storedType, NULL, NULL);
+        printf("Type the value you want to add: ");
+        scan(added);
+
+        set(dataStructure, index, added);
     }
+    else {
+        printf("This data structure does not use a set function :[\n");
+        pressEnter();
+        return;
+    }
+
     printf("Data added!");
+    pressEnter();
+}
+void finding() {
+    backMenu:
+    clearScreen();
+    printTitle();
+
+
+    int index = -2;
+
+    void* compared = new(storedType, NULL, NULL);
+    printf("Type the value you want to find: ");
+    scan(compared);
+
+    index = as(int, indexOf(dataStructure, compared));
+
+    if(index == -1)
+        printf("Value not found\n");
+    else{
+        printf("Found it at index %i\n", index);
+    }
+
     pressEnter();
 }
 void resizing(){
@@ -481,7 +300,7 @@ void resizing(){
         return;
     }
     else {
-        printf("To which size you want to resize it (You can type -1 for it to fit perfectly the data): ");
+        printf("To which size you want to resize it (You can type 0 for it to fit perfectly the data): ");
         int size;
         scanf("%i", &size);
 
@@ -529,8 +348,6 @@ void modifyStructure(){
     clearScreen();
     printTitle();
 
-    int selection;
-
     printf("What do you want to do with your data structure?\n"
            "1 - Display it\n"
            "2 - Push value\n"
@@ -538,13 +355,13 @@ void modifyStructure(){
            "4 - Pop value\n"
            "5 - Get value\n"
            "6 - Set value\n"
-           "7 - Resize\n"
-           "8 - Clear everything\n"
-           "9 - Back\n"
+           "7 - Find value\n"
+           "8 - Resize\n"
+           "9 - Clear everything\n"
+           "10 - Back\n"
            "Selection: ");
-    scanf("%i", &selection);
 
-    switch(selection){
+    switch(getSel()){
         case 1:
             displaying();
             break;
@@ -564,12 +381,15 @@ void modifyStructure(){
             setting();
             break;
         case 7:
-            resizing();
+            finding();
             break;
         case 8:
-            clearing();
+            resizing();
             break;
         case 9:
+            clearing();
+            break;
+        case 10:
             return;
         default:
             goto backMenu;
@@ -580,8 +400,6 @@ void createStructureData(){
     backMenu:
     clearScreen();
     printTitle();
-
-    int selection;
 
     printf("Which type you want to store in your data structure?\n"
            "1 - Short\n"
@@ -595,9 +413,8 @@ void createStructureData(){
            "9 - String\n"
            "10 - Back\n"
            "Selection: ");
-    scanf("%i", &selection);
 
-    switch(selection){
+    switch(getSel()){
         case 1:
             storedType = Short();
             break;
@@ -638,16 +455,13 @@ void createSructureStyle(){
     clearScreen();
     printTitle();
 
-    int selection;
-
     printf("Which style of structure you want to create?\n"
            "1 - Array\n"
            "2 - Linked\n"
            "3 - Back\n"
            "Selection: ");
-    scanf("%i", &selection);
 
-    switch(selection){
+    switch(getSel()){
         case 1:
             strcpy(structureStyle, "Array");
             break;
@@ -667,17 +481,14 @@ void createStructure(){
     clearScreen();
     printTitle();
 
-    int selection;
-
     printf("Which type of structure you want to create?\n"
            "1 - List\n"
            "2 - Queue\n"
            "3 - Stack\n"
            "4 - Back\n"
            "Selection: ");
-    scanf("%i", &selection);
 
-    switch(selection){
+    switch(getSel()){
         case 1:
             structureType = List();
             break;
@@ -697,12 +508,11 @@ void createStructure(){
 }
 
 void testing(){
-    int i = 10;
-    void* ptr = wrap(i);
+    float i = 313.321;
+    struct Double* ptr = wrap(i);
 
-    i = 20;
-    unwrap(ptr, i);
-    printf("%i", i);
+    print(ptr, 10);
+    printf("-");
 }
 
 int main() {
@@ -710,15 +520,12 @@ int main() {
     clearScreen();
     printTitle();
 
-    int selection;
-
     printf("1 - Create Data Structure\n"
            "2 - Options\n"
            "3 - Exit\n"
            "Selection: ");
-    scanf("%i", &selection);
 
-    switch(selection){
+    switch(getSel()){
         case 1:
             createStructure();
             break;
@@ -729,7 +536,6 @@ int main() {
             printf("\n\nThank You for using DATA STRUCTURES[tm]\n");
             return 0;
         default:
-            printf("\n\nThank You for using DATA STRUCTURES[tm]\n");
             goto backMenu;
     }
 

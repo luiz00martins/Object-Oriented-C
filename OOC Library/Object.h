@@ -10,7 +10,11 @@ void* new(const void* _class, ...);
 void delete(void* self);
 struct Object* copy(const void* self);
 
-void* deepcopy(const void* self);
+// Change all of these defines to inline functions
+void* _deepcopy(void* self, ...);
+#define deepcopy(self, ...) _deepcopy(self, ##__VA_ARGS__, FUNC_END)
+void* _equals(void* self, ...);
+#define equals(self, ...) _equals(self, ##__VA_ARGS__, FUNC_END)
 /**
  * @param self Object or Class
  * @return Class of self

@@ -65,7 +65,15 @@ void* Int_dataSize(const void* self){
     return returning(returned);
 }
 
-void* Int_print(void* self, int bound){
+void* Int_print(void* self) {
+    struct Int *_int = cast(Int(), self);
+
+    printf("%i", _int->data);
+
+    return NULL;
+}
+
+void* Int_printBound(void* self, int bound){
     struct Int* _int = cast(Int(), self);
 
     if (bound < 5){
@@ -73,8 +81,6 @@ void* Int_print(void* self, int bound){
         fflush(stdout);
         assert(0);
     }
-
-    printf("|");
 
     int digits = 1;
     int temp = _int->data;
@@ -102,26 +108,49 @@ void* Int_print(void* self, int bound){
         printf("...");
     }
     else {
-        // Print leading blank spaces
-        for(int i = bound - digits; i > 0; i--){
-            printf(" ");
-        }
         // Print number
         for(int i = digits-1; i >= 0; i--){
             printf("%i", arrData[i]);
         }
+        // Print blank spaces
+        for(int i = bound - digits; i > 0; i--){
+            printf(" ");
+        }
     }
-
-    printf("|\n");
 
     free(arrData);
 
     return NULL;
 }
 
-/* Public: */
+void* Int_scan(void* self){
+    struct Int* _int = cast(Int(), self);
 
-/* Protected: */
+    char arr[100];
+    char c;
+    scanf("%100s%c", arr, &c);
+    _int->data = strtol(arr, NULL, 10);
+
+    return NULL;
+}
+
+void* Int_equals(void* self, void* obj){
+    struct Int* _int = cast(Int(), self);
+
+    bool returned = true;
+
+    if(as(bool, super_equals(Int(), self, obj)))
+        return returning(returned);
+
+    struct Int* otherInt = cast(Int(), obj);
+
+    if(_int->data == otherInt->data)
+        return returning(returned);
+    else{
+        returned = false;
+        return returning(returned);
+    }
+}
 
 /** END Object method definitions **USER CODE** **/
 
@@ -142,6 +171,9 @@ const void* const Int(){
            (_Int = new(IntClass(), "Int", PrimWrapper(), sizeof(struct Int),
                            _dataSize, Int_dataSize,
                            _print, Int_print,
+                           _printBound, Int_printBound,
+                           _scan, Int_scan,
+                           _equals, Int_equals,
                            NULL));
 }
 /* END Dynamic initializer */
