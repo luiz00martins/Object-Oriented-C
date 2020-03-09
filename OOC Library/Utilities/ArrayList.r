@@ -33,6 +33,10 @@ struct ArrayListClass{
     void* (*_resize)();
     void* (*caller_resize)();
     void* (*this_resize)(void* self, int size);
+
+    void* (*_print)();
+    void* (*caller_print)();
+    void* (*this_print)(void* self, int bound);
 };
 
 void* _super_resize(struct Class* class, void* self, ...);

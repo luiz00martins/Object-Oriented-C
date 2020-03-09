@@ -149,7 +149,7 @@ void* ArrayStack_contains(void* self, void* obj){
     bool returned = true;
 
     for(int i = 0; i < arrayStack->len; i++){
-        if(equals(arrayStack->objs[i], obj))
+        if(as(bool, equals(arrayStack->objs[i], obj)))
             return returning(returned);
     }
 

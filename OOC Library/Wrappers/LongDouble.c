@@ -95,7 +95,7 @@ void* LongDouble_printBound(void* self, int bound){
         temp /= 10;
     }
 
-    int overhead = digits <= 6? 2 : 0 + _longDouble->data < 0 ? 1 : 0;
+    int overhead = (digits <= 6? 2 : 0) + (_longDouble->data < 0 ? 1 : 0);
 
     if (_longDouble->data < 0)
         printf("-");

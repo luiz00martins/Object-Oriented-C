@@ -83,7 +83,7 @@ void* Int_printBound(void* self, int bound){
     }
 
     int digits = 1;
-    int temp = _int->data;
+    int temp = _int->data < 0 ? _int->data * -1 : _int->data;
 
     // Figuring out the number of digits
     while(temp >= 10){
@@ -93,15 +93,16 @@ void* Int_printBound(void* self, int bound){
 
     // Separating the digits;
     int* arrData = malloc(sizeof(int) * digits);
-    temp = _int->data;
+    temp = _int->data < 0 ? _int->data * -1 : _int->data;
     for(int i = 0; i < digits; i++){
         arrData[i] = temp % 10;
         temp /= 10;
     }
 
+    if (_int->data < 0) printf("-");
     if(bound < digits){
         // Print all digits you can, but three, and print an ellipsis
-        int notFit = 3 + digits - bound;
+        int notFit = 3 + digits - bound - _int->data < 0 ? 1 : 0;
         for(int i = digits-1; i >= notFit; i--){
             printf("%i", arrData[i]);
         }
@@ -113,7 +114,8 @@ void* Int_printBound(void* self, int bound){
             printf("%i", arrData[i]);
         }
         // Print blank spaces
-        for(int i = bound - digits; i > 0; i--){
+        int i;
+        for(i = bound - digits - (_int->data < 0 ? 1 : 0); i > 0; i--){
             printf(" ");
         }
     }

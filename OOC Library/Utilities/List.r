@@ -33,6 +33,10 @@ struct ListClass{
     void* (*caller_remove)();
     void* (*this_remove)(void* self, int i);
 
+    void* (*_push)();
+    void* (*caller_push)();
+    void* (*this_push)(void* self, void* obj);
+
     void* (*_pop)();
     void* (*caller_pop)();
     void* (*this_pop)(void* self, int i);
@@ -61,6 +65,8 @@ void* _super_set(struct Class* class, void* self, ...);
 #define super_set(class, self, ...) _super_set(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_remove(struct Class* class, void* self, ...);
 #define super_remove(class, self, ...) _super_remove(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_push(struct Class* class, void* self, ...);
+#define super_push(class, self, ...) _super_push(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_pop(struct Class* class, void* self, ...);
 #define super_pop(class, self, ...) _super_pop(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_clear(struct Class* class, void* self, ...);

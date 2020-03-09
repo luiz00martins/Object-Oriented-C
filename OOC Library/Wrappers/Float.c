@@ -94,7 +94,7 @@ void* Float_printBound(void* self, int bound){
         temp /= 10;
     }
 
-    int overhead = digits <= 6? 2 : 0 + _float->data < 0 ? 1 : 0;
+    int overhead = (digits <= 6? 2 : 0) + (_float->data < 0 ? 1 : 0);
 
     if (_float->data < 0)
         printf("-");

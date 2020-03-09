@@ -4,6 +4,7 @@
 #include <assert.h>
 #include "ArrayList.h"
 #include "ArrayList.r"
+#include "../Wrappers/PrimWrapper.h"
 
 
 /** START Getters and Setters **/
@@ -33,7 +34,8 @@ build_funcs(ArrayList,
 /** START Class method definitions **/
 build_class_ctor(ArrayList,
         ((void**, objs), (int, len), (int, size), (struct Class*, type)),
-        ((resize, (int, size))))
+        ((resize, (int, size)),
+         (print, (int, bound))))
 
 /** END Class method definitions **/
 
@@ -60,6 +62,8 @@ void* ArrayList_dtor(void* self){
     super_dtor(ArrayList(), self);
 
     free(arrayList->objs);
+    arrayList->size = 0;
+    arrayList->len = 0;
 
     return self;
 }
@@ -69,15 +73,43 @@ void* ArrayList_get(void* self, int i){
     super_get(ArrayList(), self, i);
 
 
+    if(i < 0 || i >= arrayList->len){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
 
-    return NULL;
+    return arrayList->objs[i];
 }
 void* ArrayList_set(void* self, int i, void* obj){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
     super_set(ArrayList(), self, i, obj);
 
+    if(i < 0){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
 
+    if(i > arrayList->len){
+        i = arrayList->len;
+    }
+
+    if(arrayList->len == arrayList->size){
+        resize(arrayList, arrayList->size * 2);
+    }
+
+    /*if(arrayList->objs[i] == NULL){
+        arrayList->objs[i] = obj;
+    }*/
+    int cont;
+    for(cont = arrayList->len; cont > i; cont--){
+        arrayList->objs[cont] = arrayList->objs[cont-1];
+    }
+
+    arrayList->objs[i] = obj;
+    (arrayList->len)++;
 
     return NULL;
 }
@@ -85,7 +117,21 @@ void* ArrayList_remove(void* self, int i){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
 
+    if(i < 0 || i > arrayList->len) return NULL;
 
+    int cont;
+    for(cont = i; cont < arrayList->len; cont++){
+        arrayList->objs[cont] = arrayList->objs[cont+1];
+    }
+    arrayList->len--;
+
+    return NULL;
+}
+void* ArrayList_push(void* self, void* obj){
+    // Calling super constructor
+    struct ArrayList* arrayList = cast(ArrayList(), self);
+
+    set(arrayList, arrayList->len, obj);
 
     return NULL;
 }
@@ -94,24 +140,58 @@ void* ArrayList_pop(void* self, int i){
     struct ArrayList* arrayList = cast(ArrayList(), self);
     super_pop(ArrayList(), self, i);
 
+    if(i < 0 || i >= arrayList->len){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
 
-    return NULL;
+    int cont;
+    void* aux = arrayList->objs[i];
+
+    for(cont = i; cont < arrayList->len; cont++){
+        arrayList->objs[cont] = arrayList->objs[cont+1];
+    }
+    (arrayList->len)--;
+
+    return aux;
 }
 void* ArrayList_clear(void* self){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
     super_clear(ArrayList(), self);
 
-
+    arrayList->len=0;
 
     return NULL;
 }
 void* ArrayList_resize(void* self, int size){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
-    super_resize(ArrayList(), self, size);
 
+    if(size < 0){
+        printf("\nERROR: Cannot resize to %i\n", size);
+        fflush(stdout);
+        assert(0);
+    }
+    if(size == 0){
+        if(arrayList->len)
+            size = arrayList->len;
+        else
+            size = 1;
+    }
 
+    void** newObjs = malloc(sizeof(void*) * size);
+
+    int smallestLen = size < arrayList->len ? size : arrayList->len;
+
+    memcpy(newObjs, arrayList->objs, sizeof(void*) * smallestLen);
+
+    free(arrayList->objs);
+
+    arrayList->objs = newObjs;
+    arrayList->len = smallestLen;
+    arrayList->size = size;
 
     return NULL;
 }
@@ -120,18 +200,28 @@ void* ArrayList_contains(void* self, void* obj){
     struct ArrayList* arrayList = cast(ArrayList(), self);
     super_contains(ArrayList(), self, obj);
 
+    bool returned = true;
 
+    for(int i = 0; i < arrayList->len; i++){
+        if(as(bool, equals(arrayList->objs[i], obj)))
+            return returning(returned);
+    }
 
-    return NULL;
+    returned = false;
+    return returning(returned);
 }
 void* ArrayList_indexOf(void* self, void* obj){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
     super_indexOf(ArrayList(), self, obj);
 
+    for(int i = 0; i < arrayList->len; i++){
+        if(as(bool, equals(arrayList->objs[i], obj)))
+            return returning(i);
+    }
 
-
-    return NULL;
+    int returned = -1;
+    return returning(returned);
 }
 // TODO: Push this to List, maybe to the not yet build "Collection"
 void* ArrayList_ofType(void* self, void* class){
@@ -156,40 +246,25 @@ void* ArrayList_print(void* self, int bound){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
 
-    /*
-    // Figuring out which one should be printed
-    bool* printed = malloc(sizeof(bool) * arrayQueue->size);
-    for (int i = 0; i < arrayQueue->size; i++)
-        printed[i] = false;
-
-    if (arrayQueue->start < arrayQueue->end){
-        for(int i = 0; i < arrayQueue->size; i++){
-            if(i >= arrayQueue->start && i <= arrayQueue->end)
-                printed[i] = true;
-        }
-    }
-    else if (arrayQueue->end < arrayQueue->start){
-        for(int i = 0; i < arrayQueue->size; i++){
-            if(i >= arrayQueue->start || i <= arrayQueue->end)
-                printed[i] = true;
-        }
-    }
-    else if (arrayQueue->len == 1){
-        printed[arrayQueue->start] = true;
-    }
-
-
-    //Printing
     for(int i = 0; i < bound+2; i++)
         printf("=");
     printf("\n");
-    for (int i = 0; i < arrayQueue->size; i++){
-        if(printed[i])
-            print(arrayQueue->objs[i], bound);
-        else {
-            printf("|%*s|\n", bound, "");
+    // Printing valid values
+    for (int i = 0; i < arrayList->len; i++){
+        printf("|");
+        printBound(arrayList->objs[i], bound);
+        printf("|\n");
+        if(i < arrayList->size-1){
+            printf("|");
+            for(int j = 0; j < bound; j++)
+                printf("-");
+            printf("|\n");
         }
-        if(i < arrayQueue->size-1){
+    }
+    // Printing empty values
+    for (int i = arrayList->len; i < arrayList->size; i++){
+        printf("|%*s|\n", bound, "");
+        if(i < arrayList->size-1){
             printf("|");
             for(int j = 0; j < bound; j++)
                 printf("-");
@@ -199,10 +274,6 @@ void* ArrayList_print(void* self, int bound){
     for(int i = 0; i < bound+2; i++)
         printf("=");
     printf("\n");
-
-
-    free(printed);
-    */
 
     return NULL;
 }
@@ -228,6 +299,7 @@ const void* const ArrayList(){
                           _get, ArrayList_get,
                           _set, ArrayList_set,
                           _remove, ArrayList_remove,
+                          _push, ArrayList_push,
                           _pop, ArrayList_pop,
                           _clear, ArrayList_clear,
                           _resize, ArrayList_resize,

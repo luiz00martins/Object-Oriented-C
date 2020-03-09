@@ -199,7 +199,7 @@ void* ArrayQueue_contains(void* self, void* obj){
     if(arrayQueue->start < arrayQueue->end){
         int i;
         for (i = arrayQueue->start; i < arrayQueue->end+1; i++){
-            if (equals(arrayQueue->objs[i], obj)){
+            if (as(bool, equals(arrayQueue->objs[i], obj))){
                 returned = true;
                 return returning(returned);
             }
@@ -209,7 +209,7 @@ void* ArrayQueue_contains(void* self, void* obj){
         int i;
         // Go from start to the last object
         for (i = arrayQueue->start; i < arrayQueue->size; i++){
-            if (equals(arrayQueue->objs[i], obj)){
+            if (as(bool, equals(arrayQueue->objs[i], obj))){
                 returned = true;
                 return returning(returned);
             }
@@ -222,7 +222,6 @@ void* ArrayQueue_contains(void* self, void* obj){
             }
         }
     }
-
 
     return returning(returned);
 }

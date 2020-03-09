@@ -4,6 +4,7 @@
 #include <assert.h>
 #include "LinkedQueue.h"
 #include "LinkedQueue.r"
+#include "../Wrappers/PrimWrapper.h"
 
 
 /** START Getters and Setters **/
@@ -31,7 +32,7 @@ build_funcs(LinkedQueue,
 /** START Class method definitions **/
 build_class_ctor(LinkedQueue,
                  ((LinkedNode*, head), (int, len), (struct Class*, type)),
-                 ())
+                 ((print, (int, bound))))
 
 /** END Class method definitions **/
 
@@ -45,6 +46,8 @@ void* LinkedQueue_ctor(void* self, va_list* args){
 
     // Gathering arguments
     linkedQueue->type = va_arg(*args, void*);
+    linkedQueue->len = 0;
+    linkedQueue->head = NULL;
 
     return self;
 }
@@ -53,7 +56,17 @@ void* LinkedQueue_dtor(void* self){
     struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
     super_dtor(LinkedQueue(), self);
 
+    if(linkedQueue->len > 0){
 
+    LinkedNode* aux;
+        for(int i = 1; i <= (linkedQueue->len); i++){
+            aux = linkedQueue->head;
+            linkedQueue->head = aux->next;
+            free(aux);
+        }
+     linkedQueue->len = 0;
+    }
+    else printf("Fila vazia\n");
 
     return self;
 }
@@ -62,16 +75,31 @@ void* LinkedQueue_peek(void* self){
     struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
     super_peek(LinkedQueue(), self);
 
+    if(linkedQueue->len == 0)return NULL;
 
-
-    return NULL;
+    return (linkedQueue->head->obj);
 }
 void* LinkedQueue_push(void* self, void* obj){
     // Calling super constructor
     struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
     super_push(LinkedQueue(), self, obj);
 
+    LinkedNode* novoNo = malloc(sizeof(struct LinkedNode));
+    novoNo->obj = obj;
+    novoNo->next = NULL;
 
+    LinkedNode* aux = linkedQueue->head;
+    if(aux == NULL){
+        linkedQueue->head = novoNo;
+    }
+    else{
+        for(int i = 1; i < linkedQueue->len; i++){
+            aux = aux->next;
+        }
+        aux->next = novoNo;
+    }
+
+    (linkedQueue->len)++;
 
     return NULL;
 }
@@ -80,16 +108,33 @@ void* LinkedQueue_pop(void* self){
     struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
     super_pop(LinkedQueue(), self);
 
+    if(linkedQueue->len == 0){
+        printf("\nERROR: Cannot pop item from empty list\n");
+        fflush(stdout);
+        assert(0);
+    }
 
+    LinkedNode* aux = linkedQueue->head;
+    linkedQueue->head = linkedQueue->head->next;
 
-    return NULL;
+    void* obj = aux->obj;
+    free(aux);
+    linkedQueue->len--;
+
+    return obj;
 }
 void* LinkedQueue_clear(void* self){
     // Calling super constructor
     struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
     super_clear(LinkedQueue(), self);
 
-
+    LinkedNode* aux;
+    for(int i = 1; i <= (linkedQueue->len); i++){
+        aux = linkedQueue->head;
+        linkedQueue->head = aux->next;
+        free(aux);
+    }
+    linkedQueue->len = 0;
 
     return NULL;
 }
@@ -98,18 +143,32 @@ void* LinkedQueue_contains(void* self, void* obj){
     struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
     super_contains(LinkedQueue(), self, obj);
 
+    bool returned = true;
 
+    LinkedNode* aux = linkedQueue->head;
+    for(int i = 0; i < linkedQueue->len; i++){
+        if(as(bool, equals(aux->obj, obj)))
+            return returning(returned);
+        aux = aux->next;
+    }
 
-    return NULL;
+    returned = false;
+    return returning(returned);
 }
 void* LinkedQueue_indexOf(void* self, void* obj){
     // Calling super constructor
     struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
     super_indexOf(LinkedQueue(), self, obj);
 
+    LinkedNode* aux = linkedQueue->head;
+    for(int i = 0; i < linkedQueue->len; i++){
+        if(as(bool, equals(aux->obj, obj)))
+            return returning(i);
+        aux = aux->next;
+    }
 
-
-    return NULL;
+    int i = -1;
+    return returning(i);
 }
 void* LinkedQueue_ofType(void* self, void* class){
     // Calling super constructor
@@ -133,53 +192,31 @@ void* LinkedQueue_print(void* self, int bound){
     // Calling super constructor
     struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
 
-    /*
-    // Figuring out which one should be printed
-    bool* printed = malloc(sizeof(bool) * arrayQueue->size);
-    for (int i = 0; i < arrayQueue->size; i++)
-        printed[i] = false;
-
-    if (arrayQueue->start < arrayQueue->end){
-        for(int i = 0; i < arrayQueue->size; i++){
-            if(i >= arrayQueue->start && i <= arrayQueue->end)
-                printed[i] = true;
-        }
-    }
-    else if (arrayQueue->end < arrayQueue->start){
-        for(int i = 0; i < arrayQueue->size; i++){
-            if(i >= arrayQueue->start || i <= arrayQueue->end)
-                printed[i] = true;
-        }
-    }
-    else if (arrayQueue->len == 1){
-        printed[arrayQueue->start] = true;
-    }
-
-
-    //Printing
     for(int i = 0; i < bound+2; i++)
         printf("=");
     printf("\n");
-    for (int i = 0; i < arrayQueue->size; i++){
-        if(printed[i])
-            print(arrayQueue->objs[i], bound);
-        else {
-            printf("|%*s|\n", bound, "");
-        }
-        if(i < arrayQueue->size-1){
-            printf("|");
-            for(int j = 0; j < bound; j++)
-                printf("-");
-            printf("|\n");
-        }
+    LinkedNode* aux;
+    int i;
+    if(linkedQueue->len == 0){
+        printf("|");
+        for(i = 0; i < bound; i++)
+            printf(" ");
+        printf("|\n");
     }
-    for(int i = 0; i < bound+2; i++)
+    for(i = 0, aux = linkedQueue->head; i < linkedQueue->len; i++){
+        printf("|");
+        printBound(aux->obj, bound);
+        printf("|\n");
+        if(i < linkedQueue->len-1){
+            for(int j = 0; j < bound+2; j++)
+                printf("=");
+            printf("\n");
+        }
+        aux = aux->next;
+    }
+    for(i = 0; i < bound+2; i++)
         printf("=");
     printf("\n");
-
-
-    free(printed);
-    */
 
     return NULL;
 }

@@ -32,6 +32,10 @@ struct LinkedQueue{
 struct LinkedQueueClass{
     /* Class that is being extended */
     const struct QueueClass _;
+
+    void* (*_print)();
+    void* (*caller_print)();
+    void* (*this_print)(void* self, int bound);
 };
 
 /** END Method management **/

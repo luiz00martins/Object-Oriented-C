@@ -9,8 +9,9 @@
 #include <stdbool.h>
 #include "OOCLib.h"
 #include "Example.h"
+#include "Person.h"
 
-int boxBound = 20;
+int boxBound = 15;
 void* structureType;
 char structureStyle[1000];
 void* storedType;
@@ -149,11 +150,12 @@ void pushing(){
     printTitle();
 
     void* added;
-    // TODO: ADD THIS TO MORE PLACES
     if(ofClass(&storedType, PrimWrapper()))
         added = new(storedType, NULL, NULL);
     else if(storedType == String())
         added = new(String(), "");
+    else
+        added = new(storedType);
 
     printf("Type in your value: ");
     scan(added);
@@ -175,7 +177,7 @@ void peeking(){
 
     if(as(int, get_len(dataStructure)) != 0){
         printf("Peeking at... C_C: ");
-        print(peek(dataStructure), boxBound);
+        print(peek(dataStructure));
     } else printf("There are no items to peek at <_<");
 
 
@@ -187,10 +189,11 @@ void popping(){
     clearScreen();
     printTitle();
 
+    void* popped = NULL;
+
     if (structureType == List()){
         printf("Where in the List you want to pop the data: ");
-        int index;
-        scanf("%i", &index);
+        int index = getSel();
 
         if(index < 0 || index >= as(int, get_len(dataStructure))) {
             printf("Maybe a bit more... or less, idk.");
@@ -199,14 +202,17 @@ void popping(){
         }
 
         printf("Popped: ");
-        print(pop(dataStructure, index));
+        popped = pop(dataStructure, index);
+        print(popped);
     }
     else {
         if(as(int, get_len(dataStructure)) != 0){
             printf("Popped: ");
-            print(pop(dataStructure), boxBound);
+            popped = pop(dataStructure);
+            print(popped);
         } else printf("There are no items to be popped");
     }
+    if(popped) delete(popped);
     printf("\n");
     pressEnter();
 }
@@ -252,7 +258,14 @@ void setting(){
             goto backMenu;
         }
 
-        void *added = new(storedType, NULL, NULL);
+        void* added;
+
+        if(ofClass(&storedType, PrimWrapper()))
+            added = new(storedType, NULL, NULL);
+        else if(storedType == String())
+            added = new(String(), "");
+        else
+            added = new(storedType);
         printf("Type the value you want to add: ");
         scan(added);
 
@@ -275,7 +288,14 @@ void finding() {
 
     int index = -2;
 
-    void* compared = new(storedType, NULL, NULL);
+    void* compared;
+    if(ofClass(&storedType, PrimWrapper()))
+        compared = new(storedType, NULL, NULL);
+    else if(storedType == String())
+        compared = new(String(), "");
+    else
+        compared = new(storedType);
+
     printf("Type the value you want to find: ");
     scan(compared);
 
@@ -390,6 +410,7 @@ void modifyStructure(){
             clearing();
             break;
         case 10:
+            delete(dataStructure);
             return;
         default:
             goto backMenu;
@@ -411,7 +432,8 @@ void createStructureData(){
            "7 - Long Double\n"
            "8 - Char\n"
            "9 - String\n"
-           "10 - Back\n"
+           "10 - Person\n"
+           "11 - Back\n"
            "Selection: ");
 
     switch(getSel()){
@@ -443,6 +465,9 @@ void createStructureData(){
             storedType = String();
             break;
         case 10:
+            storedType = Person();
+            break;
+        case 11:
             return;
         default:
             goto backMenu;
@@ -507,12 +532,27 @@ void createStructure(){
     goto backMenu;
 }
 
-void testing(){
-    float i = 313.321;
-    struct Double* ptr = wrap(i);
+#define TEST_NUM 10
 
-    print(ptr, 10);
-    printf("-");
+void testing(){
+    struct Int* arr[TEST_NUM];
+    struct LinkedStack* linkedQueue= new(LinkedStack(), Int());
+
+    for(int i = 0; i < TEST_NUM; i++){
+        push(linkedQueue, wrap(i));
+    }
+
+    for(int i = 0; i < TEST_NUM; i++){
+        print(pop(linkedQueue));
+    }
+    fflush(stdout);
+
+    int i = 20;
+    struct Int* integer = wrap(i);
+
+    printf(as(bool, contains(linkedQueue, integer)) ? "TRUE" : "FALSE");
+
+    delete(linkedQueue);
 }
 
 int main() {

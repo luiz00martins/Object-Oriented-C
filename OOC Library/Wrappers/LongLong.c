@@ -81,7 +81,7 @@ void* LongLong_printBound(void* self, int bound){
     }
 
     int digits = 1;
-    long long temp = _longLong->data;
+    int temp = _longLong->data < 0 ? _longLong->data * -1 : _longLong->data;
 
     // Figuring out the number of digits
     while(temp >= 10){
@@ -91,15 +91,16 @@ void* LongLong_printBound(void* self, int bound){
 
     // Separating the digits;
     int* arrData = malloc(sizeof(int) * digits);
-    temp = _longLong->data;
+    temp = _longLong->data < 0 ? _longLong->data * -1 : _longLong->data;
     for(int i = 0; i < digits; i++){
         arrData[i] = temp % 10;
         temp /= 10;
     }
 
+    if (_longLong->data < 0) printf("-");
     if(bound < digits){
         // Print all digits you can, but three, and print an ellipsis
-        int notFit = 3 + digits - bound;
+        int notFit = 3 + digits - bound - _longLong->data < 0 ? 1 : 0;
         for(int i = digits-1; i >= notFit; i--){
             printf("%i", arrData[i]);
         }
@@ -110,8 +111,9 @@ void* LongLong_printBound(void* self, int bound){
         for(int i = digits-1; i >= 0; i--){
             printf("%i", arrData[i]);
         }
-        // Print leading blank spaces
-        for(int i = bound - digits; i > 0; i--){
+        // Print blank spaces
+        int i;
+        for(i = bound - digits - (_longLong->data < 0 ? 1 : 0); i > 0; i--){
             printf(" ");
         }
     }

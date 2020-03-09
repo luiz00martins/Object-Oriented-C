@@ -96,7 +96,7 @@ void* Double_printBound(void* self, int bound){
         temp /= 10;
     }
 
-    int overhead = digits <= 6? 2 : 0 + _double->data < 0 ? 1 : 0;
+    int overhead = (digits <= 6? 2 : 1) + (_double->data < 0 ? 1 : 0);
 
     if (_double->data < 0)
         printf("-");
@@ -122,7 +122,7 @@ void* Double_printBound(void* self, int bound){
         printf("...");
     }
     else{
-        // Print a zerot if there's no digit to print
+        // Print a zero if there's no digit to print
         if(digits <= 6)
             printf("0");
         int i;
@@ -138,7 +138,7 @@ void* Double_printBound(void* self, int bound){
         for(;i >= 0; i--){
             printf("%i", arrData[i]);
         }
-        int whiteSpaces = bound - (digits > 8? digits : 8) - 1;
+        int whiteSpaces = bound - (digits > 8 ? digits : 8) - (_double->data < 0 ? 1 : 0);
         if(_double->data < 0) whiteSpaces--;
         for(int i = 0; i < whiteSpaces; i++)
             printf(" ");

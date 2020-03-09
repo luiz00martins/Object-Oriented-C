@@ -28,6 +28,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Short.c" "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles/Test.dir/OOC_Library/Wrappers/Short.c.o"
   "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Struct.c" "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles/Test.dir/OOC_Library/Wrappers/Struct.c.o"
   "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Wrapper.c" "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.o"
+  "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/Person.c" "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles/Test.dir/Person.c.o"
   "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/Test.c" "/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles/Test.dir/Test.c.o"
   )
 set(CMAKE_C_COMPILER_ID "Clang")

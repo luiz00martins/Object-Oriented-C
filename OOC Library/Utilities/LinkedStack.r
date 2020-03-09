@@ -32,6 +32,10 @@ struct LinkedStack{
 struct LinkedStackClass{
     /* Class that is being extended */
     const struct StackClass _;
+
+    void* (*_print)();
+    void* (*caller_print)();
+    void* (*this_print)(void* self, int bound);
 };
 
 /** END Method management **/

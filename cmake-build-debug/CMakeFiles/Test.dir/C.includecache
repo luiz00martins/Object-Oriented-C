@@ -22,6 +22,18 @@ stdbool.h
 OOC_Preprocessor.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/OOC_Preprocessor.h
 
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+string.h
+-
+stddef.h
+-
+assert.h
+-
+stdarg.h
+-
+stdbool.h
+-
+
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/ArrayList.h
 List.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h
@@ -34,29 +46,95 @@ Queue.h
 Stack.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.h
 
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedList.c
+stdlib.h
+-
+stdio.h
+-
+assert.h
+-
+LinkedList.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedList.h
+LinkedList.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedList.r
+../Wrappers/PrimWrapper.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.h
+
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedList.h
 List.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h
+
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedList.r
+List.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.r
+
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedQueue.c
+stdlib.h
+-
+stdio.h
+-
+assert.h
+-
+LinkedQueue.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedQueue.h
+LinkedQueue.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedQueue.r
+../Wrappers/PrimWrapper.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.h
 
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedQueue.h
 Queue.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
 
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedQueue.r
+Queue.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
+
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.c
+stdlib.h
+-
+stdio.h
+-
+assert.h
+-
+LinkedStack.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.h
+LinkedStack.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.r
+../Wrappers/PrimWrapper.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/PrimWrapper.h
+
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.h
 Stack.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.h
+
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.r
+Stack.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.r
 
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.h
 ../Object.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
 
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/List.r
+../Object.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.h
 ../Object.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
 
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Queue.r
+../Object.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
+
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.h
 ../Object.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
+
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/Stack.r
+../Object.r
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.r
 
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/String.h
 ../Object.h
@@ -148,6 +226,10 @@ OOC Library/Utilities/LinkedQueue.h
 OOC Library/Utilities/LinkedStack.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Utilities/LinkedStack.h
 
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/Person.h
+OOC Library/Object.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Object.h
+
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/Test.c
 stdlib.h
 -
@@ -161,4 +243,6 @@ OOCLib.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOCLib.h
 Example.h
 /home/luiz00martins/Dropbox/Programming/C/Object Oriented C/Example.h
+Person.h
+/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/Person.h
 

@@ -21,6 +21,8 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o: ../OOC\ Library/Utiliti
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o: ../OOC\ Library/Utilities/ArrayList.r
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o: ../OOC\ Library/Utilities/List.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o: ../OOC\ Library/Utilities/List.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o: ../OOC\ Library/Wrappers/PrimWrapper.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o: ../OOC\ Library/Wrappers/Wrapper.h
 
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o: ../OOC\ Library/Object.h
@@ -52,6 +54,8 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Utilit
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Utilities/LinkedList.r
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Utilities/List.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Utilities/List.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Wrappers/PrimWrapper.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedList.c.o: ../OOC\ Library/Wrappers/Wrapper.h
 
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Object.h
@@ -61,6 +65,8 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Utili
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Utilities/LinkedQueue.r
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Utilities/Queue.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Utilities/Queue.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Wrappers/PrimWrapper.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedQueue.c.o: ../OOC\ Library/Wrappers/Wrapper.h
 
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Object.h
@@ -70,6 +76,8 @@ CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Utili
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Utilities/LinkedStack.r
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Utilities/Stack.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Utilities/Stack.r
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Wrappers/PrimWrapper.h
+CMakeFiles/Test.dir/OOC_Library/Utilities/LinkedStack.c.o: ../OOC\ Library/Wrappers/Wrapper.h
 
 CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/OOC_Library/Utilities/List.c.o: ../OOC\ Library/Object.h
@@ -223,6 +231,23 @@ CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.o: ../OOC\ Library/Wrappers/W
 CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.o: ../OOC\ Library/Wrappers/Wrapper.h
 CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.o: ../OOC\ Library/Wrappers/Wrapper.r
 
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/OOC_Preprocessor.h
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Object.h
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Object.r
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Utilities/String.h
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Utilities/String.r
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Wrappers/Double.h
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Wrappers/Double.r
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Wrappers/Int.h
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Wrappers/Int.r
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Wrappers/PrimWrapper.h
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Wrappers/PrimWrapper.r
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Wrappers/Wrapper.h
+CMakeFiles/Test.dir/Person.c.o: ../OOC\ Library/Wrappers/Wrapper.r
+CMakeFiles/Test.dir/Person.c.o: ../Person.c
+CMakeFiles/Test.dir/Person.c.o: ../Person.h
+CMakeFiles/Test.dir/Person.c.o: ../Person.r
+
 CMakeFiles/Test.dir/Test.c.o: ../Example.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/OOC_Preprocessor.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Object.h
@@ -249,5 +274,6 @@ CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Short.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Struct.h
 CMakeFiles/Test.dir/Test.c.o: ../OOC\ Library/Wrappers/Wrapper.h
 CMakeFiles/Test.dir/Test.c.o: ../OOCLib.h
+CMakeFiles/Test.dir/Test.c.o: ../Person.h
 CMakeFiles/Test.dir/Test.c.o: ../Test.c
 

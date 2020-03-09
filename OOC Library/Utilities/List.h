@@ -17,6 +17,8 @@ void* _set(void* self, ...);
 #define set(self, ...) _set(self, ##__VA_ARGS__, FUNC_END)
 void* _remove(void* self, ...);
 #define remove(self, ...) _remove(self, ##__VA_ARGS__, FUNC_END)
+void* _push(void* self, ...);
+#define push(self, ...) _push(self, ##__VA_ARGS__, FUNC_END)
 void* _pop(void* self, ...);
 #define pop(self, ...) _pop(self, ##__VA_ARGS__, FUNC_END)
 void* _clear(void* self, ...);

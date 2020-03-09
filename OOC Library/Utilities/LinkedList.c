@@ -4,6 +4,8 @@
 #include <assert.h>
 #include "LinkedList.h"
 #include "LinkedList.r"
+#include "../Wrappers/PrimWrapper.h"
+
 
 
 /** START Getters and Setters **/
@@ -31,7 +33,7 @@ build_funcs(LinkedList,
 /** START Class method definitions **/
 build_class_ctor(LinkedList,
                  ((LinkedNode*, head), (int, len), (struct Class*, type)),
-                 ())
+                 ((print, (int, bound))))
 
 /** END Class method definitions **/
 
@@ -46,7 +48,8 @@ void* LinkedList_ctor(void* self, va_list* args){
     // Gathering arguments
     linkedList->type = va_arg(*args, void*);
 
-
+    linkedList->len = 0;
+    linkedList->head = NULL;
 
     return self;
 }
@@ -55,7 +58,16 @@ void* LinkedList_dtor(void* self){
     struct LinkedList* linkedList = cast(LinkedList(), self);
     super_dtor(LinkedList(), self);
 
+    if(linkedList->len > 0){
 
+    LinkedNode* aux;
+        for(int i = 0; i < (linkedList->len); i++){
+            aux = linkedList->head;
+            linkedList->head = aux->next;
+            free(aux);
+        }
+      linkedList->len = 0;
+    }
 
     return self;
 }
@@ -64,16 +76,61 @@ void* LinkedList_get(void* self, int i){
     struct LinkedList* linkedList = cast(LinkedList(), self);
     super_get(LinkedList(), self, i);
 
+    if(linkedList->len == 0){
+        printf("\nERROR: Cannot pop item from empty list\n");
+        fflush(stdout);
+        assert(0);
+    }
+    if(i < 0 || i >= linkedList->len){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
+    int cont = 0;
+    LinkedNode* aux = linkedList->head;
+    if(i == 0){
+        return aux->obj;
+    }
+    for(cont = 1; cont < i; cont++){
+        aux = aux->next->obj;
+    }
 
-
-    return NULL;
+    return aux;
 }
 void* LinkedList_set(void* self, int i, void* obj){
     // Calling super constructor
     struct LinkedList* linkedList = cast(LinkedList(), self);
     super_set(LinkedList(), self, i, obj);
 
+    if(i < 0){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
+    if (i > linkedList->len)
+        i = linkedList->len;
 
+    LinkedNode* novoNo = malloc(sizeof(struct LinkedNode));
+    novoNo->obj = obj;
+    novoNo->next = NULL;
+
+    if(linkedList->len == 0){
+        linkedList->head = novoNo;
+    }
+    else if(i == 0){
+        novoNo->next = linkedList->head;
+        linkedList->head = novoNo;
+    }
+    else{
+        int cont;
+        LinkedNode* aux = linkedList->head;
+        for(cont = 1; cont < i; cont++){
+            aux = aux->next;
+        }
+        novoNo->next = aux->next;
+        aux->next = novoNo;
+    }
+    linkedList->len++;
 
     return NULL;
 }
@@ -82,7 +139,36 @@ void* LinkedList_remove(void* self, int i){
     struct LinkedList* linkedList = cast(LinkedList(), self);
     super_remove(LinkedList(), self, i);
 
+    if(i < 0 || i >= linkedList->len){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
 
+    int cont;
+    LinkedNode* aux = linkedList->head;
+    LinkedNode* p;
+    if(i == 0){
+        linkedList->head = aux->next;
+        free(aux);
+    }
+    else{
+        for(cont = 1; cont < i; cont++){
+            aux = aux->next;
+        }
+        p = aux->next;
+        aux->next = aux->next->next;
+        free(p);
+    }
+    linkedList->len--;
+
+    return NULL;
+}
+void* LinkedList_push(void* self, void* obj){
+    // Calling super constructor
+    struct LinkedList* linkedList = cast(LinkedList(), self);
+
+    set(linkedList, linkedList->len, obj);
 
     return NULL;
 }
@@ -91,16 +177,50 @@ void* LinkedList_pop(void* self, int i){
     struct LinkedList* linkedList = cast(LinkedList(), self);
     super_pop(LinkedList(), self, i);
 
+    if(i < 0 || i >= linkedList->len){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
+    if(linkedList->len == 0){
+        printf("\nERROR: Cannot pop item from empty list\n");
+        fflush(stdout);
+        assert(0);
+    }
 
+    int cont;
+    LinkedNode* aux = linkedList->head;
+    LinkedNode* p;
+    void* obj = aux->obj;
+    if(i == 0){
+        linkedList->head = aux->next;
+        free(aux);
+    }
+    else{
+        for(cont = 1; cont < i; cont++){
+            aux = aux->next;
+        }
+        p = aux->next;
+        aux->next = aux->next->next;
+        obj = p->obj;
+        free(p);
+    }
+    linkedList->len--;
 
-    return NULL;
+    return obj;
 }
 void* LinkedList_clear(void* self){
     // Calling super constructor
     struct LinkedList* linkedList = cast(LinkedList(), self);
     super_clear(LinkedList(), self);
 
-
+    LinkedNode* aux;
+    for(int i = 0; i < linkedList->len; i++){
+        aux = linkedList->head;
+        linkedList->head = aux->next;
+        free(aux);
+    }
+    linkedList->len = 0;
 
     return NULL;
 }
@@ -109,18 +229,32 @@ void* LinkedList_contains(void* self, void* obj){
     struct LinkedList* linkedList = cast(LinkedList(), self);
     super_contains(LinkedList(), self, obj);
 
+    bool returned = true;
 
+    LinkedNode* aux = linkedList->head;
+    for(int i = 0; i < linkedList->len; i++){
+        if(as(bool, equals(aux->obj, obj)))
+            return returning(returned);
+        aux = aux->next;
+    }
 
-    return NULL;
+    returned = false;
+    return returning(returned);
 }
 void* LinkedList_indexOf(void* self, void* obj){
     // Calling super constructor
     struct LinkedList* linkedList = cast(LinkedList(), self);
     super_indexOf(LinkedList(), self, obj);
 
+    LinkedNode* aux = linkedList->head;
+    for(int i = 0; i < linkedList->len; i++){
+        if(as(bool, equals(aux->obj, obj)))
+            return returning(i);
+        aux = aux->next;
+    }
 
-
-    return NULL;
+    int i = -1;
+    return returning(i);
 }
 void* LinkedList_ofType(void* self, void* class){
     // Calling super constructor
@@ -144,53 +278,31 @@ void* LinkedList_print(void* self, int bound){
     // Calling super constructor
     struct LinkedList* linkedList = cast(LinkedList(), self);
 
-    /*
-    // Figuring out which one should be printed
-    bool* printed = malloc(sizeof(bool) * arrayQueue->size);
-    for (int i = 0; i < arrayQueue->size; i++)
-        printed[i] = false;
-
-    if (arrayQueue->start < arrayQueue->end){
-        for(int i = 0; i < arrayQueue->size; i++){
-            if(i >= arrayQueue->start && i <= arrayQueue->end)
-                printed[i] = true;
-        }
-    }
-    else if (arrayQueue->end < arrayQueue->start){
-        for(int i = 0; i < arrayQueue->size; i++){
-            if(i >= arrayQueue->start || i <= arrayQueue->end)
-                printed[i] = true;
-        }
-    }
-    else if (arrayQueue->len == 1){
-        printed[arrayQueue->start] = true;
-    }
-
-
-    //Printing
     for(int i = 0; i < bound+2; i++)
         printf("=");
     printf("\n");
-    for (int i = 0; i < arrayQueue->size; i++){
-        if(printed[i])
-            print(arrayQueue->objs[i], bound);
-        else {
-            printf("|%*s|\n", bound, "");
-        }
-        if(i < arrayQueue->size-1){
-            printf("|");
-            for(int j = 0; j < bound; j++)
-                printf("-");
-            printf("|\n");
-        }
+    LinkedNode* aux;
+    int i;
+    if(linkedList->len == 0){
+        printf("|");
+        for(i = 0; i < bound; i++)
+            printf(" ");
+        printf("|\n");
     }
-    for(int i = 0; i < bound+2; i++)
+    for(i = 0, aux = linkedList->head; i < linkedList->len; i++){
+        printf("|");
+        printBound(aux->obj, bound);
+        printf("|\n");
+        if(i < linkedList->len-1){
+            for(int j = 0; j < bound+2; j++)
+                printf("=");
+            printf("\n");
+        }
+        aux = aux->next;
+    }
+    for(i = 0; i < bound+2; i++)
         printf("=");
     printf("\n");
-
-
-    free(printed);
-    */
 
     return NULL;
 }
@@ -216,6 +328,7 @@ const void* const LinkedList(){
                              _get, LinkedList_get,
                              _set, LinkedList_set,
                              _remove, LinkedList_remove,
+                             _push, LinkedList_push,
                              _pop, LinkedList_pop,
                              _clear, LinkedList_clear,
                              _contains, LinkedList_contains,

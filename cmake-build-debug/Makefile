@@ -771,6 +771,33 @@ OOC_Library/Wrappers/Wrapper.c.s:
 	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/OOC_Library/Wrappers/Wrapper.c.s
 .PHONY : OOC_Library/Wrappers/Wrapper.c.s
 
+Person.o: Person.c.o
+
+.PHONY : Person.o
+
+# target to build an object file
+Person.c.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Person.c.o
+.PHONY : Person.c.o
+
+Person.i: Person.c.i
+
+.PHONY : Person.i
+
+# target to preprocess a source file
+Person.c.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Person.c.i
+.PHONY : Person.c.i
+
+Person.s: Person.c.s
+
+.PHONY : Person.s
+
+# target to generate assembly for a file
+Person.c.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/Person.c.s
+.PHONY : Person.c.s
+
 Test.o: Test.c.o
 
 .PHONY : Test.o
@@ -879,6 +906,9 @@ help:
 	@echo "... OOC_Library/Wrappers/Wrapper.o"
 	@echo "... OOC_Library/Wrappers/Wrapper.i"
 	@echo "... OOC_Library/Wrappers/Wrapper.s"
+	@echo "... Person.o"
+	@echo "... Person.i"
+	@echo "... Person.s"
 	@echo "... Test.o"
 	@echo "... Test.i"
 	@echo "... Test.s"
