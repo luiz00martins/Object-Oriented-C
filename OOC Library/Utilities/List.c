@@ -11,12 +11,12 @@
 object_build_getset()
 /** END Getters and Setters **/
 
-build_caller_funcs(get, set, remove, pop, clear, contains, indexOf, ofType)
+build_caller_funcs(get, add, remove, pop, clear, contains, indexOf, ofType)
 
 /** START Caller functions **/
 build_funcs(List,
             (get, (int, i)),
-            (set, (int, i, void*, obj)),
+            (add, (int, i, void*, obj)),
             (remove, (int, i)),
             (push, (void*, obj)),
             (pop, (int, i)),
@@ -31,7 +31,7 @@ build_funcs(List,
 /** START Class method definitions **/
 build_class_ctor(List, (),
                  (       (get, (int, i)),
-                         (set, (int, i, void*, obj)),
+                         (add, (int, i, void*, obj)),
                          (remove, (int, i)),
                          (pop, (int, i)),
                          (push, (void*, obj)),
@@ -64,7 +64,7 @@ const void* const List(){
     return _List ? _List :
            (_List = new(ListClass(), "List", Object(), sizeof(struct List),
                           _get, abstract,
-                          _set, abstract,
+                          _add, abstract,
                           _remove, abstract,
                           _push, abstract,
                           _pop, abstract,

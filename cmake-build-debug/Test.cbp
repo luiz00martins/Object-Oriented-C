@@ -220,6 +220,12 @@
 		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/OOC Library/Wrappers/Wrapper.h">
 			<Option target="Test"/>
 		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/Particle.c">
+			<Option target="Test"/>
+		</Unit>
+		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/Particle.h">
+			<Option target="Test"/>
+		</Unit>
 		<Unit filename="/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/Person.c">
 			<Option target="Test"/>
 		</Unit>

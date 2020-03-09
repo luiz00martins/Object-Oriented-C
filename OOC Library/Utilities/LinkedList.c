@@ -19,7 +19,7 @@ build_funcs(LinkedList,
             (ctor, (va_list*, nargs)),
             (dtor, ()),
             (get, (int, i)),
-            (set, (int, i, void*, obj)),
+            (add, (int, i, void*, obj)),
             (remove, (int, i)),
             (pop, (int, i)),
             (clear, ()),
@@ -97,10 +97,10 @@ void* LinkedList_get(void* self, int i){
 
     return aux;
 }
-void* LinkedList_set(void* self, int i, void* obj){
+void* LinkedList_add(void* self, int i, void* obj){
     // Calling super constructor
     struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_set(LinkedList(), self, i, obj);
+    super_add(LinkedList(), self, i, obj);
 
     if(i < 0){
         printf("\nERROR: List index out of bounds\n");
@@ -168,7 +168,7 @@ void* LinkedList_push(void* self, void* obj){
     // Calling super constructor
     struct LinkedList* linkedList = cast(LinkedList(), self);
 
-    set(linkedList, linkedList->len, obj);
+    add(linkedList, linkedList->len, obj);
 
     return NULL;
 }
@@ -326,7 +326,7 @@ const void* const LinkedList(){
                              _ctor, LinkedList_ctor,
                              _dtor, LinkedList_dtor,
                              _get, LinkedList_get,
-                             _set, LinkedList_set,
+                             _add, LinkedList_add,
                              _remove, LinkedList_remove,
                              _push, LinkedList_push,
                              _pop, LinkedList_pop,

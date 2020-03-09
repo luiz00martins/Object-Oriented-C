@@ -138,8 +138,8 @@ void* Double_printBound(void* self, int bound){
         for(;i >= 0; i--){
             printf("%i", arrData[i]);
         }
-        int whiteSpaces = bound - (digits > 8 ? digits : 8) - (_double->data < 0 ? 1 : 0);
-        if(_double->data < 0) whiteSpaces--;
+        int whiteSpaces = bound - (digits > 7 ? digits : 7) - 1;
+        if(_double->data < 0.0) whiteSpaces--;
         for(int i = 0; i < whiteSpaces; i++)
             printf(" ");
     }

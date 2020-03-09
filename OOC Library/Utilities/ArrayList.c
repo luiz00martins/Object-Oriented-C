@@ -18,7 +18,7 @@ build_funcs(ArrayList,
             (ctor, (va_list*, nargs)),
             (dtor, ()),
             (get, (int, i)),
-            (set, (int, i, void*, obj)),
+            (add, (int, i, void*, obj)),
             (remove, (int, i)),
             (pop, (int, i)),
             (clear, ()),
@@ -62,8 +62,6 @@ void* ArrayList_dtor(void* self){
     super_dtor(ArrayList(), self);
 
     free(arrayList->objs);
-    arrayList->size = 0;
-    arrayList->len = 0;
 
     return self;
 }
@@ -81,10 +79,10 @@ void* ArrayList_get(void* self, int i){
 
     return arrayList->objs[i];
 }
-void* ArrayList_set(void* self, int i, void* obj){
+void* ArrayList_add(void* self, int i, void* obj){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
-    super_set(ArrayList(), self, i, obj);
+    super_add(ArrayList(), self, i, obj);
 
     if(i < 0){
         printf("\nERROR: List index out of bounds\n");
@@ -131,7 +129,7 @@ void* ArrayList_push(void* self, void* obj){
     // Calling super constructor
     struct ArrayList* arrayList = cast(ArrayList(), self);
 
-    set(arrayList, arrayList->len, obj);
+    add(arrayList, arrayList->len, obj);
 
     return NULL;
 }
@@ -297,7 +295,7 @@ const void* const ArrayList(){
                           _ctor, ArrayList_ctor,
                           _dtor, ArrayList_dtor,
                           _get, ArrayList_get,
-                          _set, ArrayList_set,
+                          _add, ArrayList_add,
                           _remove, ArrayList_remove,
                           _push, ArrayList_push,
                           _pop, ArrayList_pop,

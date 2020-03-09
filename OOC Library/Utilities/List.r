@@ -25,9 +25,9 @@ struct ListClass{
     void* (*caller_get)();
     void* (*this_get)(void* self, int i);
 
-    void* (*_set)();
-    void* (*caller_set)();
-    void* (*this_set)(void* self, int i, void* obj);
+    void* (*_add)();
+    void* (*caller_add)();
+    void* (*this_add)(void* self, int i, void* obj);
 
     void* (*_remove)();
     void* (*caller_remove)();
@@ -61,8 +61,8 @@ struct ListClass{
 /* super callers */
 void* _super_get(struct Class* class, void* self, ...);
 #define super_get(class, self, ...) _super_get(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_set(struct Class* class, void* self, ...);
-#define super_set(class, self, ...) _super_set(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_add(struct Class* class, void* self, ...);
+#define super_add(class, self, ...) _super_add(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_remove(struct Class* class, void* self, ...);
 #define super_remove(class, self, ...) _super_remove(class, self, ##__VA_ARGS__, FUNC_END)
 void* _super_push(struct Class* class, void* self, ...);

@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Test.dir/Test.c.o"
   "CMakeFiles/Test.dir/Person.c.o"
+  "CMakeFiles/Test.dir/Particle.c.o"
   "CMakeFiles/Test.dir/Example.c.o"
   "CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayList.c.o"
   "CMakeFiles/Test.dir/OOC_Library/Utilities/ArrayQueue.c.o"

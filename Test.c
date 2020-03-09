@@ -10,9 +10,10 @@
 #include "OOCLib.h"
 #include "Example.h"
 #include "Person.h"
+#include "Particle.h"
 
 int boxBound = 15;
-void* structureType;
+const void* structureType;
 char structureStyle[1000];
 void* storedType;
 void* dataStructure;
@@ -242,7 +243,7 @@ void getting(){
     }
     pressEnter();
 }
-void setting(){
+void adding(){
     backMenu:
     clearScreen();
     printTitle();
@@ -269,10 +270,10 @@ void setting(){
         printf("Type the value you want to add: ");
         scan(added);
 
-        set(dataStructure, index, added);
+        add(dataStructure, index, added);
     }
     else {
-        printf("This data structure does not use a set function :[\n");
+        printf("This data structure does not use an add function :[\n");
         pressEnter();
         return;
     }
@@ -398,7 +399,7 @@ void modifyStructure(){
             getting();
             break;
         case 6:
-            setting();
+            adding();
             break;
         case 7:
             finding();
@@ -433,7 +434,8 @@ void createStructureData(){
            "8 - Char\n"
            "9 - String\n"
            "10 - Person\n"
-           "11 - Back\n"
+           "11 - Particle\n"
+           "12 - Back\n"
            "Selection: ");
 
     switch(getSel()){
@@ -468,6 +470,9 @@ void createStructureData(){
             storedType = Person();
             break;
         case 11:
+            storedType = Particle();
+            break;
+        case 12:
             return;
         default:
             goto backMenu;
@@ -535,24 +540,13 @@ void createStructure(){
 #define TEST_NUM 10
 
 void testing(){
-    struct Int* arr[TEST_NUM];
-    struct LinkedStack* linkedQueue= new(LinkedStack(), Int());
+    long double ld = -52.0;
+    struct LongDouble* longDouble = wrap(ld);
 
-    for(int i = 0; i < TEST_NUM; i++){
-        push(linkedQueue, wrap(i));
-    }
+    printBound(longDouble, 12);
+    printf("|\n");
 
-    for(int i = 0; i < TEST_NUM; i++){
-        print(pop(linkedQueue));
-    }
-    fflush(stdout);
-
-    int i = 20;
-    struct Int* integer = wrap(i);
-
-    printf(as(bool, contains(linkedQueue, integer)) ? "TRUE" : "FALSE");
-
-    delete(linkedQueue);
+    delete(longDouble);
 }
 
 int main() {

@@ -103,7 +103,7 @@ void* Person_scan(void* self){
 }
 void* Person_equals(void* self, void* obj){
     struct Person* person = cast(Person(), self);
-    struct Person* person2 = cast(Person(), self);
+    struct Person* person2 = cast(Person(), obj);
 
     bool returned = true;
 

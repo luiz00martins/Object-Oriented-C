@@ -13,8 +13,8 @@
 
 void* _get(void* self, ...);
 #define get(self, ...) _get(self, ##__VA_ARGS__, FUNC_END)
-void* _set(void* self, ...);
-#define set(self, ...) _set(self, ##__VA_ARGS__, FUNC_END)
+void* _add(void* self, ...);
+#define add(self, ...) _add(self, ##__VA_ARGS__, FUNC_END)
 void* _remove(void* self, ...);
 #define remove(self, ...) _remove(self, ##__VA_ARGS__, FUNC_END)
 void* _push(void* self, ...);

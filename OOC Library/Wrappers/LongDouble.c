@@ -95,7 +95,7 @@ void* LongDouble_printBound(void* self, int bound){
         temp /= 10;
     }
 
-    int overhead = (digits <= 6? 2 : 0) + (_longDouble->data < 0 ? 1 : 0);
+    int overhead = (digits <= 6? 2 : 1) + (_longDouble->data < 0 ? 1 : 0);
 
     if (_longDouble->data < 0)
         printf("-");
@@ -137,8 +137,8 @@ void* LongDouble_printBound(void* self, int bound){
         for(;i >= 0; i--){
             printf("%i", arrData[i]);
         }
-        int whiteSpaces = bound - (digits > 8? digits : 8) - 1;
-        if(_longDouble->data < 0) whiteSpaces--;
+        int whiteSpaces = bound - (digits > 7 ? digits : 7) - 1;
+        if(_longDouble->data < 0.0) whiteSpaces--;
         for(int i = 0; i < whiteSpaces; i++)
             printf(" ");
     }

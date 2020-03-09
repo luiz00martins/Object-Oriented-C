@@ -11,7 +11,7 @@
 object_build_getset(text, len, size)
 /** END Getters and Setters **/
 
-build_caller_funcs(print, asArray, cat, resize)
+build_caller_funcs(set, print, asArray, cat, resize)
 
 /** START Caller functions **/
 build_funcs(String,
