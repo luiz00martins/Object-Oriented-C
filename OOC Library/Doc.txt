@@ -2,3 +2,6 @@ Methods:
 - obj->_func points to the actual function that is called by the user (named _func)
 - obj->_caller_func extracts that correct variables from the va_list and calls this_func
 - obj->_this_func is the actual method implemented (or not, in case of abstract) by the class
+
+Features not present:
+- Typechecking

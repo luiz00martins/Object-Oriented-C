@@ -6,245 +6,188 @@
 #include "String.h"
 #include "String.r"
 
+#define CLASS_NAME String
+newClass(Object, 
+    (default, ctor), 
+    (default, dtor), 
+    (default, print), 
+    (default, printBound), 
+    (default, scan), 
+    (default, set), 
+    (default, asArray), 
+    (default, cat), 
+    (default, resize), 
+    (default, equals), 
+    (default, lessThan), 
+    (default, moreThan)
+)
 
-/** START Getters and Setters **/
-object_build_getset(text, len, size)
-/** END Getters and Setters **/
-
-build_caller_funcs(set, print, asArray, cat, resize)
-
-/** START Caller functions **/
-build_funcs(String,
-        (ctor, (va_list*, nargs)),
-        (dtor, ()),
-        (print, ()),
-        (printBound, (int, bound)),
-        (scan, ()),
-        (set, (void*, copied)),
-        (asArray, ()),
-        (cat, (void*, concatenated)),
-        (resize, (int, size)),
-        (equals, (void*, string)))
-
-
-/** END Caller functions **/
-
-/** START Class method definitions **/
-build_class_ctor(String,
-        ((char*, text), (int, len), (int, size)),
-        (       (print, ()),
-                (printBound, (int, bound)),
-                (scan, ()),
-                (set, (void*, copied)),
-                (asArray, ()),
-                (cat, (void*, concatenated)),
-                (resize, (int, size))))
-
-/** END Class method definitions **/
-
-
-/** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-void* String_ctor(void* self, va_list* args){
-    cast(String(), self);
-    // Calling super constructor
-    struct String* string = super_ctor(String(), self, args);
+define_method(ctor){
+    param(pointer, copied);
 
-    // Note: The conversions are happening because of the implicit compiler promotions
-    void* copied = va_arg(*args, void*);
-
-    // Extracting array if it's an Object
-    char* arr;
-    if(isAnObject(copied))
-        arr = ((struct String*)copied)->text;
-    else
-        arr = copied;
+    callSuperMethod();
 
     // Setting up length and size
-    string->len = strlen(arr);
-    string->size = string->len + 1;
+    self->len = strlen(copied);
+    self->size = self->len + 1;
 
     // Allocating and copying string
-    string->text = malloc(sizeof(char) * (string->size));
-    strcpy(string->text, arr);
+    self->text = malloc(sizeof(char) * (self->size));
+    strcpy(self->text, copied);
 
-    return self;
+    returning(String, self);
 }
-void* String_dtor(void* self){
-    cast(String(), self);
-    // Calling super destructor
-    struct String* string = super_dtor(String(), self);
+define_method(dtor){
+    callSuperMethod();
 
-    free(string->text);
+    free(self->text);
 
-    return self;
+    returning(String, self);
 }
 
 /* Public: */
-void* String_print(void* self){
-    struct String* string = cast(String(), self);
+define_method(print){
+    printf("%s", self->text);
 
-    printf("%s", string->text);
-
-    return NULL;
+    returning();
 }
 
-void* String_printBound(void* self, int bound){
-    struct String* string = cast(String(), self);
+define_method(printBound){
+    param(int, bound);
 
-    if (bound < string->len) {
+    if (bound < self->len) {
         for (int i = 0; i < bound - 3; i++)
-            printf("%c", string->text[i]);
+            printf("%c", self->text[i]);
         printf("...");
     }
     else {
-        printf("%s", string->text);
-        for (int i = 0; i < bound - string->len; i++)
+        printf("%s", self->text);
+        for (int i = 0; i < bound - self->len; i++)
             printf(" ");
     }
 
-    return NULL;
+    returning();
 }
 
-void* String_scan(void* self){
-    struct String* string = cast(String(), self);
-
+define_method(scan){
     char arr[1000];
     char c;
     scanf("%1000[^\n]%c", arr, &c);
 
     int copiedSize = strlen(arr) + 1;
 
-    if (string->size < copiedSize){
-        free(string->text);
-        string->size = copiedSize;
-        string->text = malloc(sizeof(char) * copiedSize);
+    if (self->size < copiedSize){
+        free(self->text);
+        self->size = copiedSize;
+        self->text = malloc(sizeof(char) * copiedSize);
     }
-    string->len = copiedSize - 1;
+    self->len = copiedSize - 1;
 
-    strcpy(string->text, arr);
+    strcpy(self->text, arr);
 
-    return NULL;
+    returning();
 }
-void* String_set(void* self, void* copied){
-    struct String* string = cast(String(), self);
-
-    // Extracting array if it's an Object
-    char* arr;
-    if(isAnObject(copied))
-        arr = ((struct String*)copied)->text;
-    else
-        arr = copied;
+define_method(set){
+    param(pointer, arr);
 
     int copiedSize = strlen(arr) + 1;
 
-    if (string->size < copiedSize){
-        free(string->text);
-        string->size = copiedSize;
-        string->text = malloc(sizeof(char) * copiedSize);
+    if (self->size < copiedSize){
+        free(self->text);
+        self->size = copiedSize;
+        self->text = malloc(sizeof(char) * copiedSize);
     }
-    string->len = copiedSize - 1;
+    self->len = copiedSize - 1;
 
-    strcpy(string->text, arr);
+    strcpy(self->text, arr);
 
     // Some come here...
-    return NULL;
+    returning();
 }
-void* String_asArray(void* self){
-    struct String* string = cast(String(), self);
-
-    return string->text;
+define_method(asArray){
+    return self->text;
 }
-void* String_cat(void* self, void* concatenated){
-    struct String* string = cast(String(), self);
+define_method(cat){
+    param(String, concatenated);
 
     // Extracting array if it's an Object
-    char* arr;
-    if(isAnObject(concatenated))
-        arr = ((struct String*)concatenated)->text;
-    else
-        arr = concatenated;
+    char* arr = ((struct String*)concatenated)->text;
 
-    int concatenatedSize = string->len + strlen(arr) + 1;
+    int concatenatedSize = self->len + strlen(arr) + 1;
 
-    if (string->size < concatenatedSize){
-        string->size = concatenatedSize;
+    if (self->size < concatenatedSize){
+        self->size = concatenatedSize;
 
         char* newText = malloc(sizeof(char) * concatenatedSize);
-        strcpy(newText, string->text);
-        free(string->text);
-        string->text = newText;
+        strcpy(newText, self->text);
+        free(self->text);
+        self->text = newText;
     }
 
-    strcpy((string->text + string->len), arr);
+    strcpy((self->text + self->len), arr);
 
-    string->len = concatenatedSize - 1;
+    self->len = concatenatedSize - 1;
 
-    return NULL;
+    returning();
 }
-void* String_resize(void* self, int newLen){
-    assert(newLen >= 0);
+define_method(resize){
+    param(int, newLen);
 
-    struct String* string = cast(String(), self);
+    assert(newLen >= 0);
 
     // If newLen is 0, cut at the end of the sentence
     if (newLen == 0)
-        newLen = string->len;
+        newLen = self->len;
 
     // Setting up size
-    string->size = newLen + 1;
+    self->size = newLen + 1;
 
     // Setting up len
-    if (string->len > newLen)
-        string->len = newLen;
+    if (self->len > newLen)
+        self->len = newLen;
 
     // Reallocating and copying text
-    char* newText = malloc(sizeof(char) * string->size);
-    strncpy(newText, string->text, string->len);
-    free(string->text);
-    string->text = newText;
+    char* newText = malloc(sizeof(char) * self->size);
+    strncpy(newText, self->text, self->len);
+    free(self->text);
+    self->text = newText;
 
-    return NULL;
+    returning();
 }
-void* String_equals(void* self, void* str){
-    struct String* string = cast(String(), self);
+define_method(equals){
+    param(String, str);
+    
     bool returned = true;
 
-    if(as(bool, super_equals(String(), self, str)))
-        return returning(returned);
+    if(as(bool, callSuperMethod(str))){
+        returning(bool, returned);
+    }
+    struct String* otherString = cast(String, str);
 
-    struct String* otherString = cast(String(), str);
-
-    returned = strcmp(string->text, otherString->text) == 0;
-    return returning(returned);
+    returned = strcmp(self->text, otherString->text) == 0;
+    returning(bool, returned);
 }
-/** END Object method definitions **USER CODE** **/
+define_method(lessThan){
+    param(String, otherString);
 
-/* START Dynamic initializer */
-static const void* _StringClass;
+    bool returned = false;
 
-const void* const StringClass(){
-    return _StringClass ? _StringClass :
-           (_StringClass = new(Class(), "StringClass", Class(), sizeof(struct StringClass),
-                                _ctor, StringClass_ctor,
-                                NULL));
+    if (strcmp(self->text, otherString->text) < 0) {
+        returned = true;
+    }
+
+    returning(bool, returned);
+}
+define_method(moreThan){
+    param(String, otherString);
+    
+    bool returned = false;
+
+    if (strcmp(self->text, otherString->text) > 0) {
+        returned = true;
+    }
+
+    returning(bool, returned);
 }
 
-static const void* _String;
-
-const void* const String(){
-    return _String ? _String :
-           (_String = new(StringClass(), "String", Object(), sizeof(struct String),
-                           _ctor, String_ctor,
-                           _dtor, String_dtor,
-                           _print, String_print,
-                           _printBound, String_printBound,
-                           _scan, String_scan,
-                           _set, String_set,
-                           _asArray, String_asArray,
-                           _cat, String_cat,
-                           _resize, String_resize,
-                           _equals, String_equals,
-                           NULL));
-}
-/* END Dynamic initializer */

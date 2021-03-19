@@ -3,33 +3,17 @@
 
 #include "../Object.h"
 
-/** START Variable manegement **/
-/* Public variable getters & setters */
-build_decl_get(len);
 
-/* Protected and Private variable getters (optional) */
-/** END Variable manegement **/
+#define print(self, ...) callMethod("print", self, __VA_ARGS__)
+#define printBound(self, ...) callMethod("printBound", self, __VA_ARGS__)
+#define scan(self, ...) callMethod("scan", self, __VA_ARGS__)
+#define set(self, ...) callMethod("set", self, __VA_ARGS__)
+#define asArray(self, ...) callMethod("asArray", self, __VA_ARGS__)
+#define cat(self, ...) callMethod("cat", self, __VA_ARGS__)
+#define resize(self, ...) callMethod("resize", self, __VA_ARGS__)
+#define moreThan(self, ...) callMethod("moreThan", self, __VA_ARGS__)
+#define lessThan(self, ...) callMethod("lessThan", self, __VA_ARGS__)
 
-/* START Method manegement **/
-/* Public method callers */
-void* _print(void* self, ...);
-#define print(self, ...) _print(self, ##__VA_ARGS__, FUNC_END)
-void* _printBound(void* self, ...);
-#define printBound(self, ...) _printBound(self, ##__VA_ARGS__, FUNC_END)
-void* _scan(void* self, ...);
-#define scan(self, ...) _scan(self, ##__VA_ARGS__, FUNC_END)
-void* _set(void* self, ...);
-#define set(self, ...) _set(self, ##__VA_ARGS__, FUNC_END)
-void* _asArray(void* self, ...);
-#define asArray(self, ...) _asArray(self, ##__VA_ARGS__, FUNC_END)
-void* _cat(void* self, ...);
-#define cat(self, ...) _cat(self, ##__VA_ARGS__, FUNC_END)
-void* _resize(void* self, ...);
-#define resize(self, ...) _resize(self, ##__VA_ARGS__, FUNC_END)
-
-/** END Method manegement **/
-
-/* Object builder */
-const void* const String();
+pointer String();
 
 #endif //OOC_String_H

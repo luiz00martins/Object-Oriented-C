@@ -1,10 +1,10 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include "LongLong.h"
-#include "LongLong.r"
+#include "Pointer.h"
+#include "Pointer.r"
 
-#define CLASS_NAME LongLong
+#define CLASS_NAME Pointer 
 newClass(PrimWrapper,
     (default, ctor),
     (default, dataSize),
@@ -18,25 +18,26 @@ newClass(PrimWrapper,
 )
 
 
+/** START Class method definitions **/
 define_method(ctor){
-    paramOptional(long long, val, 0);
+    paramOptional(pointer, val, NULL);
 
     self->data = val;
 
-    returning(LongLong, self);
+    returning(Pointer, self);
 }
 
 
 /* Overloaded: */
 define_method(dataSize){
 
-    int returned = sizeof(long long);
+    int returned = sizeof(pointer);
     returning(int, returned);
 }
 
 define_method(print){
 
-    printf("%lli", self->data);
+    printf("%p", self->data);
 
     returning();
 }
@@ -49,39 +50,45 @@ define_method(printBound){
     }
 
     int digits = 1;
-    int temp = self->data < 0 ? self->data * -1 : self->data;
+    long long temp = (long long)self->data;
 
     // Figuring out the number of digits
-    while(temp >= 10){
-        temp /= 10;
+    while(temp >= 16){
+        temp = temp / 16;
         digits++;
     }
 
     // Separating the digits;
     int* arrData = malloc(sizeof(int) * digits);
-    temp = self->data < 0 ? self->data * -1 : self->data;
+    temp = (long long)self->data;
     for(int i = 0; i < digits; i++){
-        arrData[i] = temp % 10;
-        temp /= 10;
+        arrData[i] = temp % 16;
+        temp /= 16;
     }
 
-    if (self->data < 0) printf("-");
-    if(bound < digits){
+    if(bound < digits+2){
         // Print all digits you can, but three, and print an ellipsis
-        int notFit = 3 + digits - bound - self->data < 0 ? 1 : 0;
+        int notFit = 5 + digits - bound;
+        printf("0x");
         for(int i = digits-1; i >= notFit; i--){
-            printf("%i", arrData[i]);
+            if (arrData[i] < 10)
+                printf("%i", arrData[i]);
+            else
+                printf("%c", arrData[i]-10 + 'a');
         }
         printf("...");
     }
     else {
         // Print number
+        printf("0x");
         for(int i = digits-1; i >= 0; i--){
-            printf("%i", arrData[i]);
+            if (arrData[i] < 10)
+                printf("%i", arrData[i]);
+            else
+                printf("%c", arrData[i]-10 + 'a');
         }
         // Print blank spaces
-        int i;
-        for(i = bound - digits - (self->data < 0 ? 1 : 0); i > 0; i--){
+        for(int i = bound - digits - 2; i > 0; i--){
             printf(" ");
         }
     }
@@ -96,13 +103,13 @@ define_method(scan){
     char arr[100];
     char c;
     scanf("%100s%c", arr, &c);
-    self->data = strtoll(arr, NULL, 10);
+    self->data = (pointer)strtol(arr, NULL, 16);
 
     returning();
 }
 
 define_method(equals){
-    param(LongLong, obj);
+    param(Pointer, obj);
 
     bool returned = true;
 
@@ -118,8 +125,10 @@ define_method(equals){
     }
 }
 
+
+
 define_method(lessThan){
-    param(LongLong, comp);
+    param(Pointer, comp);
 
     if(self->data < comp->data) {
         bool returned = true;
@@ -132,7 +141,7 @@ define_method(lessThan){
 }
 
 define_method(greaterThan){
-    param(LongLong, comp);
+    param(Pointer, comp);
 
     if(self->data > comp->data) {
         bool returned = true;
@@ -145,9 +154,8 @@ define_method(greaterThan){
 }
 
 define_method(get){
-    returning(long long, self->data);
+    returning(pointer, self->data);
 }
-
 
 
 /* END Dynamic initializer */

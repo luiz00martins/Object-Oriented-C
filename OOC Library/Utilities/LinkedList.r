@@ -4,7 +4,7 @@
 #include "List.r"
 
 typedef struct LinkedNode {
-    void* obj;
+    struct Object* obj;
     struct LinkedNode* next;
 } LinkedNode;
 
@@ -16,13 +16,13 @@ struct LinkedList{
 
     LinkedNode* head;
     int len;
-    struct Class* type;
+    class type;
 };
 
 /* Public and Protected variable accessers */
 #define super_head(obj) (((const struct LinkedList*)(obj))->head)
 #define super_len(obj) (((const struct LinkedList*)(obj))->len)
-#define super_type(obj) (((const struct ArrayList*)(obj))->type)
+#define super_type(obj) (((const struct LinkedList*)(obj))->type)
 
 /* Protected and Private variable setters (optional) */
 /** END Variable manegement **/

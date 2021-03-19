@@ -1,81 +1,55 @@
-
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include "Float.h"
 #include "Float.r"
 
-/** START Getters and Setters **/
-build_decl_get(data);
-/** END Getters and Setters **/
+#define CLASS_NAME Float
+newClass(PrimWrapper,
+    (default, ctor),
+    (default, dataSize),
+    (default, print),
+    (default, printBound),
+    (default, scan),
+    (default, equals),
+    (default, lessThan),
+    (default, greaterThan),
+    (default, get)
+)
 
 
-/** START Caller functions **/
-/* Public callers */
+define_method(ctor){
+    paramOptional(float, val, 0);
 
-/** END Caller functions **/
+    self->data = val;
 
-
-/** START Class method definitions **/
-void* FloatClass_ctor(void* self, va_list* args){
-    struct FloatClass* classPtr = super_ctor(FloatClass(), self, args);
-
-    struct Class* selfBaseClass = classPtr;
-    int argsSize = _arrayPtrSize(selfBaseClass->dataGet) - 1;
-    void** tempDataGet;
-    int* tempDataOffsets;
-    int* tempDataSizes;
-
-    single_addVar(Float, float, data);
-
-    typedef void (*voidf)(); /* generic function pointer */
-    voidf selector;
-    va_list funcArgs;
-
-    va_copy(funcArgs, *args);
-    /* Overloadable function setup. All functions that go here can be overloaded*/
-    while((selector = va_arg(funcArgs, voidf))){
-        voidf function = va_arg(funcArgs, voidf);
-
-        //if (selector == dataSize){
-        //    classPtr->dataSize = function;
-        //}
-    }
-    va_end(funcArgs);
-
-    if (false /* classPtr->func == abstract */ ){
-
-        struct Class* class = classPtr;
-        class->abstract = true;
-    }
-
-    return self;
+    returning(Float, self);
 }
-/** END Class method definitions **/
 
 
-/** START Object method definitions **USER CODE** **/
-void* Float_dataSize(const void* self){
-    struct Float* _float = cast(Float(), self);
+define_method(dataSize){
 
     int returned = sizeof(float);
-    return returning(returned);
+    returning(int, returned);
 }
 
-void* Float_print(void* self) {
-    struct Float *_float = cast(Float(), self);
+define_method(print){
 
-    printf("%f", _float->data);
+    printf("%f", self->data);
 
-    return NULL;
+    returning();
 }
 
-void* Float_printBound(void* self, int bound){
-    struct Float* _float = cast(Float(), self);
+define_method(printBound){
+    param(int, bound);
+
+    if (bound < 5){
+        error("\nERROR: Cannot print with bound less than 5\n");
+    }
 
     int digits = 1;
     long long temp;
-    temp = _float->data < 0 ? _float->data * 10000000 * -1 : _float->data * 10000000;
+    temp = self->data < 0 ? self->data * 10000000 * -1 : self->data * 10000000;
     temp /= 10;
 
     // Figuring out the number of digits
@@ -87,21 +61,21 @@ void* Float_printBound(void* self, int bound){
     int* arrData = malloc(sizeof(int) * digits);
 
     // Separating the digits;
-    temp = _float->data < 0 ? _float->data * 10000000 * -1 : _float->data * 10000000;
+    temp = self->data < 0 ? self->data * 10000000 * -1 : self->data * 10000000;
     temp /= 10;
     for(int i = 0; i < digits; i++){
         arrData[i] = temp % 10;
         temp /= 10;
     }
 
-    int overhead = (digits <= 6? 2 : 1) + (_float->data < 0 ? 1 : 0);
+    int overhead = (digits <= 6? 2 : 1) + (self->data < 0 ? 1 : 0);
 
-    if (_float->data < 0)
+    if (self->data < 0)
         printf("-");
     if(bound < digits+overhead || bound < 8){
         // Print all digits you can, but three, and print an ellipsis
         int leftSpaces = bound - 4;
-        if (_float->data < 0) leftSpaces--;
+        if (self->data < 0) leftSpaces--;
         if(digits <= 6) {
             printf("0");
             leftSpaces--;
@@ -137,67 +111,72 @@ void* Float_printBound(void* self, int bound){
             printf("%i", arrData[i]);
         }
         int whiteSpaces = bound - (digits > 7 ? digits : 7) - 1;
-        if(_float->data < 0.0) whiteSpaces--;
+        if(self->data < 0.0) whiteSpaces--;
         for(int i = 0; i < whiteSpaces; i++)
             printf(" ");
     }
 
     free(arrData);
 
-    return NULL;
+    returning();
 }
 
-void* Float_scan(void* self){
-    struct Float* _float = cast(Float(), self);
+define_method(scan){
 
     char arr[100];
     char c;
     scanf("%100s%c", arr, &c);
-    _float->data = strtof(arr, NULL);
+    self->data = strtof(arr, NULL);
 
-    return NULL;
+    returning();
 }
 
-void* Float_equals(void* self, void* obj){
-    struct Float* _float = cast(Float(), self);
+define_method(equals){
+    param(Float, obj);
 
     bool returned = true;
 
-    if(as(bool, super_equals(Float(), self, obj)))
-        return returning(returned);
+    if(as(bool, callSuperMethod(obj)))
+        returning(bool, returned);
 
-    struct Float* otherFloat = cast(Float(), obj);
-
-    if(_float->data == otherFloat->data)
-        return returning(returned);
+    if(self->data == obj->data){
+        returning(bool, returned);
+    } 
     else{
         returned = false;
-        return returning(returned);
+        returning(bool, returned);
     }
 }
 
-/** END Object method definitions **USER CODE** **/
+define_method(lessThan){
+    param(Float, comp);
 
-/* START Dynamic initializer */
-static const void* _FloatClass;
-
-const void* FloatClass(){
-    return _FloatClass ? _FloatClass :
-           (_FloatClass = new(PrimWrapperClass(), "FloatClass", PrimWrapperClass(), sizeof(struct FloatClass),
-                              _ctor, FloatClass_ctor,
-                              NULL));
+    if(self->data < comp->data) {
+        bool returned = true;
+        returning(bool, returned);
+    }
+    else {
+        bool returned = false;
+        returning(bool, returned);
+    }
 }
 
-static const void* _Float;
+define_method(greaterThan){
+    param(Float, comp);
 
-const void* const Float(){
-    return _Float ? _Float :
-           (_Float = new(FloatClass(), "Float", PrimWrapper(), sizeof(struct Float),
-                        _dataSize, Float_dataSize,
-                        _print, Float_print,
-                        _printBound, Float_printBound,
-                        _scan, Float_scan,
-                        _equals, Float_equals,
-                        NULL));
+    if(self->data > comp->data) {
+        bool returned = true;
+        returning(bool, returned);
+    }
+    else {
+        bool returned = false;
+        returning(bool, returned);
+    }
 }
+
+define_method(get){
+    returning(float, self->data);
+}
+
+
 /* END Dynamic initializer */

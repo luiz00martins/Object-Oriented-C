@@ -3,25 +3,18 @@
 
 #include "Wrapper.h"
 
-/** START Variable manegement **/
-/* Public variable getters & setters */
 
-/* Protected and Private variable getters (optional) */
-
-/** END Variable manegement **/
-
-/** START Method manegement **/
-
-void* _print(void* self, ...);
-#define print(self, ...) _print(self, ##__VA_ARGS__, FUNC_END)
-void* _printBound(void* self, ...);
-#define printBound(self, ...) _printBound(self, ##__VA_ARGS__, FUNC_END)
-void* _scan(void* self, ...);
-#define scan(self, ...) _scan(self, ##__VA_ARGS__, FUNC_END)
-
-/** END Method manegement **/
+#define ctor(self, ...) callMethod("ctor", self, __VA_ARGS__)
+#define dtor(self, ...) callMethod("dtor", self, __VA_ARGS__)
+#define get(self, ...) callMethod("get", self, __VA_ARGS__)
+#define dataSize(self, ...) callMethod("dataSize", self, __VA_ARGS__)
+#define print(self, ...) callMethod("print", self, __VA_ARGS__)
+#define printBound(self, ...) callMethod("printBound", self, __VA_ARGS__)
+#define scan(self, ...) callMethod("scan", self, __VA_ARGS__)
+#define lessThan(self, ...) callMethod("lessThan", self, __VA_ARGS__)
+#define greaterThan(self, ...) callMethod("greaterThan", self, __VA_ARGS__)
 
 /* Object builder */
-const void* const PrimWrapper();
+pointer PrimWrapper();
 
 #endif //OOC_PRIMWRAPPER_H

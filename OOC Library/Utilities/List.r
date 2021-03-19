@@ -19,7 +19,7 @@ struct List{
 /* Class constructor structure */
 struct ListClass{
     /* Class that is being extended */
-    const struct Class _;
+    const struct Object _;
 
     void* (*_get)();
     void* (*caller_get)();
@@ -59,23 +59,23 @@ struct ListClass{
 };
 
 /* super callers */
-void* _super_get(struct Class* class, void* self, ...);
+void* _super_get(struct Object* class, void* self, ...);
 #define super_get(class, self, ...) _super_get(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_add(struct Class* class, void* self, ...);
+void* _super_add(struct Object* class, void* self, ...);
 #define super_add(class, self, ...) _super_add(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_remove(struct Class* class, void* self, ...);
+void* _super_remove(struct Object* class, void* self, ...);
 #define super_remove(class, self, ...) _super_remove(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_push(struct Class* class, void* self, ...);
+void* _super_push(struct Object* class, void* self, ...);
 #define super_push(class, self, ...) _super_push(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_pop(struct Class* class, void* self, ...);
+void* _super_pop(struct Object* class, void* self, ...);
 #define super_pop(class, self, ...) _super_pop(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_clear(struct Class* class, void* self, ...);
+void* _super_clear(struct Object* class, void* self, ...);
 #define super_clear(class, self, ...) _super_clear(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_contains(struct Class* class, void* self, ...);
+void* _super_contains(struct Object* class, void* self, ...);
 #define super_contains(class, self, ...) _super_contains(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_indexOf(struct Class* class, void* self, ...);
+void* _super_indexOf(struct Object* class, void* self, ...);
 #define super_indexOf(class, self, ...) _super_indexOf(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_ofType(struct Class* class, void* self, ...);
+void* _super_ofType(struct Object* class, void* self, ...);
 #define super_ofType(class, self, ...) _super_ofType(class, self, ##__VA_ARGS__, FUNC_END)
 
 /** END Method management **/

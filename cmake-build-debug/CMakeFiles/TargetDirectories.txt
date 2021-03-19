@@ -1,3 +1,0 @@
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles/Test.dir
-/home/luiz00martins/Dropbox/Programming/C/Object Oriented C/cmake-build-debug/CMakeFiles/edit_cache.dir

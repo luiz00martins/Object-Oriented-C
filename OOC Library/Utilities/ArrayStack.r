@@ -9,10 +9,10 @@ struct ArrayStack{
     /* Object that is being extended */
     const struct Stack _;
 
-    void** objs;
+    struct Object** objs;
     int len;
     int size;
-    struct Class* type;
+    class type;
 };
 
 /* Public and Protected variable accessers */
@@ -40,7 +40,7 @@ struct ArrayStackClass{
     void* (*this_print)(void* self, int bound);
 };
 
-void* _super_resize(struct Class* class, void* self, ...);
+void* _super_resize(struct Object* class, void* self, ...);
 #define super_resize(class, self, ...) _super_resize(class, self, ##__VA_ARGS__, FUNC_END)
 /** END Method management **/
 

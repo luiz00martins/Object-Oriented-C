@@ -1,16 +1,15 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Char.h"
-#include "Char.r"
+#include "Class.h"
+#include "Class.r"
 
-#define CLASS_NAME Char
+#define CLASS_NAME Class 
 newClass(PrimWrapper,
     (default, ctor),
     (default, dataSize),
     (default, print),
     (default, printBound),
-    (default, scan),
     (default, equals),
     (default, lessThan),
     (default, greaterThan),
@@ -19,23 +18,23 @@ newClass(PrimWrapper,
 
 
 define_method(ctor){
-    paramOptional(char, val, '\0');
+    paramOptional(class, val, Object);
 
     self->data = val;
-    returning(Char, self);
+    returning(Class, self);
 }
 
 
 /* Overloaded: */
 define_method(dataSize){
 
-    int returned = sizeof(char);
+    int returned = sizeof(class);
     returning(int, returned);
 }
 
 define_method(print){
 
-    printf("%c", self->data);
+    printf("%s", ((struct OOC_Class*)(self->data()))->name);
 
     returning();
 }
@@ -47,25 +46,25 @@ define_method(printBound){
         error("\nERROR: Cannot print with bound less than 5\n");
     }
 
-    if(bound) {
-        printf("%c", self->data);
-        for (int i = 0; i < bound-1; i++){
+	char* str = ((struct OOC_Class*)(self->data()))->name;
+	int len = strlen(str);
+
+    if (bound < len) {
+        for (int i = 0; i < bound - 3; i++)
+            printf("%c", str[i]);
+        printf("...");
+    }
+    else {
+        printf("%s", str);
+        for (int i = 0; i < bound - len; i++)
             printf(" ");
-        }
     }
 
     returning();
 }
 
-define_method(scan){
-
-    scanf("%c", &self->data);
-
-    returning();
-}
-
 define_method(equals){
-    param(Char, obj);
+    param(Class, obj);
 
     bool returned = true;
 
@@ -82,7 +81,7 @@ define_method(equals){
 }
 
 define_method(lessThan){
-    param(Char, comp);
+    param(Class, comp);
 
     if(self->data < comp->data) {
         bool returned = true;
@@ -95,7 +94,7 @@ define_method(lessThan){
 }
 
 define_method(greaterThan){
-    param(Char, comp);
+    param(Class, comp);
 
     if(self->data > comp->data) {
         bool returned = true;
@@ -108,8 +107,9 @@ define_method(greaterThan){
 }
 
 define_method(get){
-    returning(char, self->data);
+    returning(class, self->data);
 }
 
 
 /* END Dynamic initializer */
+

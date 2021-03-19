@@ -1,13 +1,13 @@
-#ifndef OOC_LONG_R
-#define OOC_LONG_R
+#ifndef OOC_POINTER_R
+#define OOC_POINTER_R
 
 #include "PrimWrapper.r"
 
-struct Long{
+struct Pointer{
     /* Object that is being extended */
     const struct PrimWrapper _;
     // Data:
-    long data;
+    void* data;
 };
 
-#endif //OOC_LONG_R
+#endif //OOC_POINTER_R

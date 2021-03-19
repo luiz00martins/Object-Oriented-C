@@ -1,87 +1,55 @@
-
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include "Long.h"
 #include "Long.r"
 
-/** START Getters and Setters **/
-build_decl_get(data);
-/** END Getters and Setters **/
+#define CLASS_NAME Long
+newClass(PrimWrapper,
+    (default, ctor),
+    (default, dataSize),
+    (default, print),
+    (default, printBound),
+    (default, scan),
+    (default, equals),
+    (default, lessThan),
+    (default, greaterThan),
+    (default, get)
+)
 
 
-/** START Caller functions **/
-/* Public callers */
+define_method(ctor){
+    paramOptional(long, val, 0);
 
-/** END Caller functions **/
+    self->data = val;
 
-
-/** START Class method definitions **/
-void* LongClass_ctor(void* self, va_list* args){
-    struct LongClass* classPtr = super_ctor(LongClass(), self, args);
-
-    struct Class* selfBaseClass = classPtr;
-    int argsSize = _arrayPtrSize(selfBaseClass->dataGet) - 1;
-    void** tempDataGet;
-    int* tempDataOffsets;
-    int* tempDataSizes;
-
-    single_addVar(Long, long, data);
-
-    typedef void (*voidf)(); /* generic function pointer */
-    voidf selector;
-    va_list funcArgs;
-
-    va_copy(funcArgs, *args);
-    /* Overloadable function setup. All functions that go here can be overloaded*/
-    while((selector = va_arg(funcArgs, voidf))){
-        voidf function = va_arg(funcArgs, voidf);
-
-        //if (selector == dataSize){
-        //    classPtr->dataSize = function;
-        //}
-    }
-    va_end(funcArgs);
-
-    if (false /* classPtr->func == abstract */ ){
-
-        struct Class* class = classPtr;
-        class->abstract = true;
-    }
-
-    return self;
+    returning(Long, self);
 }
-/** END Class method definitions **/
 
 
-/** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-void* Long_dataSize(const void* self){
-    struct Long* _long = cast(Long(), self);
+define_method(dataSize){
 
     int returned = sizeof(long);
-    return returning(returned);
+    returning(int, returned);
 }
 
-void* Long_print(void* self) {
-    struct Long *_long = cast(Long(), self);
+define_method(print){
 
-    printf("%li", _long->data);
+    printf("%li", self->data);
 
-    return NULL;
+    returning();
 }
 
-void* Long_printBound(void* self, int bound){
-    struct Long* _long = cast(Long(), self);
+define_method(printBound){
+    param(int, bound);
 
     if (bound < 5){
-        printf("\nERROR: Cannot print with bound less than %i\n", 5);
-        fflush(stdout);
-        assert(0);
+        error("\nERROR: Cannot print with bound less than %i\n");
     }
 
     int digits = 1;
-    long temp = _long->data < 0 ? _long->data * -1 : _long->data;
+    long temp = self->data < 0 ? self->data * -1 : self->data;
 
     // Figuring out the number of digits
     while(temp >= 10){
@@ -91,16 +59,16 @@ void* Long_printBound(void* self, int bound){
 
     // Separating the digits;
     int* arrData = malloc(sizeof(int) * digits);
-    temp = _long->data < 0 ? _long->data * -1 : _long->data;
+    temp = self->data < 0 ? self->data * -1 : self->data;
     for(int i = 0; i < digits; i++){
         arrData[i] = temp % 10;
         temp /= 10;
     }
 
-    if (_long->data < 0) printf("-");
+    if (self->data < 0) printf("-");
     if(bound < digits){
         // Print all digits you can, but three, and print an ellipsis
-        int notFit = 3 + digits - bound - _long->data < 0 ? 1 : 0;
+        int notFit = 3 + digits - bound - self->data < 0 ? 1 : 0;
         for(int i = digits-1; i >= notFit; i--){
             printf("%i", arrData[i]);
         }
@@ -113,67 +81,72 @@ void* Long_printBound(void* self, int bound){
         }
         // Print blank spaces
         int i;
-        for(i = bound - digits - (_long->data < 0 ? 1 : 0); i > 0; i--){
+        for(i = bound - digits - (self->data < 0 ? 1 : 0); i > 0; i--){
             printf(" ");
         }
     }
 
     free(arrData);
 
-    return NULL;
+    returning();
 }
 
-void* Long_scan(void* self){
-    struct Long* _long = cast(Long(), self);
+define_method(scan){
 
     char arr[100];
     char c;
     scanf("%100s%c", arr, &c);
-    _long->data = strtol(arr, NULL, 10);
+    self->data = strtol(arr, NULL, 10);
 
-    return NULL;
+    returning();
 }
 
-void* Long_equals(void* self, void* obj){
-    struct Long* _long = cast(Long(), self);
+define_method(equals){
+    param(Long, obj);
 
     bool returned = true;
 
-    if(as(bool, super_equals(Long(), self, obj)))
-        return returning(returned);
+    if(as(bool, callSuperMethod(obj)))
+        returning(bool, returned);
 
-    struct Long* otherLong = cast(Long(), obj);
-
-    if(_long->data == otherLong->data)
-        return returning(returned);
+    if(self->data == obj->data){
+        returning(bool, returned);
+    }
     else{
         returned = false;
-        return returning(returned);
+        returning(bool, returned);
     }
 }
 
-/** END Object method definitions **USER CODE** **/
+define_method(lessThan){
+    param(Long, comp);
 
-/* START Dynamic initializer */
-static const void* _LongClass;
-
-const void* LongClass(){
-    return _LongClass ? _LongClass :
-           (_LongClass = new(PrimWrapperClass(), "LongClass", PrimWrapperClass(), sizeof(struct LongClass),
-                             _ctor, LongClass_ctor,
-                             NULL));
+    if(self->data < comp->data) {
+        bool returned = true;
+        returning(bool, returned);
+    }
+    else {
+        bool returned = false;
+        returning(bool, returned);
+    }
 }
 
-static const void* _Long;
+define_method(greaterThan){
+    param(Long, comp);
 
-const void* const Long(){
-    return _Long ? _Long :
-           (_Long = new(LongClass(), "Long", PrimWrapper(), sizeof(struct Long),
-                         _dataSize, Long_dataSize,
-                         _print, Long_print,
-                         _printBound, Long_printBound,
-                         _scan, Long_scan,
-                         _equals, Long_equals,
-                         NULL));
+    if(self->data > comp->data) {
+        bool returned = true;
+        returning(bool, returned);
+    }
+    else {
+        bool returned = false;
+        returning(bool, returned);
+    }
 }
+
+define_method(get){
+    returning(long, self->data);
+}
+
+
 /* END Dynamic initializer */
