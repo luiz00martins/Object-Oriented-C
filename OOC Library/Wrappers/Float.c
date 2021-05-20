@@ -1,89 +1,182 @@
-
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include "Float.h"
 #include "Float.r"
 
-/** START Getters and Setters **/
-build_decl_get(data);
-/** END Getters and Setters **/
+#define CLASS_NAME Float
+newClass(PrimWrapper,
+    (default, ctor),
+    (default, dataSize),
+    (default, print),
+    (default, printBound),
+    (default, scan),
+    (default, equals),
+    (default, lessThan),
+    (default, greaterThan),
+    (default, get)
+)
 
 
-/** START Caller functions **/
-/* Public callers */
+define_method(ctor){
+    paramOptional(float, val, 0);
 
-/** END Caller functions **/
+    self->data = val;
+
+    returning(Float, self);
+}
 
 
-/** START Class method definitions **/
-void* FloatClass_ctor(void* self, va_list* args){
-    struct FloatClass* classPtr = super_ctor(FloatClass(), self, args);
+define_method(dataSize){
 
-    struct Class* selfBaseClass = classPtr;
-    int argsSize = _arrayPtrSize(selfBaseClass->dataGet) - 1;
-    void** tempDataGet;
-    int* tempDataOffsets;
-    int* tempDataSizes;
+    int returned = sizeof(float);
+    returning(int, returned);
+}
 
-    single_addVar(Float, float, data);
+define_method(print){
 
-    typedef void (*voidf)(); /* generic function pointer */
-    voidf selector;
-    va_list funcArgs;
+    printf("%f", self->data);
 
-    va_copy(funcArgs, *args);
-    /* Overloadable function setup. All functions that go here can be overloaded*/
-    while((selector = va_arg(funcArgs, voidf))){
-        voidf function = va_arg(funcArgs, voidf);
+    returning();
+}
 
-        //if (selector == dataSize){
-        //    classPtr->dataSize = function;
-        //}
+define_method(printBound){
+    param(int, bound);
+
+    if (bound < 5){
+        error("\nERROR: Cannot print with bound less than 5\n");
     }
-    va_end(funcArgs);
 
-    if (false /* classPtr->func == abstract */ ){
+    int digits = 1;
+    long long temp;
+    temp = self->data < 0 ? self->data * 10000000 * -1 : self->data * 10000000;
+    temp /= 10;
 
-        struct Class* class = classPtr;
-        class->abstract = true;
+    // Figuring out the number of digits
+    while(temp >= 10){
+        temp /= 10;
+        digits++;
     }
 
-    return self;
+    int* arrData = malloc(sizeof(int) * digits);
+
+    // Separating the digits;
+    temp = self->data < 0 ? self->data * 10000000 * -1 : self->data * 10000000;
+    temp /= 10;
+    for(int i = 0; i < digits; i++){
+        arrData[i] = temp % 10;
+        temp /= 10;
+    }
+
+    int overhead = (digits <= 6? 2 : 1) + (self->data < 0 ? 1 : 0);
+
+    if (self->data < 0)
+        printf("-");
+    if(bound < digits+overhead || bound < 8){
+        // Print all digits you can, but three, and print an ellipsis
+        int leftSpaces = bound - 4;
+        if (self->data < 0) leftSpaces--;
+        if(digits <= 6) {
+            printf("0");
+            leftSpaces--;
+        }
+        int i;
+        for(i = digits-1; i > 5 && leftSpaces > 0; i--, leftSpaces--){
+            printf("%i", arrData[i]);
+        }
+        printf(".");
+        for(int j = i; j < 5 && leftSpaces > 0; j++, leftSpaces--) {
+            printf("0");
+        }
+        for(;i >= 0 && leftSpaces > 0; i--, leftSpaces--){
+            printf("%i", arrData[i]);
+        }
+        printf("...");
+    }
+    else{
+        // Print a zerot if there's no digit to print
+        if(digits <= 6)
+            printf("0");
+        int i;
+        // Print digits before ".", if there's any
+        for(i = digits-1; i > 5; i--){
+            printf("%i", arrData[i]);
+        }
+        printf(".");
+        // Print zeros, in case there's not enough digits
+        for(int j = i; j < 5; j++)
+            printf("0");
+        // Print digits after "."
+        for(;i >= 0; i--){
+            printf("%i", arrData[i]);
+        }
+        int whiteSpaces = bound - (digits > 7 ? digits : 7) - 1;
+        if(self->data < 0.0) whiteSpaces--;
+        for(int i = 0; i < whiteSpaces; i++)
+            printf(" ");
+    }
+
+    free(arrData);
+
+    returning();
 }
-/** END Class method definitions **/
 
+define_method(scan){
 
-/** START Object method definitions **USER CODE** **/
-/* Overloaded: */
-const int Float_dataSize(const void* self){
-    struct Float* _float = cast(Float(), self);;
+    char arr[100];
+    char c;
+    scanf("%100s%c", arr, &c);
+    self->data = strtof(arr, NULL);
 
-    return sizeof(float);
+    returning();
 }
 
-/* Public: */
+define_method(equals){
+    param(Float, obj);
 
-/* Protected: */
+    bool returned = true;
 
-/** END Object method definitions **USER CODE** **/
+    if(as(bool, callSuperMethod(obj)))
+        returning(bool, returned);
 
-/* START Dynamic initializer */
-static const void* _FloatClass;
-
-const void* FloatClass(){
-    return _FloatClass ? _FloatClass :
-           (_FloatClass = new(PrimWrapperClass(), "FloatClass", PrimWrapperClass(), sizeof(struct FloatClass),
-                              _ctor, FloatClass_ctor,
-                              NULL));
+    if(self->data == obj->data){
+        returning(bool, returned);
+    } 
+    else{
+        returned = false;
+        returning(bool, returned);
+    }
 }
 
-static const void* _Float;
+define_method(lessThan){
+    param(Float, comp);
 
-const void* const Float(){
-    return _Float ? _Float :
-           (_Float = new(FloatClass(), "Float", PrimWrapper(), sizeof(struct Float),
-                        _dataSize, Float_dataSize,
-                        NULL));
+    if(self->data < comp->data) {
+        bool returned = true;
+        returning(bool, returned);
+    }
+    else {
+        bool returned = false;
+        returning(bool, returned);
+    }
 }
+
+define_method(greaterThan){
+    param(Float, comp);
+
+    if(self->data > comp->data) {
+        bool returned = true;
+        returning(bool, returned);
+    }
+    else {
+        bool returned = false;
+        returning(bool, returned);
+    }
+}
+
+define_method(get){
+    returning(float, self->data);
+}
+
+
 /* END Dynamic initializer */

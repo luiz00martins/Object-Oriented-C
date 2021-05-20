@@ -19,19 +19,23 @@ struct List{
 /* Class constructor structure */
 struct ListClass{
     /* Class that is being extended */
-    const struct Class _;
+    const struct Object _;
 
     void* (*_get)();
     void* (*caller_get)();
     void* (*this_get)(void* self, int i);
 
-    void* (*_set)();
-    void* (*caller_set)();
-    void* (*this_set)(void* self, int i, void* obj);
+    void* (*_add)();
+    void* (*caller_add)();
+    void* (*this_add)(void* self, int i, void* obj);
 
     void* (*_remove)();
     void* (*caller_remove)();
     void* (*this_remove)(void* self, int i);
+
+    void* (*_push)();
+    void* (*caller_push)();
+    void* (*this_push)(void* self, void* obj);
 
     void* (*_pop)();
     void* (*caller_pop)();
@@ -55,21 +59,23 @@ struct ListClass{
 };
 
 /* super callers */
-void* _super_get(struct Class* class, void* self, ...);
+void* _super_get(struct Object* class, void* self, ...);
 #define super_get(class, self, ...) _super_get(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_set(struct Class* class, void* self, ...);
-#define super_set(class, self, ...) _super_set(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_remove(struct Class* class, void* self, ...);
+void* _super_add(struct Object* class, void* self, ...);
+#define super_add(class, self, ...) _super_add(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_remove(struct Object* class, void* self, ...);
 #define super_remove(class, self, ...) _super_remove(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_pop(struct Class* class, void* self, ...);
+void* _super_push(struct Object* class, void* self, ...);
+#define super_push(class, self, ...) _super_push(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_pop(struct Object* class, void* self, ...);
 #define super_pop(class, self, ...) _super_pop(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_clear(struct Class* class, void* self, ...);
+void* _super_clear(struct Object* class, void* self, ...);
 #define super_clear(class, self, ...) _super_clear(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_contains(struct Class* class, void* self, ...);
+void* _super_contains(struct Object* class, void* self, ...);
 #define super_contains(class, self, ...) _super_contains(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_indexOf(struct Class* class, void* self, ...);
+void* _super_indexOf(struct Object* class, void* self, ...);
 #define super_indexOf(class, self, ...) _super_indexOf(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_ofType(struct Class* class, void* self, ...);
+void* _super_ofType(struct Object* class, void* self, ...);
 #define super_ofType(class, self, ...) _super_ofType(class, self, ##__VA_ARGS__, FUNC_END)
 
 /** END Method management **/

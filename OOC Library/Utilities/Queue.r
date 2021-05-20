@@ -19,7 +19,7 @@ struct Queue{
 /* Class constructor structure */
 struct QueueClass{
     /* Class that is being extended */
-    const struct Class _;
+    const struct Object _;
 
     void* (*_peek)();
     void* (*caller_peek)();
@@ -51,19 +51,19 @@ struct QueueClass{
 };
 
 /* super callers */
-void* _super_peek(struct Class* class, void* self, ...);
+void* _super_peek(struct Object* class, void* self, ...);
 #define super_peek(class, self, ...) _super_peek(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_push(struct Class* class, void* self, ...);
+void* _super_push(struct Object* class, void* self, ...);
 #define super_push(class, self, ...) _super_push(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_pop(struct Class* class, void* self, ...);
+void* _super_pop(struct Object* class, void* self, ...);
 #define super_pop(class, self, ...) _super_pop(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_clear(struct Class* class, void* self, ...);
+void* _super_clear(struct Object* class, void* self, ...);
 #define super_clear(class, self, ...) _super_clear(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_contains(struct Class* class, void* self, ...);
+void* _super_contains(struct Object* class, void* self, ...);
 #define super_contains(class, self, ...) _super_contains(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_indexOf(struct Class* class, void* self, ...);
+void* _super_indexOf(struct Object* class, void* self, ...);
 #define super_indexOf(class, self, ...) _super_indexOf(class, self, ##__VA_ARGS__, FUNC_END)
-void* _super_ofType(struct Class* class, void* self, ...);
+void* _super_ofType(struct Object* class, void* self, ...);
 #define super_ofType(class, self, ...) _super_ofType(class, self, ##__VA_ARGS__, FUNC_END)
 
 /** END Method management **/

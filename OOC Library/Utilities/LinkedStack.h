@@ -3,19 +3,8 @@
 
 #include "Stack.h"
 
-/** START Variable manegement **/
-/* Public variable getters & setters */
-build_decl_get(len);
+#define print(self, ...) callMethod("print", self, __VA_ARGS__)
 
-/* Protected and Private variable getters (optional) */
-/** END Variable manegement **/
-
-/* START Method manegement **/
-/* Public method callers */
-
-/** END Method manegement **/
-
-/* Object builder */
-const void* const LinkedStack();
+pointer LinkedStack();
 
 #endif //OOC_LinkedStack_H

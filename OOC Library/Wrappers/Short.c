@@ -1,89 +1,153 @@
-
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include "Short.h"
 #include "Short.r"
 
-/** START Getters and Setters **/
-build_decl_get(data);
-/** END Getters and Setters **/
-
-
-/** START Caller functions **/
-/* Public callers */
-
-/** END Caller functions **/
+#define CLASS_NAME Short
+newClass(PrimWrapper,
+    (default, ctor),
+    (default, dataSize),
+    (default, print),
+    (default, printBound),
+    (default, scan),
+    (default, equals),
+    (default, lessThan),
+    (default, greaterThan),
+    (default, get)
+)
 
 
 /** START Class method definitions **/
-void* ShortClass_ctor(void* self, va_list* args){
-    struct ShortClass* classPtr = super_ctor(ShortClass(), self, args);
+define_method(ctor){
+    paramOptional(short, val, 0);
 
-    struct Class* selfBaseClass = classPtr;
-    int argsSize = _arrayPtrSize(selfBaseClass->dataGet) - 1;
-    void** tempDataGet;
-    int* tempDataOffsets;
-    int* tempDataSizes;
+    self->data = val;
 
-    single_addVar(Short, short, data);
-
-    typedef void (*voidf)(); /* generic function pointer */
-    voidf selector;
-    va_list funcArgs;
-
-    va_copy(funcArgs, *args);
-    /* Overloadable function setup. All functions that go here can be overloaded*/
-    while((selector = va_arg(funcArgs, voidf))){
-        voidf function = va_arg(funcArgs, voidf);
-
-        //if (selector == dataSize){
-        //    classPtr->dataSize = function;
-        //}
-    }
-    va_end(funcArgs);
-
-    if (false /* classPtr->func == abstract */ ){
-
-        struct Class* class = classPtr;
-        class->abstract = true;
-    }
-
-    return self;
+    returning(Short, self);
 }
-/** END Class method definitions **/
 
 
-/** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-int Short_dataSize(void* self){
-    struct Short* _short = cast(Short(), self);;
+define_method(dataSize){
 
-    return sizeof(short);
+    int returned = sizeof(short);
+    returning(int, returned);
 }
 
-/* Public: */
+define_method(print){
 
-/* Protected: */
+    printf("%hi", self->data);
 
-/** END Object method definitions **USER CODE** **/
-
-/* START Dynamic initializer */
-static const void* _ShortClass;
-
-const void* ShortClass(){
-    return _ShortClass ? _ShortClass :
-           (_ShortClass = new(PrimWrapperClass(), "ShortClass", PrimWrapperClass(), sizeof(struct ShortClass),
-                              _ctor, ShortClass_ctor,
-                              NULL));
+    returning();
 }
 
-static const void* _Short;
+define_method(printBound){
+    param(int, bound);
 
-const void* const Short(){
-    return _Short ? _Short :
-           (_Short = new(ShortClass(), "Short", PrimWrapper(), sizeof(struct Short),
-                         _dataSize, Short_dataSize,
-                         NULL));
+    if (bound < 5){
+        error("\nERROR: Cannot print with bound less than %i\n");
+    }
+
+    int digits = 1;
+    short temp = self->data < 0 ? self->data * -1 : self->data;
+
+    // Figuring out the number of digits
+    while(temp >= 10){
+        temp /= 10;
+        digits++;
+    }
+
+    // Separating the digits;
+    int* arrData = malloc(sizeof(int) * digits);
+    temp = self->data < 0 ? self->data * -1 : self->data;
+    for(int i = 0; i < digits; i++){
+        arrData[i] = temp % 10;
+        temp /= 10;
+    }
+
+    if (self->data < 0) printf("-");
+    if(bound < digits){
+        // Print all digits you can, but three, and print an ellipsis
+        int notFit = 3 + digits - bound - self->data < 0 ? 1 : 0;
+        for(int i = digits-1; i >= notFit; i--){
+            printf("%i", arrData[i]);
+        }
+        printf("...");
+    }
+    else {
+        // Print number
+        for(int i = digits-1; i >= 0; i--){
+            printf("%i", arrData[i]);
+        }
+        // Print blank spaces
+        int i;
+        for(i = bound - digits - (self->data < 0 ? 1 : 0); i > 0; i--){
+            printf(" ");
+        }
+    }
+
+    free(arrData);
+
+    returning();
 }
+
+define_method(scan){
+
+    char arr[100];
+    char c;
+    scanf("%100s%c", arr, &c);
+    self->data = strtol(arr, NULL, 10);
+
+    returning();
+}
+
+define_method(equals){
+    param(Short, obj);
+
+    bool returned = true;
+
+    if(as(bool, callSuperMethod(obj)))
+        returning(bool, returned);
+
+    if(self->data == obj->data){
+        returning(bool, returned);
+    }
+    else{
+        returned = false;
+        returning(bool, returned);
+    }
+}
+
+define_method(lessThan){
+    param(Short, comp);
+
+    if(self->data < comp->data) {
+        bool returned = true;
+        returning(bool, returned);
+    }
+    else {
+        bool returned = false;
+        returning(bool, returned);
+    }
+}
+
+define_method(greaterThan){
+    param(Short, comp);
+
+    if(self->data > comp->data) {
+        bool returned = true;
+        returning(bool, returned);
+    }
+    else {
+        bool returned = false;
+        returning(bool, returned);
+    }
+}
+
+define_method(get){
+    returning(short, self->data);
+}
+
+
 /* END Dynamic initializer */

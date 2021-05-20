@@ -9,12 +9,12 @@ struct ArrayQueue{
     /* Object that is being extended */
     const struct Queue _;
 
-    void** objs;
+    struct Object** objs;
     int len;
     int size;
     int start;
     int end;
-    struct Class* type;
+    class type;
 };
 
 /* Public and Protected variable accessers */
@@ -37,10 +37,16 @@ struct ArrayQueueClass{
     void* (*_resize)();
     void* (*caller_resize)();
     void* (*this_resize)(void* self, int size);
+
+    void* (*_print)();
+    void* (*caller_print)();
+    void* (*this_print)(void* self, int bound);
 };
 
-void* _super_resize(struct Class* class, void* self, ...);
+void* _super_resize(struct Object* class, void* self, ...);
 #define super_resize(class, self, ...) _super_resize(class, self, ##__VA_ARGS__, FUNC_END)
+void* _super_print(struct Object* class, void* self, ...);
+#define super_print(class, self, ...) _super_print(class, self, ##__VA_ARGS__, FUNC_END)
 /** END Method management **/
 
 

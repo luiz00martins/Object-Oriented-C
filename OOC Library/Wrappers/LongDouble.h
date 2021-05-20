@@ -3,19 +3,6 @@
 
 #include "PrimWrapper.h"
 
-/** START Variable manegement **/
-/* Public variable getters & setters */
-
-/* Protected and Private variable getters (optional) */
-
-/** END Variable manegement **/
-
-/* START Method manegement **/
-// new(LongDouble(), long double var)
-/* Public method callers */
-/** END Method manegement **/
-
-/* Object builder */
-const void* const LongDouble();
+pointer LongDouble();
 
 #endif //OOC_LONGDOUBLE_H

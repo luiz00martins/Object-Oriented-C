@@ -4,168 +4,294 @@
 #include <assert.h>
 #include "LinkedList.h"
 #include "LinkedList.r"
+#include "../Wrappers/PrimWrapper.h"
 
+#define CLASS_NAME LinkedList
+newClass(List,
+    (default, ctor),
+    (default, dtor),
+    (default, get),
+    (default, add),
+    (default, remove),
+    (default, push),
+    (default, pop),
+    (default, clear),
+    (default, contains),
+    (default, indexOf),
+    (default, ofType),
+    (default, print)
+)
 
-/** START Getters and Setters **/
-object_build_getset(head)
-build_decl_get(len);
-build_decl_get(type);
-/** END Getters and Setters **/
-
-/** START Caller functions **/
-build_funcs(LinkedList,
-            (ctor, (va_list*, nargs)),
-            (dtor, ()),
-            (get, (int, i)),
-            (set, (int, i, void*, obj)),
-            (remove, (int, i)),
-            (pop, (int, i)),
-            (clear, ()),
-            (contains, (void*, obj)),
-            (indexOf, (void*, obj)))
-
-
-/** END Caller functions **/
-
-/** START Class method definitions **/
-build_class_ctor(LinkedList,
-                 ((LinkedNode*, head), (int, len), (struct Class*, type)),
-                 ())
-
-/** END Class method definitions **/
-
-
-/** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-void* LinkedList_ctor(void* self, va_list* args){
+define_method(ctor){
+    param(class, type);
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_ctor(LinkedList(), self, args);
+    callSuperMethod(args);
 
     // Gathering arguments
-    linkedList->type = va_arg(*args, void*);
+    self->type = type;
 
+    self->len = 0;
+    self->head = NULL;
 
-
-    return self;
+    returning(LinkedList, self);
 }
-void* LinkedList_dtor(void* self){
+define_method(dtor){
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_dtor(LinkedList(), self);
+    callSuperMethod();
 
+    if(self->len > 0){
 
+    LinkedNode* aux;
+        for(int i = 0; i < (self->len); i++){
+            aux = self->head;
+            self->head = aux->next;
+            free(aux);
+        }
+      self->len = 0;
+    }
 
-    return self;
+    returning(LinkedList, self);
 }
-void* LinkedList_get(void* self, int i){
+define_method(get){
+    param(int, i);
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_get(LinkedList(), self, i);
+    callSuperMethod(i);
 
+    if(self->len == 0){
+        printf("\nERROR: Cannot pop item from empty list\n");
+        fflush(stdout);
+        assert(0);
+    }
+    if(i < 0 || i >= self->len){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
+    int cont = 0;
+    LinkedNode* aux = self->head;
+    if(i == 0){
+        return aux->obj;
+    }
+    for(cont = 1; cont < i; cont++){
+        aux = aux->next;
+    }
 
-
-    return NULL;
+    return aux;
 }
-void* LinkedList_set(void* self, int i, void* obj){
+define_method(add){
+    param(int, i);
+    param(Object, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_set(LinkedList(), self, i, obj);
+    callSuperMethod(i, obj);
 
+    if(i < 0){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
+    if (i > self->len)
+        i = self->len;
 
+    LinkedNode* novoNo = malloc(sizeof(struct LinkedNode));
+    novoNo->obj = obj;
+    novoNo->next = NULL;
 
-    return NULL;
+    if(self->len == 0){
+        self->head = novoNo;
+    }
+    else if(i == 0){
+        novoNo->next = self->head;
+        self->head = novoNo;
+    }
+    else{
+        int cont;
+        LinkedNode* aux = self->head;
+        for(cont = 1; cont < i; cont++){
+            aux = aux->next;
+        }
+        novoNo->next = aux->next;
+        aux->next = novoNo;
+    }
+    self->len++;
+
+    returning();
 }
-void* LinkedList_remove(void* self, int i){
+define_method(remove){
+    param(int, i);
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_remove(LinkedList(), self, i);
+    callSuperMethod(i);
 
+    if(i < 0 || i >= self->len){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
 
+    int cont;
+    LinkedNode* aux = self->head;
+    LinkedNode* p;
+    if(i == 0){
+        self->head = aux->next;
+        free(aux);
+    }
+    else{
+        for(cont = 1; cont < i; cont++){
+            aux = aux->next;
+        }
+        p = aux->next;
+        aux->next = aux->next->next;
+        free(p);
+    }
+    self->len--;
 
-    return NULL;
+    returning();
 }
-void* LinkedList_pop(void* self, int i){
+define_method(push){
+    param(class, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_pop(LinkedList(), self, i);
 
+    add(self, self->len, obj);
 
-
-    return NULL;
+    returning();
 }
-void* LinkedList_clear(void* self){
+define_method(pop){
+    param(int, i);
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_clear(LinkedList(), self);
+    callSuperMethod(i);
 
+    if(i < 0 || i >= self->len){
+        printf("\nERROR: List index out of bounds\n");
+        fflush(stdout);
+        assert(0);
+    }
+    if(self->len == 0){
+        printf("\nERROR: Cannot pop item from empty list\n");
+        fflush(stdout);
+        assert(0);
+    }
 
+    int cont;
+    LinkedNode* aux = self->head;
+    LinkedNode* p;
+    void* obj = aux->obj;
+    if(i == 0){
+        self->head = aux->next;
+        free(aux);
+    }
+    else{
+        for(cont = 1; cont < i; cont++){
+            aux = aux->next;
+        }
+        p = aux->next;
+        aux->next = aux->next->next;
+        obj = p->obj;
+        free(p);
+    }
+    self->len--;
 
-    return NULL;
+    return obj;
 }
-void* LinkedList_contains(void* self, void* obj){
+define_method(clear){
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_contains(LinkedList(), self, obj);
+    callSuperMethod();
 
+    LinkedNode* aux;
+    for(int i = 0; i < self->len; i++){
+        aux = self->head;
+        self->head = aux->next;
+        free(aux);
+    }
+    self->len = 0;
 
-
-    return NULL;
+    returning();
 }
-void* LinkedList_indexOf(void* self, void* obj){
+define_method(contains){
+    param(class, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_indexOf(LinkedList(), self, obj);
+    callSuperMethod(obj);
 
+    bool returned = true;
 
+    LinkedNode* aux = self->head;
+    for(int i = 0; i < self->len; i++){
+        if(as(bool, equals(aux->obj, obj)))
+            returning(bool, returned);
+        aux = aux->next;
+    }
 
-    return NULL;
+    returned = false;
+    returning(bool, returned);
 }
-void* LinkedList_ofType(void* self, void* class){
+define_method(indexOf){
+    param(class, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct LinkedList* linkedList = cast(LinkedList(), self);
-    super_ofType(LinkedList(), self, class);
+    callSuperMethod(obj);
+
+    LinkedNode* aux = self->head;
+    for(int i = 0; i < self->len; i++){
+        if(as(bool, equals(aux->obj, obj)))
+            returning(int, i);
+        aux = aux->next;
+    }
+
+    int i = -1;
+    returning(int, i);
+}
+define_method(ofType){
+    param(class, testClass);
+    // Calling super constructor
+    callSuperMethod(testClass);
 
     // Verifyting if it's really a class
-    cast(Class(), class);
+    if(!isClass(testClass)){
+        error("pointer is not a Class");
+    }
 
     bool returned;
-    if(linkedList->type == class){
+    if(self->type == testClass){
         returned = true;
-        return returning(returned);
+        returning(bool, returned);
     }
     else {
         returned = false;
-        return returning(returned);
+        returning(bool, returned);
     }
 }
-/** END Object method definitions **USER CODE** **/
+define_method(print){
+    param(int, bound);
+    // Calling super constructor
 
-/* START Dynamic initializer */
-static const void* _LinkedListClass;
+    for(int i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
+    LinkedNode* aux;
+    int i;
+    if(self->len == 0){
+        printf("|");
+        for(i = 0; i < bound; i++)
+            printf(" ");
+        printf("|\n");
+    }
+    for(i = 0, aux = self->head; i < self->len; i++){
+        printf("|");
+        printBound(aux->obj, bound);
+        printf("|\n");
+        if(i < self->len-1){
+            for(int j = 0; j < bound+2; j++)
+                printf("=");
+            printf("\n");
+        }
+        aux = aux->next;
+    }
+    for(i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
 
-const void* const LinkedListClass(){
-    return _LinkedListClass ? _LinkedListClass :
-           (_LinkedListClass = new(ListClass(), "LinkedListClass", ListClass(), sizeof(struct LinkedListClass),
-                                  _ctor, LinkedListClass_ctor,
-                                  NULL));
+    returning();
 }
 
-static const void* _LinkedList;
-
-const void* const LinkedList(){
-    return _LinkedList ? _LinkedList :
-           (_LinkedList = new(LinkedListClass(), "LinkedList", List(), sizeof(struct LinkedList),
-                             _ctor, LinkedList_ctor,
-                             _dtor, LinkedList_dtor,
-                             _get, LinkedList_get,
-                             _set, LinkedList_set,
-                             _remove, LinkedList_remove,
-                             _pop, LinkedList_pop,
-                             _clear, LinkedList_clear,
-                             _contains, LinkedList_contains,
-                             _indexOf, LinkedList_indexOf,
-                             _ofType, LinkedList_ofType,
-                             NULL));
-}
-/* END Dynamic initializer */

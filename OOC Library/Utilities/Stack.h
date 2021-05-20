@@ -3,35 +3,15 @@
 
 #include "../Object.h"
 
-/** START Variable manegement **/
-/* Public variable getters & setters */
+#define peek(self, ...) callMethod("peek", self, __VA_ARGS__)
+#define push(self, ...) callMethod("push", self, __VA_ARGS__)
+#define pop(self, ...) callMethod("pop", self, __VA_ARGS__)
+#define clear(self, ...) callMethod("clear", self, __VA_ARGS__)
+#define resize(self, ...) callMethod("resize", self, __VA_ARGS__)
+#define contains(self, ...) callMethod("contains", self, __VA_ARGS__)
+#define indexOf(self, ...) callMethod("indexOf", self, __VA_ARGS__)
+#define ofType(self, ...) callMethod("ofType", self, __VA_ARGS__)
 
-/* Protected and Private variable getters (optional) */
-/** END Variable manegement **/
-
-/* START Method manegement **/
-
-/* Public method callers */
-void* _peek(void* self, ...);
-#define peek(self, ...) _peek(self, ##__VA_ARGS__, FUNC_END)
-void* _push(void* self, ...);
-#define push(self, ...) _push(self, ##__VA_ARGS__, FUNC_END)
-void* _pop(void* self, ...);
-#define pop(self, ...) _pop(self, ##__VA_ARGS__, FUNC_END)
-void* _clear(void* self, ...);
-#define clear(self, ...) _clear(self, ##__VA_ARGS__, FUNC_END)
-void* _resize(void* self, ...);
-#define resize(self, ...) _resize(self, ##__VA_ARGS__, FUNC_END)
-void* _contains(void* self, ...);
-#define contains(self, ...) _contains(self, ##__VA_ARGS__, FUNC_END)
-void* _indexOf(void* self, ...);
-#define indexOf(self, ...) _indexOf(self, ##__VA_ARGS__, FUNC_END)
-void* _ofType(void* self, ...);
-#define ofType(self, ...) _ofType(self, ##__VA_ARGS__, FUNC_END)
-
-/** END Method manegement **/
-
-/* Object builder */
-const void* const Stack();
+pointer Stack();
 
 #endif //OOC_Stack_H

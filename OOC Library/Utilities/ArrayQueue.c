@@ -4,299 +4,315 @@
 #include <assert.h>
 #include "ArrayQueue.h"
 #include "ArrayQueue.r"
+#include "../Wrappers/PrimWrapper.h"
 
+#define CLASS_NAME ArrayQueue
+newClass(Queue,
+    (default, ctor),
+    (default, dtor),
+    (default, peek),
+    (default, push),
+    (default, pop),
+    (default, clear),
+    (default, resize),
+    (default, contains),
+    (default, indexOf),
+    (default, ofType),
+    (default, print)
+)
 
-/** START Getters and Setters **/
-object_build_getset(start, end)
-build_decl_get(objs);
-build_decl_get(type);
-build_decl_get(len);
-build_decl_get(size);
-/** END Getters and Setters **/
-
-/** START Caller functions **/
-build_funcs(ArrayQueue,
-            (ctor, (va_list*, nargs)),
-            (dtor, ()),
-            (peek, ()),
-            (push, (void*, obj)),
-            (pop, ()),
-            (clear, ()),
-            (resize, (int, size)),
-            (contains, (void*, obj)),
-            (indexOf, (void*, obj)),
-            (ofType, (void*, class)))
-/** END Caller functions **/
-
-/** START Class method definitions **/
-build_class_ctor(ArrayQueue,
-        ((void**, objs), (int, len), (int, size), (int, start), (int, end), (struct Class*, type)),
-        ((resize, (int, size))))
-
-/** END Class method definitions **/
-
-
-/** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-void* ArrayQueue_ctor(void* self, va_list* args){
+define_method(ctor){
+    param(class, type);
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_ctor(ArrayQueue(), self, args);
+    callSuperMethod();
 
     // Gathering arguments
-    arrayQueue->type = va_arg(*args, void*);
+    self->type = type;
 
 
-    arrayQueue->objs = malloc(sizeof(void*));
-    arrayQueue->size = 1;
-    arrayQueue->len = 0;
-    arrayQueue->start = 0;
-    arrayQueue->end = 0;
+    self->objs = malloc(sizeof(void*));
+    self->size = 1;
+    self->len = 0;
+    self->start = 0;
+    self->end = 0;
 
-    return self;
+    returning(ArrayQueue, self);
 }
-void* ArrayQueue_dtor(void* self){
+define_method(dtor){
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_dtor(ArrayQueue(), self);
+    callSuperMethod();
 
-    free(arrayQueue->objs);
+    free(self->objs);
 
-    return self;
+    returning(ArrayQueue, self);
 }
-void* ArrayQueue_peek(void* self){
+define_method(peek){
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_peek(ArrayQueue(), self);
+    callSuperMethod();
 
-
-
-    return arrayQueue->objs[arrayQueue->start];
+    if(self->len > 0){
+        returning(self->type, self->objs[self->start]);
+    }
+    else {
+        returning();
+    }
 }
-void* ArrayQueue_push(void* self, void* obj){
+define_method(push){
+    param(Object, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_push(ArrayQueue(), self, obj);
+    callSuperMethod(obj);
 
-    if(arrayQueue->size == arrayQueue->len){
-        ArrayQueue_resize(arrayQueue, arrayQueue->size * 2);
+    if(self->size == self->len){
+        resize(self, self->size * 2);
     }
 
     // Finding the end
-    int index = arrayQueue->end + 1;
-    if(index == arrayQueue->size)
+    int index = self->end + 1;
+    if(index == self->size)
         index = 0;
 
     // Adding object, adjusting end and len
-    arrayQueue->objs[index] = obj;
-    arrayQueue->end = index;
-    arrayQueue->len++;
+    self->objs[index] = obj;
+    self->end = index;
+    self->len++;
 
-    return NULL;
+    returning();
 }
-void* ArrayQueue_pop(void* self){
+define_method(pop){
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_pop(ArrayQueue(), self);
+    callSuperMethod();
 
-    if(arrayQueue->len == 0){
+    if(self->len == 0){
         printf("\nERROR: Cannot pop item from empty queue\n");
         fflush(stdout);
         assert(0);
     }
 
     // Storing item to be returned
-    void* returned = arrayQueue->objs[arrayQueue->start];
+    struct Object* returned = self->objs[self->start];
 
     // Adjusting start and len
-    arrayQueue->len--;
+    self->len--;
     // Start should only increase of it's not the last removal
-    if(arrayQueue->len > 0)
-        arrayQueue->start++;
-    if(arrayQueue->start == arrayQueue->size)
-        arrayQueue->start = 0;
+    if(self->len > 0)
+        self->start++;
+    if(self->start == self->size)
+        self->start = 0;
 
 
-    return returned;
+    returning(Object, returned);
 }
-void* ArrayQueue_clear(void* self){
+define_method(clear){
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_clear(ArrayQueue(), self);
+    callSuperMethod();
 
-    arrayQueue->len = 0;
-    arrayQueue->start = 0;
-    arrayQueue->end = 0;
+    self->len = 0;
+    self->start = 0;
+    self->end = 0;
 
-    return NULL;
+    returning();
 }
-void* ArrayQueue_resize(void* self, int size){
+define_method(resize){
+    param(int, size);
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
 
-    if(size < -1){
+    if(size < 0){
         printf("\nERROR: Cannot resize to %i\n", size);
         fflush(stdout);
         assert(0);
     }
 
-    if(size == -1){
-        size = arrayQueue->len;
+    int smallestLen;
+
+    if(size == 0){
+        if(self->len)
+            size = self->len;
+        else
+            size = 1;
     }
 
     void** newObjs = malloc(sizeof(void*) * size);
 
-    int smallestLen = size < arrayQueue->len ? size : arrayQueue->len;
+    smallestLen = size < self->len ? size : self->len;
 
     // Note: If they are equal, you have nothing to copy
-    if(arrayQueue->start < arrayQueue->end){
+    if(self->start < self->end){
         // In case start is before end, just copy from start to end
-        memcpy(newObjs, arrayQueue->objs+arrayQueue->start, sizeof(void*) * smallestLen);
+        memcpy(newObjs, self->objs+self->start, sizeof(void*) * smallestLen);
     }
     else{
         // In case end is before start
         int toBeCopied = smallestLen;
 
         // Copy the least you need
-        int copiedStart = size < (arrayQueue->size-arrayQueue->start) ? size : (arrayQueue->size-arrayQueue->start);
+        int copiedStart = size < (self->size-self->start) ? size : (self->size-self->start);
         // Copy from start to the last object (or until you've copied everything)
-        memcpy(newObjs, arrayQueue->objs+arrayQueue->start, sizeof(void*) * copiedStart);
+        memcpy(newObjs, self->objs+self->start, sizeof(void*) * copiedStart);
 
         toBeCopied -= copiedStart;
 
         if(toBeCopied > 0){
             // Then from the first object to the end to the now tail
-            memcpy(newObjs + copiedStart, arrayQueue->objs, sizeof(void*) *toBeCopied);
+            memcpy(newObjs + copiedStart, self->objs, sizeof(void*) *toBeCopied);
         }
     }
-    free(arrayQueue->objs);
+    free(self->objs);
 
-    arrayQueue->objs = newObjs;
-    arrayQueue->size = size;
-    arrayQueue->len = smallestLen;
-    arrayQueue->start = 0;
-    arrayQueue->end = smallestLen - 1;
+    self->objs = (struct Object**)newObjs;
+    self->size = size;
+    self->len = smallestLen;
+    self->start = 0;
+    self->end = smallestLen ? smallestLen - 1 : smallestLen;
 
-    return NULL;
+    returning();
 }
-void* ArrayQueue_contains(void* self, void* obj){
+define_method(contains){
+    param(class, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_contains(ArrayQueue(), self, obj);
+    callSuperMethod(obj);
 
     bool returned = false;
 
 
-    if(arrayQueue->start < arrayQueue->end){
+    if(self->start < self->end){
         int i;
-        for (i = arrayQueue->start; i < arrayQueue->end+1; i++){
-            if (arrayQueue->objs[i] == obj){
+        for (i = self->start; i < self->end+1; i++){
+            if (as(bool, equals(self->objs[i], obj))){
                 returned = true;
-                return returning(returned);
+                returning(bool, returned);
             }
         }
     }
     else{
         int i;
         // Go from start to the last object
-        for (i = arrayQueue->start; i < arrayQueue->size; i++){
-            if (arrayQueue->objs[i] == obj){
+        for (i = self->start; i < self->size; i++){
+            if (as(bool, equals(self->objs[i], obj))){
                 returned = true;
-                return returning(returned);
+                returning(bool, returned);
             }
         }
         // From the first object to end
-        for (i = 0; i < arrayQueue->end+1; i++){
-            if (arrayQueue->objs[i] == obj){
+        for (i = 0; i < self->end+1; i++){
+            if (equals(self->objs[i], obj)){
                 returned = true;
-                return returning(returned);
+                returning(bool, returned);
             }
         }
     }
 
-
-    return returning(returned);
+    returning(bool, returned);
 }
-void* ArrayQueue_indexOf(void* self, void* obj){
+define_method(indexOf){
+    param(class, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_indexOf(ArrayQueue(), self, obj);
+    callSuperMethod(obj);
 
     int index = 0;
 
 
-    if(arrayQueue->start < arrayQueue->end){
+    if(self->start < self->end){
         int i;
-        for (i = arrayQueue->start; i < arrayQueue->end+1; i++, index++){
-            if (arrayQueue->objs[i] == obj){
-                return returning(index);
+        for (i = self->start; i < self->end+1; i++, index++){
+            if (equals(self->objs[i], obj)){
+                returning(int, index);
             }
         }
     }
     else{
         int i;
         // Go from start to the last object
-        for (i = arrayQueue->start; i < arrayQueue->size; i++, index++){
-            if (arrayQueue->objs[i] == obj){
-                return returning(index);
+        for (i = self->start; i < self->size; i++, index++){
+            if (equals(self->objs[i], obj)){
+                returning(int, index);
             }
         }
         // From the first object to end
-        for (i = 0; i < arrayQueue->end+1; i++){
-            if (arrayQueue->objs[i] == obj){
-                return returning(index);
+        for (i = 0; i < self->end+1; i++){
+            if (equals(self->objs[i], obj)){
+                returning(int, index);
             }
         }
     }
 
     index = -1;
-    return returning(index);
+    returning(int, index);
 }
-void* ArrayQueue_ofType(void* self, void* class){
+define_method(ofType){
+    param(class, testClass);
     // Calling super constructor
-    struct ArrayQueue* arrayQueue = cast(ArrayQueue(), self);
-    super_ofType(ArrayQueue(), self, class);
+    callSuperMethod(testClass);
 
     // Verifyting if it's really a class
-    cast(Class(), class);
+    if(!isClass(testClass)){
+        error("pointer is not a Class");
+    }
 
     bool returned;
-    if(arrayQueue->type == class){
+    if(self->type == testClass){
         returned = true;
-        return returning(returned);
+        returning(bool, returned);
     }
     else {
         returned = false;
-        return returning(returned);
+        returning(bool, returned);
     }
 }
-/** END Object method definitions **USER CODE** **/
+define_method(print){
+    param(int, bound);
+    // Calling super constructor
 
-/* START Dynamic initializer */
-static const void* _ArrayQueueClass;
+    // Figuring out which one should be printed
+    bool* printed = malloc(sizeof(bool) * self->size);
+    for (int i = 0; i < self->size; i++)
+        printed[i] = false;
 
-const void* const ArrayQueueClass(){
-    return _ArrayQueueClass ? _ArrayQueueClass :
-           (_ArrayQueueClass = new(QueueClass(), "ArrayQueueClass", QueueClass(), sizeof(struct ArrayQueueClass),
-                               _ctor, ArrayQueueClass_ctor,
-                               NULL));
+    if (self->start < self->end){
+        for(int i = 0; i < self->size; i++){
+            if(i >= self->start && i <= self->end)
+                printed[i] = true;
+        }
+    }
+    else if (self->end < self->start){
+        for(int i = 0; i < self->size; i++){
+            if(i >= self->start || i <= self->end)
+                printed[i] = true;
+        }
+    }
+    else if (self->len == 1){
+        printed[self->start] = true;
+    }
+
+
+    //Printing
+    for(int i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
+    for (int i = 0; i < self->size; i++){
+        printf("|");
+        if(printed[i])
+            printBound(self->objs[i], bound);
+        else {
+            printf("%*s", bound, "");
+        }
+        printf("|\n");
+        if(i < self->size-1){
+            printf("|");
+            for(int j = 0; j < bound; j++)
+                printf("-");
+            printf("|\n");
+        }
+    }
+    for(int i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
+
+
+    free(printed);
+
+    returning();
 }
-
-static const void* _ArrayQueue;
-
-const void* const ArrayQueue(){
-    return _ArrayQueue ? _ArrayQueue :
-           (_ArrayQueue = new(ArrayQueueClass(), "ArrayQueue", Queue(), sizeof(struct ArrayQueue),
-                          _ctor, ArrayQueue_ctor,
-                          _dtor, ArrayQueue_dtor,
-                          _peek, ArrayQueue_peek,
-                          _push, ArrayQueue_push,
-                          _pop, ArrayQueue_pop,
-                          _clear, ArrayQueue_clear,
-                          _resize, ArrayQueue_resize,
-                          _contains, ArrayQueue_contains,
-                          _indexOf, ArrayQueue_indexOf,
-                          _ofType, ArrayQueue_ofType,
-                          NULL));
-}
-/* END Dynamic initializer */

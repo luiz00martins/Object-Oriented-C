@@ -5,12 +5,28 @@
 #include <assert.h>
 #include <signal.h>
 #include <setjmp.h>
-#include "Object.h"
 #include "Object.r"
 
-// TODO: Create a print function with specifier %o
-// TODO: Add copy function (and perhaps a deepcopy function) with error message "function not defined"
-// TODO: Implement get and set as a keyword, to get super variables
+/**
+ * Notes: 
+ *-When creating new names for primitives, prefer #define over typedef. Almost all of the mechanisms for primitives in macros
+ * rely on their actual name. Each time a custom name is added, modifications on those are needed (see "typechecking" in "OOOCP.h"),
+ * so add them sparringly.
+ */
+
+// Defines
+#define MAX_BACKTRACE 1024
+#define MAX_AUTOS MAX_BACKTRACE*16
+
+
+// TODO: Create a new_static that releases memory at _returning.
+// TODO: If you add a intermediate variable in returning, you can make it accept immediate values as well.
+// TODO: There's a lot of repeated code in new, supercall and auto.
+// TODO: Make the autos list dynamic.
+// TODO: Implement a way to remove unnecessary castings of primitive types.
+// TODO: Add copy function (and perhaps a deepcopy method).
+
+// FIXME: You can make super class cycles. Check for this in create class.
 
 /** START Helper functions **/
 int _arrayPtrSize(void** ptr){
@@ -32,122 +48,89 @@ bool _hasFunc(void** ptr, void* func){
 
     return false;
 }
-/** END Helper functions **/
+method_hash hash(const unsigned char* str){
+    method_hash hash = 5381;
+    int c;
 
+    while (c = *str++)
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash;
+}
+/** END Helper functions**/
+// SUPER KNOWS ABOUT BACKTRACE
+/** Backtracing setup **/
+struct backtrace{
+    char* methodName[MAX_BACKTRACE];
+    long long line[MAX_BACKTRACE];
+    struct OOC_Class* class[MAX_BACKTRACE];
+    char* file[MAX_BACKTRACE];
+    // The number of allocated autos up to that backtrace layer.
+    long long autoPrefixSum[MAX_BACKTRACE];
+    // The current layer of calls, starting with 0 (top-1 is the previous)
+    long long top;
+
+    // Contains the addresses of all automatic objects, in order of creation.
+    struct Object* autoAddresses[MAX_AUTOS];
+    long long autoAddressesLen;
+};
+static struct backtrace OOC_backtrace;
+/**----------**/
+
+/** Stack setup **/
+// The index and management of the stack is guided together with the backtrace.
+struct stack{
+
+};
+static struct backtrace OOC_backtrace;
+/**----------**/
 
 /** START Static functions **/
-void* new(const void* self, ...){
-    const struct Class* class = cast(Class(), self);
-    struct Object* object;
-    va_list args;
-
-    assert(class->size);
-    object = malloc(class->size);
-    assert(object);
-
-    object->class = class;
-
-    va_start(args, self);
-    class->this_ctor(object, &args);
-    va_end(args);
-
-    if(ofClass(object, Object()) && class->abstract){
-        printf("\nERROR: Cannot instantiate abstract object\n");
-        fflush(stdout);
-        assert(0);
-    }
-
-    return object;
-}
-void delete(void* self){
-    free(dtor(cast(Class(), self)));
-}
-struct Object* copy(const void* self){
-    cast(Object(), self /* Can only copy objects */);
-
-    struct Object* newObj = malloc(sizeOf(self));
-
-    memcpy(newObj, self, sizeOf(self));
-
-    return newObj;
-}
-const struct Class* getClass(const void* self){
-    if (!self){
-        printf("\nERROR: NULL pointer passed\n");
-        fflush(stdout);
-        assert(0);
-    }
-    return *((const struct Class**)self);
-}
-int sizeOf(const void* self){
-    const struct Class* selfClass = getClass(self);
-    assert(self);
-
-    return selfClass->size;
-}
 #if __unix__
+// warning: some sketchy code ahead.
 sigjmp_buf jumpBuffer;
 struct sigaction defact;
-void dummyHandler(int sig){
+// This dummy handler jumps to the "false" response.
+void segHandler(int sig){
     siglongjmp(jumpBuffer, true);
 }
-struct sigaction sigact = {.sa_handler = dummyHandler};
-bool isAClass(const void* ptr){
-    if(!ptr){
-        printf("\nERROR: NULL pointer passed\n");
-        fflush(stdout);
-        assert(0);
+struct sigaction sigact = {.sa_handler = segHandler};
+// Note: This function may return false if the class is corrupted.
+bool OOC_isClass(pointer ptr, long long line, char* file){
+    if (!ptr){
+        OOC_fatalError("NULL pointer passed", line, file);
     }
+    // Setting action of segmentation fault to go to segHandler.
     sigaction(SIGSEGV, &sigact, &defact);
 
+    // Sets jmp for failure.
+    // This jump happens in case trying to access the key results in segmentation fault.
     if(sigsetjmp(jumpBuffer, 1)){
+        // Resetting segmentation action.
         sigaction(SIGSEGV, &defact, NULL);
         return false;
     }
 
-    if(((struct Class*)ptr)->_ctor != _ctor){
-        return false;
-    }
-
-    return true;
-}
-bool isAnObject(const void* ptr){
-    if(!ptr){
-        printf("\nERROR: NULL pointer passed\n");
-        fflush(stdout);
-        assert(0);
-    }
-
-    sigaction(SIGSEGV, &sigact, &defact);
-
-    if(sigsetjmp(jumpBuffer, 1)){
+    // Verifying key (possible segmentation fault)
+    if(((struct OOC_Class*)ptr)->key != OOC_CLASS_KEY){
+        // Resetting segmentation action.
         sigaction(SIGSEGV, &defact, NULL);
         return false;
     }
-
-    const struct Class* selfClass = getClass(ptr);
-
-    // In case can't even access seflClass->_ctor
-
-
-    if(!selfClass || selfClass->_ctor != _ctor){
+    else {
+        // Resetting segmentation action.
         sigaction(SIGSEGV, &defact, NULL);
-        return false;
+        return true;
     }
-
-    sigaction(SIGSEGV, &defact, NULL);
-    return true;
 }
 #elif (_WIN32 || _WIN64)
 jmp_buf jumpBuffer;
 void dummyHandler(int sig){
     longjmp(jumpBuffer, true);
 }
-bool isAClass(const void* ptr){
-    if(!ptr){
-        printf("\nERROR: NULL pointer passed\n");
-        fflush(stdout);
-        assert(0);
+bool isClass(const void* ptr){
+    if (!ptr){
+        OOC_fatalError("NULL pointer passed");
     }
     signal(SIGSEGV, dummyHandler);
 
@@ -158,30 +141,6 @@ bool isAClass(const void* ptr){
 
     if(((struct Class*)ptr)->_ctor != _ctor){
         signal(SIGSEGV, SIG_DFL);
-        return false;
-    }
-
-    signal(SIGSEGV, SIG_DFL);
-    return true;
-}
-bool isAnObject(const void* ptr){
-    if(!ptr){
-        printf("\nERROR: NULL pointer passed\n");
-        fflush(stdout);
-        assert(0);
-    }
-    signal(SIGSEGV, dummyHandler);
-
-    // In case can't even access seflClass->_ctor
-    if(setjmp(jumpBuffer)){
-        signal(SIGSEGV, SIG_DFL);
-        return false;
-    }
-
-    const struct Class* selfClass = getClass(ptr);
-
-    if(!selfClass || selfClass->_ctor != _ctor){
-    signal(SIGSEGV, SIG_DFL);
         return false;
     }
 
@@ -189,22 +148,45 @@ bool isAnObject(const void* ptr){
     return true;
 }
 #endif
-bool isClass(const void* self, const struct Class* class){
-    // TODO: Change all printfs for its own functions when Exceptions are added
-    // Verifying if the variable self is an object
-    if(!isAnObject(self)){
-        printf("\nERROR: Non-object pointer used where object was expected\n");
-        fflush(stdout);
-        assert(0);
+bool OOC_isObject(pointer ptr, long long line, char* file){
+    if (!ptr){
+        OOC_fatalError("NULL pointer passed", line, file);
     }
-    // Verifying if the variable class is an class
-    if(!isAClass(class)){
-        printf("\nERROR: Non-class pointer used where class was expected\n");
-        fflush(stdout);
-        assert(0);
+    // Setting action of segmentation fault to go to segHandler.
+    sigaction(SIGSEGV, &sigact, &defact);
+
+    // Sets jmp for failure.
+    // This jump happens in case trying to access the key results in segmentation fault.
+    if(sigsetjmp(jumpBuffer, 1)){
+        // Resetting segmentation action.
+        sigaction(SIGSEGV, &defact, NULL);
+        return false;
     }
 
-    const struct Class* selfClass = getClass(self);
+    // Verifying key (possible segmentation fault)
+    if(((struct Object*)ptr)->class->key != OOC_CLASS_KEY){
+        // Resetting segmentation action.
+        sigaction(SIGSEGV, &defact, NULL);
+        return false;
+    }
+    else {
+        // Resetting segmentation action.
+        sigaction(SIGSEGV, &defact, NULL);
+        return true;
+    }
+}
+bool OOC_ofClass(pointer self, struct OOC_Class* class, long long line, char* file){
+    // TODO: Change all printfs for its own functions when Exceptions are added
+    // Verifying if the variable self is an object
+    if(!OOC_isObject(self, line, file)){
+        OOC_fatalError("pointer is not an Object", line, file);
+    }
+    // Verifying if the variable class is an class
+    if(!OOC_isClass(class, line, file)){
+        OOC_fatalError("pointer is not a class", line, file);
+    }
+
+    struct OOC_Class* selfClass = ((struct Object*)self)->class;
 
     if (selfClass == class)
         return true;
@@ -218,26 +200,39 @@ bool isClass(const void* self, const struct Class* class){
  * @param class Class
  * @return {@code true} if the object {@code self} is of the class {@code class}, {@code false}
  */
-bool ofClass(const void* self, const struct Class* class){
-    if (isClass(self, class) || class == Class()){
+bool OOC_instanceOfClass(pointer self, struct OOC_Class* class, long long line, char* file){
+    // Note: This bit of code assumes that "ofClass" already checks 
+    // if "self" is an object and if "class" is a class.
+    if (OOC_ofClass(self, class, line, file) || class == Object()){
         return true;
     }
     else {
-        const struct Class* selfSuper = getClass(self);
+        struct OOC_Class* selfClass = ((struct Object*)self)->class;
 
-        while(selfSuper != Class()){
-            if(selfSuper == class){
+        printf("%s\n", selfClass->name);
+        fflush(stdout);
+        // Checking all the supers until it reaches "Class()".
+        while(selfClass != Object()){
+            if(selfClass == class){
                 return true;
             }
             else{
-                selfSuper = super(selfSuper);
+                selfClass = selfClass->super;
             }
         }
         return false;
     }
 }
-void* cast(const struct Class* class, const void* self){
-    assert(ofClass(self, class) /* Self cannot cast into class. Go one level up on debugger to see a specific error mesage */);
+pointer OOC_cast(struct OOC_Class* class, pointer self, long long line, char* file){
+    if (!OOC_instanceOfClass(self, class, line, file)) {
+        if(OOC_isObject(self, line, file)){
+            snprintf(_OOC_error_message, _OOC_MAX_ERROR_MESSAGE_SIZE, "Cannnot cast type %s to %s", ((struct Object*)self)->class->name, class->name);
+            OOC_fatalError(_OOC_error_message, line, file);
+        } 
+        else {
+            OOC_fatalError("pointer is not an Object", line, file);
+        }
+    }
     return self;
 }
 /**
@@ -245,203 +240,380 @@ void* cast(const struct Class* class, const void* self){
  * @param self Class
  * @return superclass
  */
-const void* super(const void* self){
-    const struct Class* selfClass = cast(Class(), self);
+struct OOC_Class* OOC_super(struct OOC_Class* class, long long line, char* file){
+    if(!OOC_isClass(class, line, file)){
+        OOC_fatalError("pointer is not a class", line, file);
+    }
 
-    return selfClass->super;
+    return class->super;
 }
-void* abstract(const void* self, va_list *args){
-    cast(Class(), self);
+struct OOC_Class* OOC_getClass(pointer self, long long line, char* file){
+    if(!OOC_isObject(self, line, file)){
+        OOC_fatalError("pointer is not an Object", line, file);
+    }
+    return ((struct Object*)self)->class;
+}
+int OOC_sizeOf(pointer self, long long line, char* file){
+    struct OOC_Class* selfClass = OOC_getClass(self, line, file);
 
-    printf("\nERROR: Abstract method called\n");
-    fflush(stdout);
-    assert(0 /* Cannot call abstract function */);
+    return selfClass->size;
+}
+static inline void _OOC_backtraceUp(char* methodName, long long line, char* file, struct OOC_Class* class){
+    OOC_backtrace.methodName[OOC_backtrace.top] = methodName;
+    OOC_backtrace.line[OOC_backtrace.top] = line;
+    OOC_backtrace.class[OOC_backtrace.top] = class;
+    OOC_backtrace.file[OOC_backtrace.top] = file;
+    OOC_backtrace.autoPrefixSum[OOC_backtrace.top] = OOC_backtrace.autoAddressesLen;
+    OOC_backtrace.top++;
+}
+static inline void _OOC_backtraceDown(){
+    OOC_backtrace.top--;
+}
+static inline void _OOC_clearAutos(){
+    int i;
+    for(i = OOC_backtrace.autoAddressesLen; OOC_backtrace.autoAddressesLen > OOC_backtrace.autoPrefixSum[OOC_backtrace.top]; OOC_backtrace.autoAddressesLen){
+        OOC_backtrace.autoAddressesLen--;
+        delete(OOC_backtrace.autoAddresses[OOC_backtrace.autoAddressesLen]);
+    }
+}    
+static inline method _OOC_findMethod(char* methodName, struct OOC_Class* class, long long line, char* file){
+    method_hash key = hash((unsigned char*)methodName);
+    
+    method mth = NULL;
+    int i;
+    for (i = 0; i < class->methodListLen; i++){
+        if (class->methodKeys[i] == key){
+            mth = class->methods[i];
+            break;
+        }
+    }
+    if (mth == NULL){
+        snprintf(_OOC_error_message, _OOC_MAX_ERROR_MESSAGE_SIZE, "No method \'%s\' in class %s", methodName, class->name);
+        OOC_fatalError(_OOC_error_message, line, file);
+    }
+    
+    return mth;
+}
+pointer OOC_callSuperMethod(long long line, char* file, pointer self, ...){
+    if (!OOC_isObject(self, line, file)){
+        OOC_fatalError("pointer is not an Object", line, file);
+    }
+
+    struct OOC_Class* class = OOC_backtrace.class[OOC_backtrace.top-1];
+    char* methodName = OOC_backtrace.methodName[OOC_backtrace.top-1];
+
+    struct OOC_Class* superClass = OOC_super(class, line, file);
+
+    method mth = _OOC_findMethod(methodName, superClass, line, file);
+
+    // Setting up backtrace.
+    _OOC_backtraceUp(methodName, line, file, superClass);
+
+    va_list args;
+    va_start(args, self);
+    void* result = mth(self, &args);
+    va_end(args);
+
+    // Moving back backtrace.
+    _OOC_backtraceDown();
+    _OOC_clearAutos();
+
+    return result;
+}
+pointer OOC_callMethod(unsigned char* methodName, long long line, char* file, pointer self, ...){
+    method_hash key = hash(methodName);
+
+    struct OOC_Class* class = OOC_getClass(self, line, file);
+
+    method mth = _OOC_findMethod(methodName, class, line, file);
+
+    // Setting up backtrace.
+    _OOC_backtraceUp(methodName, line, file, class);
+
+    va_list args;
+    va_start(args, self);
+    void* result = mth(self, &args);
+    va_end(args);
+
+    // Moving back backtrace.
+    _OOC_backtraceDown();
+    _OOC_clearAutos();
+
+    return result;
+}
+pointer OOC_newClass(struct OOC_Class* superClass, char* name, size_t size, long long line, char* file, ...){
+    if (!OOC_isClass(superClass, line, file)){
+        OOC_fatalError("pointer is not a class", line, file);
+    }
+    struct OOC_Class* super = superClass;
+
+    struct OOC_Class* class = malloc(sizeof(struct OOC_Class));
+    assert(class);
+
+    // Setting up and allocating new class
+    class->super = superClass;
+    class->name = malloc(sizeof(char) * strlen(name));
+    strcpy(class->name, name);
+    class->size = size;
+    class->abstract = false;
+    class->methodListLen = superClass->methodListLen;
+    class->methodKeys = malloc(sizeof(method_hash) * superClass->methodListLen);
+    class->methods = malloc(sizeof(method) * superClass->methodListLen);
+    class->key = OOC_CLASS_KEY;
+
+    // Copying super methods
+    int i;
+    for (i = 0; i < class->methodListLen; i++){
+        class->methodKeys[i] = super->methodKeys[i];
+        class->methods[i] = super->methods[i];
+    }
+
+    // Method definition and overload.
+    char* methodName;
+    method_hash key;
+    method function;
+    bool overloaded_flag;
+    va_list args;
+
+    va_start(args, file);
+    while((methodName = va_arg(args, char*))){
+        key = hash((unsigned char*)methodName);
+        function = va_arg(args, method);
+        // Checking if the method is already present to be overloaded.
+        overloaded_flag = false;
+        for (i = 0; i < class->methodListLen; i++){
+            if (class->methodKeys[i] == key){
+                class->methods[i] = function;
+                overloaded_flag = true;
+                break;
+            }
+        }
+        if (!overloaded_flag){
+            // Adding one len for the new method.
+            class->methodListLen++;
+            // Allocating more space for the new method.
+            method_hash* newMethodKeys = malloc(sizeof(method_hash) * class->methodListLen);
+            method* newMethods = malloc(sizeof(method) * class->methodListLen);
+            // Copying old methods.
+            memcpy(newMethodKeys, class->methodKeys, (sizeof(method_hash) * (class->methodListLen-1)));
+            memcpy(newMethods, class->methods, (sizeof(method) * (class->methodListLen-1)));
+            // Deleting old methods.
+            free(class->methodKeys);
+            free(class->methods);
+            // Passing new (longer) list.
+            class->methodKeys = newMethodKeys;
+            class->methods = newMethods;
+            // Adding new method.
+            class->methodKeys[class->methodListLen-1] = key;
+            class->methods[class->methodListLen-1] = function;
+        }
+    }
+    va_end(args);
+
+    // Verifying if the class is abstract (has an abstract method declared)
+    for (i = 0; i < class->methodListLen; i++){
+        if (class->methods[i] == OOC_abstract){
+            class->abstract = true;
+            break;
+        }
+    }
+
+    return class;
+}
+pointer OOC_new(pointer type, long long line, char* file, ...){
+    if (!OOC_isClass(type, line, file)){
+        OOC_fatalError("pointer is not a class", line, file);
+    }
+    else if (((struct OOC_Class*)type)->abstract) {
+        OOC_fatalError("Cannot instantiate abstract class", line, file);
+    }
+    struct OOC_Class* class = (struct OOC_Class*)type;
+    struct Object* object;
+
+    // Allocating space for new object.
+    object = malloc(class->size);
+    assert(object);
+
+    // Setting up class.
+    object->class = class;
+
+    // Finding constructor
+    method mth = _OOC_findMethod("ctor", class, line, file);
+    
+    // Setting up backtrace.
+    _OOC_backtraceUp("ctor", line, file, class);
+
+    va_list args;
+    va_start(args, file);
+    mth((void*)object, &args);
+    va_end(args);
+
+    // Moving back backtrace.
+    _OOC_backtraceDown();
+    _OOC_clearAutos();
+
+    return object;
+}
+pointer OOC_delete(pointer self, long long line, char* file){
+    dtor(cast(Object, self));
+    free((void*)_OOC_returning_buffer);
+    return self;
+}
+pointer OOC_automatic(pointer type, long long line, char* file, ...){
+    if (!OOC_isClass(type, line, file)){
+        OOC_fatalError("pointer is not a class", line, file);
+    }
+    else if (((struct OOC_Class*)type)->abstract) {
+        OOC_fatalError("Cannot instantiate abstract class", line, file);
+    }
+    struct OOC_Class* class = (struct OOC_Class*)type;
+    struct Object* object;
+
+    // Allocating space for new object.
+    object = malloc(class->size);
+    assert(object);
+
+    // Setting up class.
+    object->class = class;
+
+    // Finding constructor
+    method mth = _OOC_findMethod("ctor", class, line, file);
+    
+    // Setting up backtrace.
+    _OOC_backtraceUp("ctor", line, file, class);
+
+    va_list args;
+    va_start(args, file);
+    mth((void*)object, &args);
+    va_end(args);
+
+    // Moving back backtrace.
+    _OOC_backtraceDown();
+    _OOC_clearAutos();
+
+    // Adding automatic.
+    OOC_backtrace.autoAddresses[OOC_backtrace.autoAddressesLen] = object;
+    OOC_backtrace.autoAddressesLen++;
+
+    return object;
+}
+struct Object* OOC_copy(pointer self, long long line, char* file){
+    cast(Object, self);
+
+    struct Object* newObj = malloc(OOC_sizeOf(self, line, file));
+
+    memcpy(newObj, self, OOC_sizeOf(self, line, file));
+
+    return newObj;
+}
+pointer OOC_abstract(pointer self, va_list *args){
+    cast(Object, self);
+
+    OOC_fatalError("Abstract method called", 0, NULL);
 
     return NULL;
 }
-void copyTo(void* from, void* to){
-    cast(Object(), from);
-    cast(Object(), to);
+void OOC_copyTo(pointer from, pointer to, long long line, char* file){
+    cast(Object, from);
+    cast(Object, to);
 
-    assert(sizeOf(from) == sizeOf(to));
+    assert(OOC_sizeOf(from, line, file) == OOC_sizeOf(to, line, file));
 
     dtor(to);
-
-    memcpy(to, from, sizeOf(from));
+    
+    memcpy(to, from, OOC_sizeOf(from, line, file));
 }
-void* _returning(void* ptr, int size){
-    if(!_buffer){
-        _buffer = malloc(sizeof(long long));
+pointer OOC_printBacktrace(){
+    OOC_backtrace.top--;
+    for(;OOC_backtrace.top >= 0; OOC_backtrace.top--){
+        printf("\tin file \'%s\', at method call %s.%s, line %Li\n"
+            , OOC_backtrace.file[OOC_backtrace.top]
+            , OOC_backtrace.class[OOC_backtrace.top]->name
+            , OOC_backtrace.methodName[OOC_backtrace.top]
+            , OOC_backtrace.line[OOC_backtrace.top]);
     }
+}
 
-    memcpy(_buffer, ptr, size);
-
-    return _buffer;
+pointer OOC_fatalError(char* message, long long line, char* file){
+    printf("\n\nError");
+    if (file) printf(" in file \'%s\'", file);
+    if (line) printf(", line %Li", line);
+    if(message) printf(": %s", message);
+    printf("\n");
+    OOC_printBacktrace();
+    fflush(stdout);
+    assert(0);
 }
 /** END Static functions **/
 
-single_build_caller_funcs(ctor)
-single_build_caller_funcs(dtor)
-single_build_caller_funcs(deepcopy)
-
-/** START Caller functions **/
-single_build_func(Object, ctor, (va_list*, nargs))
-
-single_build_func(Object, dtor, ())
-
-single_build_func(Object, deepcopy, ())
-
-
-/* START Caller functions */
-
-
-/* END Caller functions */
-
-/* START Class function definitions */
-void* Class_ctor(void* self, va_list* args){
-    struct Class* classPtr = cast(Class(), self);
-
-    // TODO: (After implementing object as abstract)
-    // if it's abstract, it has to be a sub of an abstract
-    //if(isClass(self, Class())){
-    //
-    //}
-
-    classPtr->name = va_arg(*args, char*);
-    classPtr->super = va_arg(*args, struct Class*);
-    classPtr->size = va_arg(*args, size_t);
-    classPtr->dataGet = malloc(sizeof(void*));
-    classPtr->dataOffsets = malloc(sizeof(int));
-    classPtr->dataSizes = malloc(sizeof(int));
-    classPtr->abstract = false;
-
-    cast(Class(), classPtr->super);
-
-    classPtr->dataGet[0] = NULL;
-    classPtr->dataOffsets[0] = NULL;
-    classPtr->dataSizes[0] = NULL;
-
-    /* Copying functions */
-    const size_t offset = offsetof(struct Class, _ctor);
-    // NOTE: If something goes to shit, note that in the book's code sizeOf(classPtr->object) is actually sizeOf(classPtr->super), don't know why tho
-    memcpy((char*) self + offset, (char*) classPtr->super + offset
-            , sizeOf(classPtr->super) - offset);
-
-    typedef void (* voidf) (); /* generic function pointer */
-    voidf selector;
-    va_list funcArgs;
-
-    // Setting dynamic caller pointers
-    // NOTE: Perhaps this is needed (probably not)
-    classPtr->_ctor = _ctor;
-    classPtr->caller_ctor = caller_Object_ctor;
-    classPtr->_dtor = _dtor;
-    classPtr->caller_dtor = caller_Object_dtor;
-    classPtr->_deepcopy = _deepcopy;
-    classPtr->caller_deepcopy = caller_Object_deepcopy;
-
-    va_copy(funcArgs, *args);
-    /* Function overload function */
-    while((selector = va_arg(funcArgs, voidf))){
-        voidf function = va_arg(funcArgs, voidf);
-
-        // Add system to notice non implemented functions
-
-        if (selector == _ctor){
-            classPtr->this_ctor = function;
-        }
-        else if (selector == _dtor) {
-            if(!ofClass(&self, Object())){
-                assert(0 /* Class generetors shouldn't implement dtor, as classes are permanent */);
-            }
-            classPtr->this_dtor = function;
-        }
-        else if (selector == _deepcopy) {
-            if(!ofClass(&self, Object())){
-                assert(0 /* Class generetors shouldn't implement deepcopy, as classes are unique */);
-            }
-            classPtr->this_deepcopy = function;
-        }
-    }
-    va_end(funcArgs);
-
-    // Verifying if the class is abstract (has an abstract method declared)
-    if (classPtr->this_ctor == abstract ||
-            classPtr->this_dtor == abstract ||
-            classPtr->this_deepcopy == abstract){
-
-        classPtr->abstract = true;
-    }
-
-    return self;
-}
-
-void* Class_dtor(void* self){
-    assert(0 /* Classes are permanent, they should never call a destructor */);
-    abstract(self, NULL);
-}
-/* END Class function definitions */
 
 /* START Object function definitions */
-void* Object_ctor(void* self, va_list* args){
-    return cast(Object(), self);
+static pointer Object_ctor(pointer self, va_list* args){
+    returning(Object, self);
 }
 
-void* Object_dtor(void* self){
-    return cast(Object(), self);
+static pointer Object_dtor(pointer self, va_list* args){
+    returning(Object, self);
 }
 
-void* Object_deepcopy(void* self){
-    return cast(Object(), self);
+static pointer Object_equals(pointer self, va_list* args){
+    param(Object, obj);
+    
+    bool returned = true;
+    if(self == obj)
+        returning(bool, returned);
+
+    returned = false;
+    returning(bool, returned);
+}
+
+static pointer Object_deepcopy(pointer self, va_list* args){
+    returning(Object, self);
 }
 /* END Object function definitions */
 
-/* START Class Description */
-const struct Class class = {
-        .object = &class,
-        .name = "Class",
-        .super = &class,
-        .size = sizeof(struct Class),
+static pointer _class = NULL;
 
-        ._ctor = _ctor,
-        .caller_ctor = caller_Object_ctor,
-        .this_ctor = Class_ctor,
-        ._dtor = _dtor,
-        .caller_dtor = caller_Object_dtor,
-        .this_dtor = Class_dtor,
-        ._deepcopy = _deepcopy,
-        .caller_deepcopy = caller_Object_dtor,
-        .this_deepcopy = abstract,
-};
+pointer Object(){
+    if (!_class){
+        // Starting up backtrace
+        OOC_backtrace.top = 0;
+        OOC_backtrace.autoAddressesLen = 0;
+        // We set up the data with a dummy, since "class" is const.
+        struct OOC_Class* dummy = malloc(sizeof(struct OOC_Class));
 
-const void* const Class(){
-    return &class;
+        // Setting up class.
+        dummy->name = "Object";
+        dummy->super = dummy;
+        dummy->size = sizeof(struct Object);
+        dummy->abstract = false;
+        dummy->methodListLen = 4;
+        dummy->key = OOC_CLASS_KEY;
+
+        // Setting up methods.
+        dummy->methodKeys = malloc(sizeof(method_hash) * dummy->methodListLen);
+        dummy->methods = malloc(sizeof(method) * dummy->methodListLen);
+
+        // Storing functions and their hashes.
+        // NOTE: Hashes are used as keys to speed up function retrieval,
+        // as comparing ints is faster than strings,
+        // but the list is not currently implemented as a hash table.
+        // TODO [Maybe]: Implement these lists as hash tables.
+        dummy->methodKeys[0] = hash("ctor");
+        dummy->methods[0] = Object_ctor;
+        dummy->methodKeys[1] = hash("dtor");
+        dummy->methods[1] = Object_dtor;
+        dummy->methodKeys[2] = hash("equals");
+        dummy->methods[2] = Object_equals;
+        dummy->methodKeys[3] = hash("deepcopy");
+        dummy->methods[3] = Object_deepcopy;
+
+        _class = dummy;
+
+    }
+    return _class;
 }
-/* END Class Description */
 
-/* START Object Description */
-// TODO: Make object abstract
-const struct Class object = {
-        .object = &class,
-        .name = "Object",
-        .super = &class,
-        .size = sizeof(struct Object),
-
-        ._ctor = _ctor,
-        .caller_ctor = caller_Object_ctor,
-        .this_ctor = Object_ctor,
-        ._dtor = _dtor,
-        .caller_dtor = caller_Object_dtor,
-        .this_dtor = Object_dtor,
-        ._deepcopy = _deepcopy,
-        .caller_deepcopy = caller_Object_deepcopy,
-        .this_deepcopy = Object_deepcopy,
-};
-
-const void* const Object(){
-    return &object;
-}
-/* END Object Description */
 
 
 

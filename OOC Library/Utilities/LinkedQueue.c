@@ -4,156 +4,201 @@
 #include <assert.h>
 #include "LinkedQueue.h"
 #include "LinkedQueue.r"
+#include "../Wrappers/PrimWrapper.h"
 
+#define CLASS_NAME LinkedQueue
+newClass(Queue,
+    (default, ctor),
+    (default, dtor),
+    (default, peek),
+    (default, push),
+    (default, pop),
+    (default, clear),
+    (default, contains),
+    (default, indexOf),
+    (default, ofType),
+    (default, print)
+)
 
-/** START Getters and Setters **/
-build_decl_get(len);
-build_decl_get(head);
-build_decl_get(type);
-/** END Getters and Setters **/
-
-/** START Caller functions **/
-build_funcs(LinkedQueue,
-            (ctor, (va_list*, nargs)),
-            (dtor, ()),
-            (peek, ()),
-            (push, (void*, obj)),
-            (pop, ()),
-            (clear, ()),
-            (contains, (void*, obj)),
-            (indexOf, (void*, obj)),
-            (ofType, (void*, class)))
-
-
-/** END Caller functions **/
-
-/** START Class method definitions **/
-build_class_ctor(LinkedQueue,
-                 ((LinkedNode*, head), (int, len), (struct Class*, type)),
-                 ())
-
-/** END Class method definitions **/
-
-
-/** START Object method definitions **USER CODE** **/
 /* Overloaded: */
-void* LinkedQueue_ctor(void* self, va_list* args){
+define_method(ctor){
+    param(class, type);
     // Calling super constructor
-    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
-    super_ctor(LinkedQueue(), self, args);
+    callSuperMethod(args);
 
     // Gathering arguments
-    linkedQueue->type = va_arg(*args, void*);
+    self->type = type;
+    self->len = 0;
+    self->head = NULL;
 
-    return self;
+    returning(LinkedQueue, self);
 }
-void* LinkedQueue_dtor(void* self){
-    // Calling super constructor
-    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
-    super_dtor(LinkedQueue(), self);
+define_method(dtor){    // Calling super constructor
+    callSuperMethod();
 
+    if(self->len > 0){
 
+    LinkedNode* aux;
+        for(int i = 1; i <= (self->len); i++){
+            aux = self->head;
+            self->head = aux->next;
+            free(aux);
+        }
+     self->len = 0;
+    }
+    else printf("Fila vazia\n");
 
-    return self;
+    returning(LinkedQueue, self);
 }
-void* LinkedQueue_peek(void* self){
+define_method(peek){
     // Calling super constructor
-    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
-    super_peek(LinkedQueue(), self);
+    callSuperMethod();
 
+    if(self->len == 0)returning();
 
-
-    return NULL;
+    returning(self->type, self->head->obj);
 }
-void* LinkedQueue_push(void* self, void* obj){
+define_method(push){
+    param(Object, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
-    super_push(LinkedQueue(), self, obj);
+    callSuperMethod(obj);
 
+    LinkedNode* novoNo = malloc(sizeof(struct LinkedNode));
+    novoNo->obj = obj;
+    novoNo->next = NULL;
 
+    LinkedNode* aux = self->head;
+    if(aux == NULL){
+        self->head = novoNo;
+    }
+    else{
+        for(int i = 1; i < self->len; i++){
+            aux = aux->next;
+        }
+        aux->next = novoNo;
+    }
 
-    return NULL;
+    (self->len)++;
+
+    returning();
 }
-void* LinkedQueue_pop(void* self){
+define_method(pop){
     // Calling super constructor
-    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
-    super_pop(LinkedQueue(), self);
+    callSuperMethod();
 
+    if(self->len == 0){
+        printf("\nERROR: Cannot pop item from empty list\n");
+        fflush(stdout);
+        assert(0);
+    }
 
+    LinkedNode* aux = self->head;
+    self->head = self->head->next;
 
-    return NULL;
+    void* obj = aux->obj;
+    free(aux);
+    self->len--;
+
+    return obj;
 }
-void* LinkedQueue_clear(void* self){
+define_method(clear){
     // Calling super constructor
-    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
-    super_clear(LinkedQueue(), self);
+    callSuperMethod();
 
+    LinkedNode* aux;
+    for(int i = 1; i <= (self->len); i++){
+        aux = self->head;
+        self->head = aux->next;
+        free(aux);
+    }
+    self->len = 0;
 
-
-    return NULL;
+    returning();
 }
-void* LinkedQueue_contains(void* self, void* obj){
+define_method(contains){
+    param(Object, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
-    super_contains(LinkedQueue(), self, obj);
+    callSuperMethod(obj);
 
+    bool returned = true;
 
+    LinkedNode* aux = self->head;
+    for(int i = 0; i < self->len; i++){
+        if(as(bool, equals(aux->obj, obj)))
+            returning(bool, returned);
+        aux = aux->next;
+    }
 
-    return NULL;
+    returned = false;
+    returning(bool, returned);
 }
-void* LinkedQueue_indexOf(void* self, void* obj){
+define_method(indexOf){
+    param(Object, obj);
+    cast(self->type, obj);
     // Calling super constructor
-    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
-    super_indexOf(LinkedQueue(), self, obj);
+    callSuperMethod(obj);
 
+    LinkedNode* aux = self->head;
+    for(int i = 0; i < self->len; i++){
+        if(as(bool, equals(aux->obj, obj)))
+            returning(int, i);
+        aux = aux->next;
+    }
 
-
-    return NULL;
+    int i = -1;
+    returning(int, i);
 }
-void* LinkedQueue_ofType(void* self, void* class){
+define_method(ofType){
+    param(class, testClass);
     // Calling super constructor
-    struct LinkedQueue* linkedQueue = cast(LinkedQueue(), self);
-    super_ofType(LinkedQueue(), self, class);
+    callSuperMethod(testClass);
 
     // Verifyting if it's really a class
-    cast(Class(), class);
+    if(!isClass(testClass)){
+        error("pointer is not a Class");
+    }
 
     bool returned;
-    if(linkedQueue->type == class){
+    if(self->type == testClass){
         returned = true;
-        return returning(returned);
+        returning(bool, returned);
     }
     else {
         returned = false;
-        return returning(returned);
+        returning(bool, returned);
     }
 }
-/** END Object method definitions **USER CODE** **/
+define_method(print){
+    param(int, bound);
+    // Calling super constructor
 
-/* START Dynamic initializer */
-static const void* _LinkedQueueClass;
+    for(int i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
+    LinkedNode* aux;
+    int i;
+    if(self->len == 0){
+        printf("|");
+        for(i = 0; i < bound; i++)
+            printf(" ");
+        printf("|\n");
+    }
+    for(i = 0, aux = self->head; i < self->len; i++){
+        printf("|");
+        printBound(aux->obj, bound);
+        printf("|\n");
+        if(i < self->len-1){
+            for(int j = 0; j < bound+2; j++)
+                printf("=");
+            printf("\n");
+        }
+        aux = aux->next;
+    }
+    for(i = 0; i < bound+2; i++)
+        printf("=");
+    printf("\n");
 
-const void* const LinkedQueueClass(){
-    return _LinkedQueueClass ? _LinkedQueueClass :
-           (_LinkedQueueClass = new(QueueClass(), "LinkedQueueClass", QueueClass(), sizeof(struct LinkedQueueClass),
-                                  _ctor, LinkedQueueClass_ctor,
-                                  NULL));
+    returning();
 }
-
-static const void* _LinkedQueue;
-
-const void* const LinkedQueue(){
-    return _LinkedQueue ? _LinkedQueue :
-           (_LinkedQueue = new(LinkedQueueClass(), "LinkedQueue", Queue(), sizeof(struct LinkedQueue),
-                             _ctor, LinkedQueue_ctor,
-                             _dtor, LinkedQueue_dtor,
-                             _peek, LinkedQueue_peek,
-                             _push, LinkedQueue_push,
-                             _pop, LinkedQueue_pop,
-                             _clear, LinkedQueue_clear,
-                             _contains, LinkedQueue_contains,
-                             _indexOf, LinkedQueue_indexOf,
-                             _ofType, LinkedQueue_ofType,
-                             NULL));
-}
-/* END Dynamic initializer */

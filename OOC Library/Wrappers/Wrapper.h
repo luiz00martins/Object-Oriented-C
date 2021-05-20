@@ -4,6 +4,7 @@
 #include <assert.h>
 #include "../Object.h"
 
+
 /** START Variable manegement **/
 /* Public variable getters & setters */
 
@@ -16,24 +17,24 @@
 /* Public method callers */
 //void* _unwrap(void* self, void* target, unsigned int targetSize);
 void* _unwrap(void* self, ...);
-#define unwrap(self, ...) _unwrap(self, ##__VA_ARGS__, FUNC_END)
+#define unwrap(SELF, TARGET) _unwrap(SELF, &TARGET, FUNC_END)
 
 #define wrap(target) _Generic((target), \
-\
-    char: new(Char(), &target, sizeof(char)), \
-    short: new(Short(), &target, sizeof(short)), \
-    int: new(Int(), &target, sizeof(int)), \
-    long: new(Long(), &target, sizeof(long)), \
-    long long: new(LongLong(), &target, sizeof(long long)), \
-    float: new(Float(), &target, sizeof(float)), \
-    double: new(Double(), &target, sizeof(double)), \
-    long double: new(LongDouble(), &target, sizeof(long double)), \
-    void *: new(Ptr(), &target, sizeof(void*)))
+    char: new(Char, target),\
+    short: new(Short, target), \
+    int: new(Int, target), \
+    long: new(Long, target), \
+    long long: new(LongLong, target), \
+    float: new(Float, target), \
+    double: new(Double, target), \
+    long double: new(LongDouble, target), \
+    _Bool: new(Bool, target), \
+    class: new(Class, target), \
+    pointer: new(Pointer, target))
 
-#define unwrap(self, target) _unwrap(self, &target, sizeof(target))
 /** END Method manegement **/
 
 /* Object builder */
-const void* const Wrapper();
+pointer Wrapper();
 
 #endif //OOC_WRAPPER_H
