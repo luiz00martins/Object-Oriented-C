@@ -35,23 +35,23 @@ define_method(ctor){
 
     printf("I'm alive.\n");
 
-    return self;
+    returning(Example, self);
 }
 define_method(dtor){
     free(self->ptrC);
     printf("I'm dead.\n");
 
-    return self;
+    returning(Example, self);
 }
 
 /* Public: */
 define_method(print){
     printf("%i %f %c %i %f %c ", self->i, self->f, self->c, self->protI, self->protF, self->protC);
-    return NULL;
+    returning();
 }
 define_method(funcNoVar){
     // Some come here...
-    return NULL;
+    returning();
 }
 define_method(funcVar){
     param(double, x);
@@ -61,14 +61,14 @@ define_method(funcVar){
     self->f = y;
 
     // Some come here...
-    return NULL;
+    returning();
 }
 
 /* Protected: */
 define_method(protectedFuncNoVar){
 
     // Some come here...
-    return NULL;
+    returning();
 }
 define_method(protectedFuncVar){
     param(double, x);
